@@ -13,4 +13,13 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <!-- Bottom Bar Style -->
+<!--    <style name="navTextInactive">-->
+<!--        <item name="android:textSize">5sp</item>-->
+<!--    </style>-->
+
+<!--    <style name="navTextActive">-->
+<!--        <item name="android:textSize">12sp</item>-->
+<!--    </style>-->
 </resources>

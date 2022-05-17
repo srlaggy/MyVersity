@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">MyVersity</string>
     <string name="mainMessage">MyVersity</string>
-    <string name="asignatura_title">ASIGNATURAS</string>
-    <string name="configuracion">CONFIGURACIÓN</string>
+
+    <string name="asignatura_title_topbar">ASIGNATURAS</string>
+    <string name="resumen_title_topbar">RESUMEN</string>
+    <string name="configuracion_title_topbar">CONFIGURACIÓN</string>
+
+    <string name="asignatura_title_bottombar">Asignaturas</string>
+    <string name="resumen_title_bottombar">Resumen</string>
+    <string name="configuracion_title_bottombar">Configuración</string>
 </resources>

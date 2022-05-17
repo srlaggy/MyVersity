@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/asignatura_title_bottombar"
+        android:icon="@drawable/ic_outline_school_24"
+        android:id="@+id/btn_nav_asignatura"
+        android:enabled="true"/>
+    <item android:title="@string/resumen_title_bottombar"
+        android:icon="@drawable/ic_graduation_cap_svgrepo_com"
+        android:id="@+id/btn_nav_resumen"
+        android:enabled="true"/>
+    <item android:title="@string/configuracion_title_bottombar"
+        android:icon="@drawable/ic_outline_settings_24"
+        android:id="@+id/btn_nav_configuracion"
+        android:enabled="true"/>
+</menu>

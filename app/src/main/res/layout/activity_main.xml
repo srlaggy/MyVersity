@@ -9,15 +9,21 @@
     android:id="@+id/linearLayout">
 
     <FrameLayout
+        android:id="@+id/framecentral"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottombar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorPrimary"
-        android:layout_weight="10"/>
+        android:layout_weight="10"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconTint="@color/color"
+        app:itemBackground="?attr/colorPrimary"
+        app:itemTextColor="@color/color"
+        app:itemTextAppearanceActive="@color/color"/>
 
 
 <!--    <ListView-->

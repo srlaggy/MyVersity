@@ -10,14 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyVersity">
         <activity
-            android:name=".SettingsActivity"
-            android:label="@string/configuracion"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/asignatura_title"
-            android:parentActivityName=".MainActivity">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
