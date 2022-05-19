@@ -5,11 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".ConfiguracionFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/configuracion_title_topbar" />
+    <ListView
+        android:id="@+id/lista_configuraciones"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

@@ -9,4 +9,13 @@
     <string name="asignatura_title_bottombar">Asignaturas</string>
     <string name="resumen_title_bottombar">Resumen</string>
     <string name="configuracion_title_bottombar">Configuración</string>
+    <string name="opcion_1_config">Configuración inicial</string>
+    <string name="opcion_2_config">Exportar Asignatura</string>
+    <string name="opcion_3_config">Importar Asignatura</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="rango_notas_config_inicial">Rango de notas</string>
+    <string name="orientacion_notas_config_inicial">Orientación de notas</string>
+    <string name="nota_aprobacion_config_inicial">Nota de aprobación</string>
+    <string name="tipo_nota_config_inicial">Tipo de nota</string>
 </resources>
