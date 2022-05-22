@@ -25,11 +25,16 @@ public class ResumenAdaptador extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         final View vista = inflater.inflate(R.layout.item_lista_resumen,null);
 
-        TextView asignatura = (TextView) vista.findViewById(R.id.nombre_asignatura);
-        TextView estado = (TextView) vista.findViewById(R.id.estado_asignatura);
+        TextView asignatura = (TextView) vista.findViewById(R.id.resumen_nombre_asignatura);
+        TextView estado = (TextView) vista.findViewById(R.id.resumen_estado_asignatura);
 
         asignatura.setText(datos[i][0]);
-        estado.setText(datos[i][1]);
+        if(Integer.parseInt(datos[i][1]) > 55){
+            estado.setText("Has aprobado");
+        }
+        else{
+            estado.setText("Todavía no apruebas");
+        }
 
         return vista;
     }
