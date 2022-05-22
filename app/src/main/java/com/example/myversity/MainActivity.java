@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.example.myversity.databinding.ActivityMainBinding;
+import com.example.myversity.db.DbHelper;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
@@ -31,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // CREAMOS BD
+        DbHelper dbHelper = new DbHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
         setActionBarActivityArrow(false);
         setTitle(getString(R.string.asignatura_title_topbar));
         replaceFragment(new AsignaturasFragment(), getSupportFragmentManager(), R.id.framecentral);

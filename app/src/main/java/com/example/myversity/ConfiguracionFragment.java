@@ -16,6 +16,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.myversity.db.DbConfigInicial;
+import com.example.myversity.entidades.ConfiguracionInicial;
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -56,10 +61,28 @@ public class ConfiguracionFragment extends Fragment{
                     }
                 } else if(i == 1){
                     // CASO EXPORTAR ASIGNATURA
+                    DbConfigInicial dbConfigInicial = new DbConfigInicial(getActivity().getApplicationContext());
+                    ArrayList<ConfiguracionInicial> listaConfigs = dbConfigInicial.buscarConfiguraciones();
+                    if(!listaConfigs.isEmpty()){
+                        for(ConfiguracionInicial x : listaConfigs){
+                            System.out.println(x);
+                        }
+                    } else {
+                        System.out.println("No hay valores en la lista");
+                    }
                     Toast.makeText(getActivity().getApplicationContext(), "Coming soon...", Toast.LENGTH_LONG).show();
+                    dbConfigInicial.close();
                 } else {
                     // CASO IMPORTAR ASIGNATURA
+                    DbConfigInicial dbConfigInicial = new DbConfigInicial(getActivity().getApplicationContext());
+                    ConfiguracionInicial configUltima = dbConfigInicial.buscarUltimaConfiguracion();
+                    if(configUltima != null){
+                        System.out.println(configUltima);
+                    } else {
+                        System.out.println("No existen registros");
+                    }
                     Toast.makeText(getActivity().getApplicationContext(), "Coming soon...", Toast.LENGTH_LONG).show();
+                    dbConfigInicial.close();
                 }
             }
         });
@@ -69,9 +92,16 @@ public class ConfiguracionFragment extends Fragment{
 }
 
 // FALTA:
-// -> QUE SE GUARDEN LOS VALORES DESDE LA BASE DE DATOS Y SE MUESTREN EN PANTALLA SI ES QUE EXISTEN
-// -> CREAR BASE DE DATOS O ARCHIVO QUE ALMACENE LA CONFIGURACION INICIAL
-
 // -> FUNCIONALIDAD DE IMPORTAR Y EXPORTAR ASIGNATURA
-// -> AL PRESIONAR FLECHA HACIA ATRAS, SE DEBIESE VOLVER A UNA VISTA VACIA SIN VALORES? O SE DEBEN GUARDAR LOS VALORES
-//    ANTES PUESTOS?
+
+// Toast.makeText(getActivity().getApplicationContext(), "La configuración de notas fue actualizada - " + id.toString(), Toast.LENGTH_LONG).show();
+
+//    DbConfigInicial dbConfigInicial = new DbConfigInicial(getActivity().getApplicationContext());
+//    ArrayList<ConfiguracionInicial> listaConfigs = dbConfigInicial.buscarConfiguraciones();
+//    for(ConfiguracionInicial x : listaConfigs){
+//        System.out.println(x);
+//    }
+
+//    DbConfigInicial dbConfigInicial = new DbConfigInicial(getActivity().getApplicationContext());
+//    ConfiguracionInicial configUltima = dbConfigInicial.buscarUltimaConfiguracion();
+//    System.out.println(configUltima);

@@ -1,5 +1,6 @@
 package com.example.myversity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Rect;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +20,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.myversity.db.DbConfigInicial;
+import com.example.myversity.entidades.ConfiguracionInicial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -46,6 +50,7 @@ public class ConfiguracionInicialFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_configuracion_inicial, container, false);
         Button btn = view.findViewById(R.id.btn_guardar_config_inicial);
+        DbConfigInicial dbConfigInicial = new DbConfigInicial(getActivity().getApplicationContext());
 
         min = (TextInputEditText) view.findViewById(R.id.editText_min_rango_nota_config_inicial);
         max = (TextInputEditText) view.findViewById(R.id.editText_max_rango_nota_config_inicial);
@@ -53,14 +58,46 @@ public class ConfiguracionInicialFragment extends Fragment {
         orientacion = (RadioGroup) view.findViewById(R.id.radio_orientacion_config_inicial);
         tipo = (RadioGroup) view.findViewById(R.id.radio_tiponota_config_inicial);
 
+        ConfiguracionInicial configUltima = dbConfigInicial.buscarUltimaConfiguracion();
+        dbConfigInicial.close();
+        setDefaultValues(configUltima);
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Boolean validado = validadorConfigInicial();
                 if(validado){
-                    Toast.makeText(getActivity().getApplicationContext(), "LAS COSAS ESTAN VALIDADAS", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "HAY ERRORES, NO VALIDADO", Toast.LENGTH_LONG).show();
+                    // OBTENEMOS VALORES PARA ENVIAR A LA BD
+                    String minSend = min.getText().toString();
+                    String maxSend = max.getText().toString();
+                    String notaSend = nota.getText().toString();
+                    String seleccionOrientacion = getTextRadioGroup(orientacion);
+                    Boolean orientacionAscSend = Objects.equals(seleccionOrientacion, getString(R.string.menor_a_mayor_config_inicial));
+                    String seleccionTipo = getTextRadioGroup(tipo);
+                    Boolean decimalSend = Objects.equals(seleccionTipo, getString(R.string.nota_continua_config_inicial));
+                    ConfiguracionInicial configAux = new ConfiguracionInicial(minSend, maxSend, notaSend, decimalSend, orientacionAscSend);
+                    // SE APLICAN LOS CAMBIOS SOLO SI HAY CAMBIOS
+                    if(configUltima == null || !configAux.equals(configUltima)){
+                        DbConfigInicial dbConfigInicial = new DbConfigInicial(getActivity().getApplicationContext());
+                        Long id = dbConfigInicial.insertarConfigInicial(minSend, maxSend, notaSend, decimalSend, orientacionAscSend);
+                        dbConfigInicial.close();
+                        if(id > 0){
+                            Toast.makeText(getActivity().getApplicationContext(), "La configuración de notas fue actualizada", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity().getApplicationContext(), "Error al actualizar la configuración", Toast.LENGTH_LONG).show();
+                        }
+
+                        Activity activity = getActivity();
+                        if (activity instanceof MainActivity){
+                            ((MainActivity) activity).replaceFragment(new ConfiguracionFragment(), ((MainActivity) activity).getSupportFragmentManager(), R.id.framecentral);
+                            activity.setTitle(getString(R.string.configuracion_title_topbar));
+                            ((MainActivity) activity).setFragmentActual(getString(R.string.configuracion_title_topbar));
+                            ((MainActivity) activity).setActionBarActivityArrow(false);
+                        }
+                    } else {
+                        Toast.makeText(getActivity().getApplicationContext(), "Los valores no han sido modificados", Toast.LENGTH_LONG).show();
+                    }
+
                 }
             }
         });
@@ -178,5 +215,31 @@ public class ConfiguracionInicialFragment extends Fragment {
         }
 
         return validado;
+    }
+
+    public String getTextRadioGroup(RadioGroup rg){
+        View r = rg.findViewById(rg.getCheckedRadioButtonId());
+        int idIndiceSeleccion = rg.indexOfChild(r);
+        RadioButton rb = (RadioButton) rg.getChildAt(idIndiceSeleccion);
+        String seleccion = (String) rb.getText();
+        return seleccion;
+    }
+
+    public void setDefaultValues(ConfiguracionInicial cfg){
+        if(cfg != null){
+            min.setText(cfg.getMin());
+            max.setText(cfg.getMax());
+            nota.setText(cfg.getNotaAprobacion());
+            if (cfg.getDecimal()) {
+                tipo.check(R.id.radio_continua_config_inicial);
+            } else {
+                tipo.check(R.id.radio_discreta_config_inicial);
+            }
+            if(cfg.getOrientacionAsc()) {
+                orientacion.check(R.id.radio_ascendente_config_inicial);
+            } else {
+                orientacion.check(R.id.radio_descendente_config_inicial);
+            }
+        }
     }
 }
