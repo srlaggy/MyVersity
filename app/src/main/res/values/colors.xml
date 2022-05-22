@@ -12,4 +12,6 @@
     <color name="reply_blue_600">#4A6572</color>
     <color name="reply_orange">#F9AA33</color>
     <color name="reply_orange_variant">#C57907</color>
+    <color name="green">#B30F9D58</color>
+    <color name="red">#B3E91E25</color>
 </resources>

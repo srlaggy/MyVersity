@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ResumenAdaptador extends BaseAdapter {
@@ -27,13 +28,16 @@ public class ResumenAdaptador extends BaseAdapter {
 
         TextView asignatura = (TextView) vista.findViewById(R.id.resumen_nombre_asignatura);
         TextView estado = (TextView) vista.findViewById(R.id.resumen_estado_asignatura);
+        LinearLayout rectangulo = (LinearLayout) vista.findViewById(R.id.resumen_rectangulo);
 
         asignatura.setText(datos[i][0]);
         if(Integer.parseInt(datos[i][1]) > 55){
             estado.setText("Has aprobado");
+            rectangulo.setBackgroundResource(R.color.green);
         }
         else{
             estado.setText("Todavía no apruebas");
+            rectangulo.setBackgroundResource(R.color.red);
         }
 
         return vista;
