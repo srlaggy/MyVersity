@@ -9,4 +9,9 @@
     <string name="asignatura_title_bottombar">Asignaturas</string>
     <string name="resumen_title_bottombar">Resumen</string>
     <string name="configuracion_title_bottombar">Configuración</string>
+
+    <string name="asign1">Bases de Datos Avanzadas</string>
+    <string name="asign2">Aplicaciones Móviles</string>
+    <string name="asign3">Inteligencia Artificial</string>
+
 </resources>

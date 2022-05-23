@@ -14,6 +14,12 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="ShapeAppearanceOverlay.MyApp.Button.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">100%</item>
+        <item name="backgroundTint">?attr/colorSecondary</item>
+    </style>
+
     <!-- Bottom Bar Style -->
 <!--    <style name="navTextInactive">-->
 <!--        <item name="android:textSize">5sp</item>-->
