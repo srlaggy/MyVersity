@@ -36,4 +36,9 @@
     <string name="e_tipo_nota_incorrecta">Tipo de nota incorrecta</string>
     <string name="e_no_minimo">No corresponde al mínimo</string>
     <string name="e_no_rango">No está en el rango</string>
+
+    <string name="asign1">Bases de Datos Avanzadas</string>
+    <string name="asign2">Aplicaciones Móviles</string>
+    <string name="asign3">Inteligencia Artificial</string>
+
 </resources>
