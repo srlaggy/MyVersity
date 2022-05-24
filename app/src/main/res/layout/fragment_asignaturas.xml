@@ -4,10 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AsignaturasFragment"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="16dp">
+    tools:context=".AsignaturasFragment">
 
     <ListView
         android:id="@+id/lista_asignaturas"
@@ -15,13 +12,23 @@
         android:layout_height="match_parent"
         />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/botonAgregarAsignatura"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="5dp"
-        app:srcCompat="@drawable/ic_baseline_add_24"
-        />
+        android:orientation="horizontal"
+        android:layout_gravity="bottom|right"
+        android:paddingBottom="16dp"
+        android:paddingEnd="16dp">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botonAgregarAsignatura"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="5dp"
+            app:srcCompat="@drawable/ic_baseline_add_24"
+            />
+
+    </LinearLayout>
 
 </FrameLayout>
