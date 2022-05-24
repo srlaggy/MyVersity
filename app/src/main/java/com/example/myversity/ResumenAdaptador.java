@@ -38,17 +38,24 @@ public class ResumenAdaptador extends BaseAdapter {
         TextView estado = (TextView) vista.findViewById(R.id.resumen_estado_asignatura);
         LinearLayout rectangulo = (LinearLayout) vista.findViewById(R.id.resumen_rectangulo);
 
-        float notaAprobacion = Float.parseFloat(config.getNotaAprobacion());
+        if(config != null) {
 
+            float notaAprobacion = Float.parseFloat(config.getNotaAprobacion());
 
-        asignatura.setText(datos[i][0]);
-        if(Integer.parseInt(datos[i][1]) > notaAprobacion){
-            estado.setText("Has aprobado");
-            rectangulo.setBackgroundResource(R.color.green);
+            asignatura.setText(datos[i][0]);
+            if (Integer.parseInt(datos[i][1]) > notaAprobacion) {
+                estado.setText("Has aprobado");
+                rectangulo.setBackgroundResource(R.color.green);
+            } else {
+                estado.setText("Todavía no apruebas");
+                rectangulo.setBackgroundResource(R.color.reply_orange);
+            }
         }
+
         else{
-            estado.setText("Todavía no apruebas");
-            rectangulo.setBackgroundResource(R.color.reply_orange);
+            asignatura.setText(datos[i][0]);
+            estado.setText("No se ha podido acceder a la configuración de esta asignatura");
+            rectangulo.setBackgroundResource(R.color.reply_blue_600);
         }
 
         return vista;
