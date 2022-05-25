@@ -75,7 +75,7 @@ public class ConfiguracionFragment extends Fragment{
                 } else {
                     // CASO IMPORTAR ASIGNATURA
                     DbConfigInicial dbConfigInicial = new DbConfigInicial(getActivity().getApplicationContext());
-                    ConfiguracionInicial configUltima = dbConfigInicial.buscarUltimaConfiguracion();
+                    ConfiguracionInicial configUltima = dbConfigInicial.buscarPrimeraConfiguracion();
                     if(configUltima != null){
                         System.out.println(configUltima);
                     } else {
@@ -91,25 +91,15 @@ public class ConfiguracionFragment extends Fragment{
     }
 }
 
-// FALTA:
-// -> FUNCIONALIDAD DE IMPORTAR Y EXPORTAR ASIGNATURA
+// Toast.makeText(getActivity().getApplicationContext(), "La configuración de notas fue actualizada", Toast.LENGTH_LONG).show();
 
-// Toast.makeText(getActivity().getApplicationContext(), "La configuración de notas fue actualizada - " + id.toString(), Toast.LENGTH_LONG).show();
-
-//    DbConfigInicial dbConfigInicial = new DbConfigInicial(getActivity().getApplicationContext());
-//    ArrayList<ConfiguracionInicial> listaConfigs = dbConfigInicial.buscarConfiguraciones();
-//    for(ConfiguracionInicial x : listaConfigs){
-//        System.out.println(x);
-//    }
-
-//    DbConfigInicial dbConfigInicial = new DbConfigInicial(getActivity().getApplicationContext());
-//    ConfiguracionInicial configUltima = dbConfigInicial.buscarUltimaConfiguracion();
-//    System.out.println(configUltima);
-
-// NUEVA REUNION
-// -> HACER QUE CONFIG INICIAL SOBREESCRIBA SOBRE EL ID 1 (1 -> CONFIG POR DEFECTO | OTROS SON IMPORTS Y ESO)
-// -> CREAR FLAG QUE PERMITA SABER SI SE INGRESA A LA CONFIG DESDE CONFIGURACIONES O DESDE POPUP DE CREACION DE ASIGNATURAS
-//      -> PARA CUANDO SEA TRUE, NO DEBE SALIR LA FLECHA (<-) Y DEBE APARECER UN BOTON CANCELAR QUE LLEVE A LA SECCION DE ASIGNATURAS (AL GUARDAR SE DEBE GUARDAR EN BD (GUARDAR NOMBRE DE ASIGNATURA EN VARIABLE GLOBAL DE ACTIVITY) Y REDIRIGIR A LA SECCION DE ASIGNATURAS)
+// FALTA
 // -> AL EXPORTAR HAY QUE VER QUE EXPORTAR Y COMO GUARDARLO
 // -> AL IMPORTAR HAY QUE VER COMO SOBREESCRIBIR LOS IDS DE LAS RELACIONES Y LOS FLUJOS
 //      -> SOBREESCRIBIR LAS NOTAS AL MINIMO
+// -> CREAR CLASE PADRE ABSTRACTA (O INTERFAZ) Y POLIMORFISMO PARA LOS TIPOS DE PROMEDIOS Y SUS METODOS DE CALCULO
+
+// PENDIENTES (NO DEPENDE DE MI)
+// -> CUANDO SE LLAME A LA CONFIG INICIAL DESDE ASIGNATURAS, SE LE DEBE QUITAR LA FLECHA HACIA ATRAS (<-)
+//     -> ADEMAS SE LE DEBE ENTREGAR EN EL CONSTRUCTOR DEL FRAME EL ESTADO 1 (EL COMPORTAMIENTO YA ESTA MANEJADO)
+//     -> HAY QUE VER COMO MANEJAR LA ASIGNATURA Y SU INSERCION -> SE GUARDARA EL NOMBRE Y LOS DATOS EN UNA VARIABLE GLOBAL DE ACTIVITY? SE INSERTARA DESDE LA VISTA DE CONFIGURACION INICIAL?
