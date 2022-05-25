@@ -14,7 +14,7 @@
         android:text="Ingrese asignatura"
         android:textSize="20sp"/>
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/nombre_asignatura_popup"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
