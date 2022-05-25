@@ -9,4 +9,36 @@
     <string name="asignatura_title_bottombar">Asignaturas</string>
     <string name="resumen_title_bottombar">Resumen</string>
     <string name="configuracion_title_bottombar">Configuración</string>
+    <string name="opcion_1_config">Configuración de notas</string>
+    <string name="opcion_2_config">Exportar Asignatura</string>
+    <string name="opcion_3_config">Importar Asignatura</string>
+
+    <string name="rango_notas_config_inicial">Rango de notas</string>
+    <string name="orientacion_notas_config_inicial">Orientación de notas</string>
+    <string name="nota_aprobacion_config_inicial">Nota de aprobación</string>
+    <string name="tipo_nota_config_inicial">Tipo de nota</string>
+    <string name="guardar_config_inicial">Guardar</string>
+    <string name="nota_continua_config_inicial">Continua - Con decimal</string>
+    <string name="nota_discreta_config_inicial">Discreta - Sin decimal</string>
+    <string name="nota_config_inicial">Nota</string>
+    <string name="mayor_a_menor_config_inicial">Mayor a menor</string>
+    <string name="menor_a_mayor_config_inicial">Menor a mayor</string>
+    <string name="max_nota_config_inicial">Max</string>
+    <string name="min_nota_config_inicial">Min</string>
+
+    <string name="title_opcion_1_config">CONFIGURACIÓN DE NOTAS</string>
+    <string name="title_opcion_2_config">EXPORTAR ASIGNATURA</string>
+    <string name="title_opcion_3_config">IMPORTAR ASIGNATURA</string>
+
+    <!-- ERRORES -->
+    <string name="e_campo_obligatorio">Campo obligatorio</string>
+    <string name="e_formato_incorrecto">Formato incorrecto</string>
+    <string name="e_tipo_nota_incorrecta">Tipo de nota incorrecta</string>
+    <string name="e_no_minimo">No corresponde al mínimo</string>
+    <string name="e_no_rango">No está en el rango</string>
+
+    <string name="asign1">Bases de Datos Avanzadas</string>
+    <string name="asign2">Aplicaciones Móviles</string>
+    <string name="asign3">Inteligencia Artificial</string>
+
 </resources>

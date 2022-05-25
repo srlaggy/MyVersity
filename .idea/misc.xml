@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Admin/Documents/GitHub/MyVersity/app/src/main/res/layout/fragment_configuracion.xml" value="0.12182971014492754" />
+        <entry key="..\:/Users/Admin/Documents/GitHub/MyVersity/app/src/main/res/layout/fragment_configuracion_inicial.xml" value="0.12182971014492754" />
+        <entry key="..\:/Users/Admin/Documents/GitHub/MyVersity/app/src/main/res/layout/fragment_resumen.xml" value="0.12182971014492754" />
+        <entry key="..\:/Users/Admin/Documents/GitHub/MyVersity/app/src/main/res/layout/item_lista_resumen.xml" value="0.264" />
+        <entry key="..\:/Users/Admin/Documents/GitHub/MyVersity/app/src/main/res/layout/list_configuracion.xml" value="0.13451086956521738" />
+        <entry key="app/src/main/res/drawable/color_cursor.xml" value="0.176" />
         <entry key="..\:/Users/Admin/Documents/GitHub/MyVersity/app/src/main/res/layout/activity_main.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/Admin/Documents/GitHub/MyVersity/app/src/main/res/layout/fragment_asignaturas.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/Admin/Documents/GitHub/MyVersity/app/src/main/res/layout/fragment_configuracion.xml" value="0.11302083333333333" />
@@ -12,9 +18,13 @@
         <entry key="app/src/main/res/drawable/ic_outline_settings_24.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/ic_outline_wysiwyg_24.xml" value="0.169" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_asignaturas.xml" value="0.33229166666666665" />
-        <entry key="app/src/main/res/layout/fragment_configuracion.xml" value="0.33229166666666665" />
+        <entry key="app/src/main/res/layout/fragment_asignaturas.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_asignaturas_popup.xml" value="0.33229166666666665" />
+        <entry key="app/src/main/res/layout/fragment_configuracion.xml" value="0.30362116991643456" />
+        <entry key="app/src/main/res/layout/fragment_configuracion_inicial.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_resumen.xml" value="0.33229166666666665" />
+        <entry key="app/src/main/res/layout/list_actividades.xml" value="0.33229166666666665" />
+        <entry key="app/src/main/res/layout/list_configuracion.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.25" />
       </map>
     </option>
@@ -24,5 +34,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.33" />
+      </ProjectState>
+    </option>
   </component>
 </project>
