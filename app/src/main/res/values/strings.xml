@@ -25,6 +25,7 @@
     <string name="menor_a_mayor_config_inicial">Menor a mayor</string>
     <string name="max_nota_config_inicial">Max</string>
     <string name="min_nota_config_inicial">Min</string>
+    <string name="sin_asignaturas">NO HAY ASIGNATURAS INGRESADAS!</string>
 
     <string name="title_opcion_1_config">CONFIGURACIÓN DE NOTAS</string>
     <string name="title_opcion_2_config">EXPORTAR ASIGNATURA</string>
@@ -36,9 +37,8 @@
     <string name="e_tipo_nota_incorrecta">Tipo de nota incorrecta</string>
     <string name="e_no_minimo">No corresponde al mínimo</string>
     <string name="e_no_rango">No está en el rango</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="asign1">Bases de Datos Avanzadas</string>
-    <string name="asign2">Aplicaciones Móviles</string>
-    <string name="asign3">Inteligencia Artificial</string>
 
 </resources>
