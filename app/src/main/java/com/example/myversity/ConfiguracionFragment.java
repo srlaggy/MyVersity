@@ -16,7 +16,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.myversity.db.DbAsignaturas;
 import com.example.myversity.db.DbConfigInicial;
+import com.example.myversity.entidades.Asignaturas;
 import com.example.myversity.entidades.ConfiguracionInicial;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -72,6 +74,18 @@ public class ConfiguracionFragment extends Fragment{
                     }
                     Toast.makeText(getActivity().getApplicationContext(), "Coming soon...", Toast.LENGTH_LONG).show();
                     dbConfigInicial.close();
+
+                    /* DbAsignaturas dbAsignaturas = new DbAsignaturas(getActivity().getApplicationContext());
+                    ArrayList<Asignaturas> listaAsign = dbAsignaturas.buscarAsignaturas();
+                    if(!listaAsign.isEmpty()){
+                        for(Asignaturas a : listaAsign){
+                            System.out.println(a);
+                        }
+                    } else {
+                        System.out.println("No hay valores en la lista de asignaturas");
+                    }
+                    dbAsignaturas.close(); */
+
                 } else {
                     // CASO IMPORTAR ASIGNATURA
                     DbConfigInicial dbConfigInicial = new DbConfigInicial(getActivity().getApplicationContext());

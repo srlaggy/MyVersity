@@ -26,6 +26,7 @@ public class DbAsignaturas extends DbHelper{
         this.context = context;
     }
 
+    // INSERTAR DATOS EN LA TABLA ASIGNATURA
     public long crearAsignatura(Integer id_configInicial, Integer id_tipoPromedio, String nombre){
         long id = 0;
 

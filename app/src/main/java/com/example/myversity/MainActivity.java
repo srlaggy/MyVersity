@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // METODO PARA AHCER EL CAMBIO DE FRAGMENTS
+    // METODO PARA HACER EL CAMBIO DE FRAGMENTS
     // UTIL EN ACTIVIDADES Y FRAGMENTOS
     public void replaceFragment(Fragment fragment, FragmentManager fragmentManager, int idFrameReplace) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -121,6 +121,14 @@ public class MainActivity extends AppCompatActivity {
                     setTitle(getString(R.string.configuracion_title_topbar));
                     replaceFragment(new ConfiguracionFragment(), getSupportFragmentManager(), R.id.framecentral);
                     setFragmentActual(getString(R.string.configuracion_title_topbar));
+                    setActionBarActivityArrow(false);
+                    return true;
+                }
+                // ASIGNATURA ESPECÍFICA -> ASIGNATURA
+                if (Objects.equals(fragmentActual, AsignaturasFragment.getName_Asignatura())) {
+                    setTitle(getString(R.string.asignatura_title_topbar));
+                    replaceFragment(new AsignaturasFragment(), getSupportFragmentManager(), R.id.framecentral);
+                    setFragmentActual(getString(R.string.asignatura_title_topbar));
                     setActionBarActivityArrow(false);
                     return true;
                 }

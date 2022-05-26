@@ -14,23 +14,29 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myversity.db.DbAsignaturas;
 import com.example.myversity.db.DbConfigInicial;
+import com.example.myversity.entidades.Asignaturas;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class AsignaturasFragment extends Fragment {
     EditText input;
     FloatingActionButton fab;
+    static Integer id_Asignatura;
+    static String name_Asignatura;
 
     // ----------------------------------------------------------------//
     public AsignaturasFragment() {
@@ -55,10 +61,45 @@ public class AsignaturasFragment extends Fragment {
         input = (EditText) viewPopup.findViewById(R.id.nombre_asignatura_popup);
 
         // ---- LISTA ASIGNATURAS ---- //
-        List<String> opcionesConfiguracion = Arrays.asList(getString(R.string.asign1), getString(R.string.asign2), getString(R.string.asign3));
-        ArrayAdapter adapterConfiguracion = new ArrayAdapter(getActivity().getApplicationContext(), R.layout.list_actividades, opcionesConfiguracion);
-        ListView lvConfiguracion = (ListView) view.findViewById(R.id.lista_asignaturas);
-        lvConfiguracion.setAdapter(adapterConfiguracion);
+        DbAsignaturas dbAsignaturas = new DbAsignaturas(getActivity().getApplicationContext());
+        List<Asignaturas> listaAsignaturas = dbAsignaturas.buscarAsignaturas();
+        dbAsignaturas.close();
+    
+        // SE VERIFICA SI HAY DATOS O NO
+        List<String> nombreAsignaturas = new ArrayList<>();
+        if( listaAsignaturas.size() == 0){
+            System.out.println("NO HAY ASIGNATURAS");
+            TextView view_null = (TextView) view.findViewById(R.id.view_null_asign);
+        }else{
+            for (Asignaturas a : listaAsignaturas){
+                    nombreAsignaturas.add(a.getNombre());
+            }
+            System.out.println(listaAsignaturas);
+            System.out.println("LISTA NOMBREASIGNATURAS:");
+            System.out.println(nombreAsignaturas);
+
+            ArrayAdapter adapterAsignaturas = new ArrayAdapter(getActivity().getApplicationContext(), R.layout.list_actividades, nombreAsignaturas);
+            ListView lvAsignaturas = (ListView) view.findViewById(R.id.lista_asignaturas);
+            lvAsignaturas.setAdapter(adapterAsignaturas);
+
+            // Se transforma la ListView en una Lista clickeable
+            lvAsignaturas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                    name_Asignatura = listaAsignaturas.get(position).getNombre();
+                    id_Asignatura = listaAsignaturas.get(position).getId();
+
+                    Activity activity = getActivity();
+                    if (activity instanceof MainActivity){
+                        ((MainActivity) activity).replaceFragment(new VistaAsignaturaFragment(), ((MainActivity) activity).getSupportFragmentManager(), R.id.framecentral);
+                        activity.setTitle(name_Asignatura);
+                        ((MainActivity) activity).setFragmentActual(name_Asignatura);
+                        ((MainActivity) activity).setActionBarActivityArrow(true);
+                    }
+
+                }
+            });
+        }
 
 
         // ---- BOTÓN Y POPUP ----- //
@@ -80,6 +121,11 @@ public class AsignaturasFragment extends Fragment {
                         dbAsignaturas.close();
                         if(idAux != 0){
                             Toast.makeText(getActivity().getApplicationContext(), "Asignatura creada!", Toast.LENGTH_LONG).show();
+                            // REFRESH DEL FRAMELAYOUT PARA OBTENER LA LISTA DE ASIGNATURA ACTUALIZADA
+                            Activity activity = getActivity();
+                            if (activity instanceof MainActivity){
+                                ((MainActivity) activity).replaceFragment(new AsignaturasFragment(), ((MainActivity) activity).getSupportFragmentManager(), R.id.framecentral);
+                            }
                         } else {
                             Toast.makeText(getActivity().getApplicationContext(), "Error al crear asignatura", Toast.LENGTH_LONG).show();
                         }
@@ -97,5 +143,13 @@ public class AsignaturasFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public static Integer getId_Asignatura() {
+        return id_Asignatura;
+    }
+
+    public static String getName_Asignatura() {
+        return name_Asignatura;
     }
 }
