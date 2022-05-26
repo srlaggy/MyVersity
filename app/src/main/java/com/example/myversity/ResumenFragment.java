@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.myversity.db.DbAsignaturas;
 import com.example.myversity.db.DbConfigInicial;
 import com.example.myversity.db.DbHelper;
 import com.example.myversity.entidades.ConfiguracionInicial;
@@ -25,11 +26,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ResumenFragment extends Fragment {
-
-    String[][] dato = {
-            {"A","50"},
-            {"B","70"}
-    };
 
     public ResumenFragment() {
         // Required empty public constructor
@@ -52,9 +48,9 @@ public class ResumenFragment extends Fragment {
 
         ListView listaResumenes = (ListView) view.findViewById(R.id.lista_resumenes);
 
-        DbConfigInicial dbConfigInicial = new DbConfigInicial(this.getContext());
+        DbAsignaturas dbAsignaturas = new DbAsignaturas(this.getContext());
 
-        listaResumenes.setAdapter(new ResumenAdaptador(this.getContext(),dato,dbConfigInicial.buscarUltimaConfiguracion()));
+        listaResumenes.setAdapter(new ResumenAdaptador(this.getContext(),dbAsignaturas.buscarAsignaturas()));
 
         return view;
     }
