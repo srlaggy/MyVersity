@@ -7,6 +7,28 @@ public class CondAsignatura {
     private String condicion;
     private Boolean chequeado;
     private String valor;
+    // EXTRA
+    private TiposPenalizacion tp;
+
+    public CondAsignatura(){
+    }
+
+    public CondAsignatura(Integer id_asignaturas, Integer id_tiposPenalizacion, String condicion, Boolean chequeado, String valor){
+        this.id_asignaturas = id_asignaturas;
+        this.id_tiposPenalizacion = id_tiposPenalizacion;
+        this.condicion = condicion;
+        this.chequeado = chequeado;
+        this.valor = valor;
+    }
+
+    public CondAsignatura(Integer id, Integer id_asignaturas, Integer id_tiposPenalizacion, String condicion, Boolean chequeado, String valor){
+        this.id = id;
+        this.id_asignaturas = id_asignaturas;
+        this.id_tiposPenalizacion = id_tiposPenalizacion;
+        this.condicion = condicion;
+        this.chequeado = chequeado;
+        this.valor = valor;
+    }
 
     public Integer getId() {
         return id;
@@ -54,5 +76,13 @@ public class CondAsignatura {
 
     public void setValor(String valor) {
         this.valor = valor;
+    }
+
+    public TiposPenalizacion getTp() {
+        return tp;
+    }
+
+    public void setTp(TiposPenalizacion tp) {
+        this.tp = tp;
     }
 }

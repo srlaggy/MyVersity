@@ -9,6 +9,11 @@ import androidx.annotation.Nullable;
 
 import com.example.myversity.entidades.TipoPromedio;
 import com.example.myversity.entidades.TiposPenalizacion;
+import com.example.myversity.entidades.tiposPromedios.MediaAritmetica;
+import com.example.myversity.entidades.tiposPromedios.MediaCuadratica;
+import com.example.myversity.entidades.tiposPromedios.MediaGeometrica;
+import com.example.myversity.entidades.tiposPromedios.MediaPonderada;
+import com.example.myversity.entidades.tiposPromedios.MediaSoloSuma;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,11 +135,11 @@ public class DbHelper extends SQLiteOpenHelper {
         }
 
         List<TipoPromedio> tpr = new ArrayList<>();
-        tpr.add(new TipoPromedio("Media aritmética", false));
-        tpr.add(new TipoPromedio("Media ponderada", true));
-        tpr.add(new TipoPromedio("Media geométrica", false));
-        tpr.add(new TipoPromedio("Media Cuadrática", false));
-        tpr.add(new TipoPromedio("Suma", false));
+        tpr.add(new MediaAritmetica());
+        tpr.add(new MediaPonderada());
+        tpr.add(new MediaGeometrica());
+        tpr.add(new MediaCuadratica());
+        tpr.add(new MediaSoloSuma());
         for(TipoPromedio t : tpr){
             values = new ContentValues();
             values.put("nombre", t.getNombre());
