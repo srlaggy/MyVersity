@@ -1,6 +1,8 @@
 package com.example.myversity.entidades;
 
-public class TipoPromedio {
+import java.util.List;
+
+public abstract class TipoPromedio {
     private Integer id;
     private String nombre;
     private Boolean usa_peso;
@@ -8,7 +10,7 @@ public class TipoPromedio {
     public TipoPromedio(){
     }
 
-    public  TipoPromedio(String nombre, Boolean usa_peso){
+    public TipoPromedio(String nombre, Boolean usa_peso){
         this.nombre = nombre;
         this.usa_peso = usa_peso;
     }
@@ -36,4 +38,7 @@ public class TipoPromedio {
     public void setUsa_peso(Boolean usa_peso) {
         this.usa_peso = usa_peso;
     }
+
+    public abstract Float calcularPromedioAsignaturas(List<Evaluaciones> eval);
+    public abstract Float calcularPromedioEvaluaciones(Evaluaciones eval, List<Notas> notas);
 }

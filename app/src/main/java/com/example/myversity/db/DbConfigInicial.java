@@ -37,6 +37,7 @@ public class DbConfigInicial extends DbHelper{
             values.put("orientacion_asc", orientacion_asc);
 
             id = db.insert(TABLE_CONFIG_INICIAL, null, values);
+            db.close();
         } catch (Exception e){
             e.toString();
         }
@@ -68,6 +69,7 @@ public class DbConfigInicial extends DbHelper{
             }
 
             cursor.close();
+            db.close();
 
         } catch (Exception e){
             e.toString();
@@ -97,6 +99,7 @@ public class DbConfigInicial extends DbHelper{
             }
 
             cursor.close();
+            db.close();
 
         } catch (Exception e){
             e.toString();
@@ -126,6 +129,7 @@ public class DbConfigInicial extends DbHelper{
             }
 
             cursor.close();
+            db.close();
 
         } catch (Exception e){
             e.toString();
@@ -155,6 +159,7 @@ public class DbConfigInicial extends DbHelper{
             }
 
             cursor.close();
+            db.close();
 
         } catch (Exception e){
             e.toString();
@@ -181,9 +186,30 @@ public class DbConfigInicial extends DbHelper{
 
             db.update(TABLE_CONFIG_INICIAL, values, where, null);
             estado = 1L;
+            db.close();
         } catch (Exception e){
             e.toString();
         }
+        return estado;
+    }
+
+    // METODO PARA BORRAR UN REGISTRO DE SER NECESARIO (EVITAR BORRAR EL ID 1)
+    public Long borrarRegistro(Integer id){
+        Long estado = 0L;
+        String whereClause = "_id=?";
+        String[] whereArgs = new String[] {id.toString()};
+
+        try {
+            DbHelper dbHelper = new DbHelper(context);
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            db.delete(TABLE_CONFIG_INICIAL, whereClause, whereArgs);
+
+            estado = 1L;
+            db.close();
+        } catch (Exception e){
+            e.toString();
+        }
+
         return estado;
     }
 }
