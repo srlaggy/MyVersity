@@ -8,6 +8,18 @@ public class Notas {
     private String nota_cond;
     private Float peso;
 
+    public Notas(){
+    }
+
+    public Notas(Integer id, Integer id_evaluaciones, String nota, Boolean cond, String nota_cond, Float peso){
+        this.id = id;
+        this.id_evaluaciones = id_evaluaciones;
+        this.nota = nota;
+        this.cond = cond;
+        this.nota_cond = nota_cond;
+        this.peso = peso;
+    }
+
     public Integer getId() {
         return id;
     }

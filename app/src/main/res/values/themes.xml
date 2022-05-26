@@ -35,4 +35,12 @@
         <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="iconTint">?attr/colorOnSecondary</item>
     </style>
+
+    <style name="btn_config_inicial_cancelar" parent="Widget.MaterialComponents.Button.Icon">
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="iconTint">?attr/colorOnSecondary</item>
+    </style>
+
+
 </resources>
