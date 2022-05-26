@@ -40,5 +40,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="asign1">Bases de Datos Avanzadas</string>
+    <string name="asign2">Aplicaciones Móviles</string>
+    <string name="asign3">Inteligencia Artificial</string>
+    <string name="cancelar_config_inicial">Cancelar</string>
 
 </resources>

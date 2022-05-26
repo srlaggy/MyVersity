@@ -31,9 +31,17 @@ import java.util.regex.Pattern;
 public class ConfiguracionInicialFragment extends Fragment {
     private TextInputEditText min, max, nota;
     private RadioGroup orientacion, tipo;
+    // Indica desde donde se esta requiriendo la configuracion inicial o de notas
+    // 0 -> viene desde la configuracion
+    // 1 -> viene desde las asignaturas
+    private Integer estado = 0;
 
     public ConfiguracionInicialFragment() {
         // Required empty public constructor
+    }
+
+    public ConfiguracionInicialFragment(Integer estado) {
+        this.estado = estado;
     }
 
     public static ConfiguracionInicialFragment newInstance(String param1, String param2) {
@@ -50,6 +58,9 @@ public class ConfiguracionInicialFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_configuracion_inicial, container, false);
         Button btn = view.findViewById(R.id.btn_guardar_config_inicial);
+        Button btnCancelar = view.findViewById(R.id.btn_cancelar_config_inicial);
+        // SE SETEA LA APARICION O NO, DEL BOTON CANCELAR
+        btnCancelar.setVisibility((estado == 0) ? View.GONE : View.VISIBLE);
         DbConfigInicial dbConfigInicial = new DbConfigInicial(getActivity().getApplicationContext());
 
         min = (TextInputEditText) view.findViewById(R.id.editText_min_rango_nota_config_inicial);
@@ -58,9 +69,24 @@ public class ConfiguracionInicialFragment extends Fragment {
         orientacion = (RadioGroup) view.findViewById(R.id.radio_orientacion_config_inicial);
         tipo = (RadioGroup) view.findViewById(R.id.radio_tiponota_config_inicial);
 
-        ConfiguracionInicial configUltima = dbConfigInicial.buscarUltimaConfiguracion();
+        ConfiguracionInicial configPrimera = dbConfigInicial.buscarPrimeraConfiguracion();
         dbConfigInicial.close();
-        setDefaultValues(configUltima);
+        setDefaultValues(configPrimera);
+
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Activity activity = getActivity();
+                if (activity instanceof MainActivity){
+                    ((MainActivity) activity).replaceFragment(new AsignaturasFragment(), ((MainActivity) activity).getSupportFragmentManager(), R.id.framecentral);
+                    activity.setTitle(getString(R.string.asignatura_title_topbar));
+                    ((MainActivity) activity).setFragmentActual(getString(R.string.asignatura_title_topbar));
+                    ((MainActivity) activity).setActionBarActivityArrow(false);
+                    // Para cambiar focus en barra de abajo
+                    ((MainActivity) activity).binding.bottombar.setSelectedItemId(R.id.btn_nav_asignatura);
+                }
+            }
+        });
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,28 +102,57 @@ public class ConfiguracionInicialFragment extends Fragment {
                     String seleccionTipo = getTextRadioGroup(tipo);
                     Boolean decimalSend = Objects.equals(seleccionTipo, getString(R.string.nota_continua_config_inicial));
                     ConfiguracionInicial configAux = new ConfiguracionInicial(minSend, maxSend, notaSend, decimalSend, orientacionAscSend);
-                    // SE APLICAN LOS CAMBIOS SOLO SI HAY CAMBIOS
-                    if(configUltima == null || !configAux.equals(configUltima)){
-                        DbConfigInicial dbConfigInicial = new DbConfigInicial(getActivity().getApplicationContext());
-                        Long id = dbConfigInicial.insertarConfigInicial(minSend, maxSend, notaSend, decimalSend, orientacionAscSend);
-                        dbConfigInicial.close();
-                        if(id > 0){
+
+                    DbConfigInicial dbConfigInicial = new DbConfigInicial(getActivity().getApplicationContext());
+                    Long idEstado;
+                    Activity activity = getActivity();
+                    // SE APLICAN LOS CAMBIOS SEGUN EL CASO
+                    // CASO DONDE NO HAY CONFIGURACION INICIAL Y SE VIENE DESDE CONFIGURACION
+                    // O CASO DONDE HAY CAMBIOS RESPECTO AL INICIAL Y SE VIENE DESDE CONFIGURACION
+                    if((configPrimera == null && estado == 0) || (!configAux.equals(configPrimera) && estado == 0)) {
+                        // SI ES NULO Y ESTADO 0, SE AGREGA EL PRIMER REGISTRO
+                        if (configPrimera == null && estado == 0) {
+                            idEstado = dbConfigInicial.insertarConfigInicial(minSend, maxSend, notaSend, decimalSend, orientacionAscSend);
+                        } else {
+                            // SI ES DISTINTO AL INICIAL Y ESTADO 0, SE ACTUALIZA EL REGISTRO
+                            idEstado = dbConfigInicial.actualizarRegistro(1, configAux);
+                        }
+
+                        if (idEstado > 0) {
                             Toast.makeText(getActivity().getApplicationContext(), "La configuración de notas fue actualizada", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getActivity().getApplicationContext(), "Error al actualizar la configuración", Toast.LENGTH_LONG).show();
                         }
 
-                        Activity activity = getActivity();
-                        if (activity instanceof MainActivity){
+                        if (activity instanceof MainActivity) {
                             ((MainActivity) activity).replaceFragment(new ConfiguracionFragment(), ((MainActivity) activity).getSupportFragmentManager(), R.id.framecentral);
                             activity.setTitle(getString(R.string.configuracion_title_topbar));
                             ((MainActivity) activity).setFragmentActual(getString(R.string.configuracion_title_topbar));
                             ((MainActivity) activity).setActionBarActivityArrow(false);
                         }
-                    } else {
+                    } else if (configAux.equals(configPrimera) && estado == 0) {
+                        // COMO NO HAY CAMBIOS, NO SE HACE EL CRUD
                         Toast.makeText(getActivity().getApplicationContext(), "Los valores no han sido modificados", Toast.LENGTH_LONG).show();
-                    }
+                    } else if (estado == 1) {
+                        // VIENE DESDE ASIGNATURA
+                        idEstado = dbConfigInicial.insertarConfigInicial(minSend, maxSend, notaSend, decimalSend, orientacionAscSend);
 
+                        if(idEstado > 0){
+                            Toast.makeText(getActivity().getApplicationContext(), "Asignatura creada!", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity().getApplicationContext(), "Error al crear la asignatura", Toast.LENGTH_LONG).show();
+                        }
+
+                        if (activity instanceof MainActivity){
+                            ((MainActivity) activity).replaceFragment(new AsignaturasFragment(), ((MainActivity) activity).getSupportFragmentManager(), R.id.framecentral);
+                            activity.setTitle(getString(R.string.asignatura_title_topbar));
+                            ((MainActivity) activity).setFragmentActual(getString(R.string.asignatura_title_topbar));
+                            ((MainActivity) activity).setActionBarActivityArrow(false);
+                            // Para cambiar focus en barra de abajo
+                            ((MainActivity) activity).binding.bottombar.setSelectedItemId(R.id.btn_nav_asignatura);
+                        }
+                    }
+                    dbConfigInicial.close();
                 }
             }
         });

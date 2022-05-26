@@ -1,5 +1,7 @@
 package com.example.myversity.entidades;
 
+import java.util.List;
+
 public class Evaluaciones {
     private Integer id;
     private Integer id_asignaturas;
@@ -10,6 +12,9 @@ public class Evaluaciones {
     private Boolean cond;
     private String nota_cond;
     private Float peso;
+    // EXTRAS
+    private List<Notas> notas;
+    private TipoPromedio tp;
 
     public Integer getId() {
         return id;
@@ -81,5 +86,21 @@ public class Evaluaciones {
 
     public void setPeso(Float peso) {
         this.peso = peso;
+    }
+
+    public List<Notas> getNotas() {
+        return notas;
+    }
+
+    public void setNotas(List<Notas> notas) {
+        this.notas = notas;
+    }
+
+    public TipoPromedio getTp() {
+        return tp;
+    }
+
+    public void setTp(TipoPromedio tp) {
+        this.tp = tp;
     }
 }
