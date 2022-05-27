@@ -145,4 +145,7 @@ public class MainActivity extends AppCompatActivity {
     public void setFragmentActual(String fragmentActual) {
         this.fragmentActual = fragmentActual;
     }
+
+    // METODO QUE CONSIGUE RUTA DE ARCHIVOS PICKEADOS
+
 }

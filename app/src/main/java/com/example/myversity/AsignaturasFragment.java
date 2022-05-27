@@ -101,7 +101,6 @@ public class AsignaturasFragment extends Fragment {
             });
         }
 
-
         // ---- BOTÓN Y POPUP ----- //
         fab = (FloatingActionButton) view.findViewById(R.id.botonAgregarAsignatura);
         fab.setOnClickListener(new View.OnClickListener() {

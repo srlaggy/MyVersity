@@ -1,13 +1,21 @@
 package com.example.myversity;
 
-import android.app.ActionBar;
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,19 +24,22 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.myversity.db.DbAsignaturas;
-import com.example.myversity.db.DbConfigInicial;
 import com.example.myversity.entidades.Asignaturas;
-import com.example.myversity.entidades.ConfiguracionInicial;
-import com.google.android.material.textfield.TextInputEditText;
+import com.example.myversity.utils.Utils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class ConfiguracionFragment extends Fragment{
+    private final String NOMBRE_ARCHIVO_EXPORT = "export.myv";
+
     public ConfiguracionFragment() {
-        // Required empty public constructor
     }
 
     public static ConfiguracionFragment newInstance() {
@@ -44,6 +55,34 @@ public class ConfiguracionFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_configuracion, container, false);
+
+        ActivityResultLauncher<Intent> sActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if(result.getResultCode() == Activity.RESULT_OK){
+                            Intent data = result.getData();
+                            Uri fileExportUri = data.getData();
+                            String ruta = Utils.buscarRuta(fileExportUri, getActivity());
+                            File f = new File(ruta);
+                            Scanner scanner = null;
+                            try {
+                                scanner = new Scanner(f);
+                                while(scanner.hasNextLine()){
+                                    System.out.println(scanner.nextLine());
+                                }
+                                scanner.close();
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+
+                        } else {
+                            Toast.makeText(getActivity().getApplicationContext(), "Problema al importar asignatura", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+        );
 
         List<String> opcionesConfiguracion = Arrays.asList(getString(R.string.opcion_1_config), getString(R.string.opcion_2_config), getString(R.string.opcion_3_config));
         ArrayAdapter adapterConfiguracion = new ArrayAdapter(getActivity().getApplicationContext(), R.layout.list_configuracion, opcionesConfiguracion);
@@ -63,45 +102,71 @@ public class ConfiguracionFragment extends Fragment{
                     }
                 } else if(i == 1){
                     // CASO EXPORTAR ASIGNATURA
-                    DbConfigInicial dbConfigInicial = new DbConfigInicial(getActivity().getApplicationContext());
-                    ArrayList<ConfiguracionInicial> listaConfigs = dbConfigInicial.buscarConfiguraciones();
-                    if(!listaConfigs.isEmpty()){
-                        for(ConfiguracionInicial x : listaConfigs){
-                            System.out.println(x);
-                        }
-                    } else {
-                        System.out.println("No hay valores en la lista");
-                    }
-                    Toast.makeText(getActivity().getApplicationContext(), "Coming soon...", Toast.LENGTH_LONG).show();
-                    dbConfigInicial.close();
-
-                    /* DbAsignaturas dbAsignaturas = new DbAsignaturas(getActivity().getApplicationContext());
-                    ArrayList<Asignaturas> listaAsign = dbAsignaturas.buscarAsignaturas();
-                    if(!listaAsign.isEmpty()){
-                        for(Asignaturas a : listaAsign){
-                            System.out.println(a);
-                        }
-                    } else {
-                        System.out.println("No hay valores en la lista de asignaturas");
-                    }
-                    dbAsignaturas.close(); */
+                    // PRUEBA CREANDO Y ENVIANDO ARCHIVO
+                    exportarAsignatura(new ArrayList<Asignaturas>());
 
                 } else {
                     // CASO IMPORTAR ASIGNATURA
-                    DbConfigInicial dbConfigInicial = new DbConfigInicial(getActivity().getApplicationContext());
-                    ConfiguracionInicial configUltima = dbConfigInicial.buscarPrimeraConfiguracion();
-                    if(configUltima != null){
-                        System.out.println(configUltima);
-                    } else {
-                        System.out.println("No existen registros");
-                    }
-                    Toast.makeText(getActivity().getApplicationContext(), "Coming soon...", Toast.LENGTH_LONG).show();
-                    dbConfigInicial.close();
+                    // PRUEBA DE LECTURA DEL ARCHIVO MEDIANTE SISTEM FILE
+                    Intent data = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    data.setType("*/*");
+                    data = Intent.createChooser(data, "Elige un archivo de MyVersity para importar");
+                    sActivityResultLauncher.launch(data);
+
                 }
             }
         });
 
         return view;
+    }
+
+    private void exportarAsignatura(List<Asignaturas> asig){
+        // SE CREA ARCHIVO CON FORMATO EXPORT -> POR AHORA ES DE PRUEBA
+        FileOutputStream fout = null;
+        try {
+            fout = getActivity().openFileOutput(NOMBRE_ARCHIVO_EXPORT, MODE_PRIVATE);
+            String texto = "Texto de prueba con tíldes";
+            fout.write(texto.getBytes(StandardCharsets.UTF_8));
+            fout.close();
+        } catch (Exception e){
+            Log.e("EXPORT", "ERROR AL CREAR EL EXPORT DE ASIGNATURAS");
+        }
+
+        // PRUEBA ABRIENDO Y LEYENDO EL ARCHIVO -> SOLO SE DEBE ABRIR
+        File file = null;
+        try {
+            file = new File(getActivity().getFilesDir() + "/" + NOMBRE_ARCHIVO_EXPORT);
+
+            // BORRABLE
+            Scanner scanner = new Scanner(file);
+            while(scanner.hasNextLine()){
+                System.out.println(scanner.nextLine());
+            }
+            scanner.close();
+        } catch (Exception e){
+            Log.e("READ", "ERROR AL LEER ARCHIVO EXPORT");
+        }
+
+        if(fout != null && file != null){
+            // PRUEBA DE EXPORTAR COSAS
+            String authority = getActivity().getApplicationContext().getPackageName() + ".provider";
+            Context contexto = getActivity().getApplicationContext();
+            Uri exportUri = FileProvider.getUriForFile(contexto, authority, file);
+
+            Intent sendIntent = new Intent(Intent.ACTION_SEND);
+            sendIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            if(exportUri != null){
+                sendIntent.putExtra(Intent.EXTRA_STREAM, exportUri);
+                sendIntent.setType("text/*");
+                getActivity().setResult(Activity.RESULT_OK, sendIntent);
+            } else {
+                sendIntent.setDataAndType(null, "");
+                getActivity().setResult(Activity.RESULT_CANCELED, sendIntent);
+            }
+            startActivity(sendIntent);
+        } else {
+            Toast.makeText(getActivity().getApplicationContext(), "Problemas para exportar asignaturas", Toast.LENGTH_LONG).show();
+        }
     }
 }
 
@@ -119,3 +184,35 @@ public class ConfiguracionFragment extends Fragment{
 // -> CUANDO SE LLAME A LA CONFIG INICIAL DESDE ASIGNATURAS, SE LE DEBE QUITAR LA FLECHA HACIA ATRAS (<-)
 //     -> ADEMAS SE LE DEBE ENTREGAR EN EL CONSTRUCTOR DEL FRAME EL ESTADO 1 (EL COMPORTAMIENTO YA ESTA MANEJADO)
 //     -> HAY QUE VER COMO MANEJAR LA ASIGNATURA Y SU INSERCION -> SE GUARDARA EL NOMBRE Y LOS DATOS EN UNA VARIABLE GLOBAL DE ACTIVITY? SE INSERTARA DESDE LA VISTA DE CONFIGURACION INICIAL?
+
+// ASIGNATURAS
+// -> ARREGLAR BUG DE QUE PRESIONO FUERA DEL DIALOG Y AL PRESIONAR EN EL FAB, SE CIERRA LA APP
+// -> AGREGAR VALIDADOR EN EL NOMBRE DE LA ASIGNATURA
+// -> VALIDADOR PARA QUE NO SE REPITAN ASIGNATURAS, COMPARANDO VARIACIONES EN MAYUSCULAS Y MINUSCULAS
+// -> AGREGAR METODO QUE DEJE LA PRIMERA LETRA EN MAYUSCULA Y EL RESTO EN MINUSCULA (PARA LISTA DE ASIGNATURAS)
+// -> AGREGAR METODO QUE DEJE TODA LA PALABRA EN MAYUSCULA (PARA TITULO EN LA BARRA)
+// -> AGREGAR DIALOG QUE PREGUNTE TIPO DE PROMEDIO Y LUEGO PREGUNTE CONFIG INICIAL
+// -> CREAR TODA LA LOGICA DE LA VISTA DE LAS ASIGNATURAS
+
+// CODIGO
+//DbConfigInicial dbConfigInicial = new DbConfigInicial(getActivity().getApplicationContext());
+//    ArrayList<ConfiguracionInicial> listaConfigs = dbConfigInicial.buscarConfiguraciones();
+//                    if(!listaConfigs.isEmpty()){
+//                            for(ConfiguracionInicial x : listaConfigs){
+//                            System.out.println(x);
+//                            }
+//                            } else {
+//                            System.out.println("No hay valores en la lista");
+//                            }
+//                            Toast.makeText(getActivity().getApplicationContext(), "Coming soon...", Toast.LENGTH_LONG).show();
+//                            dbConfigInicial.close();
+
+// DbConfigInicial dbConfigInicial = new DbConfigInicial(getActivity().getApplicationContext());
+//                    ConfiguracionInicial configUltima = dbConfigInicial.buscarPrimeraConfiguracion();
+//                    if(configUltima != null){
+//                        System.out.println(configUltima);
+//                    } else {
+//                        System.out.println("No existen registros");
+//                    }
+//                    Toast.makeText(getActivity().getApplicationContext(), "Coming soon...", Toast.LENGTH_LONG).show();
+//                    dbConfigInicial.close();
