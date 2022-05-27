@@ -9,8 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class VistaAsignaturaFragment extends Fragment {
+    ExtendedFloatingActionButton efabAgregar;
+    FloatingActionButton fabAgregarEval, fabAgregarCond;
+    TextView agregarEvalText, agregarCondText;
+    Boolean fabsVisible;
 
     public VistaAsignaturaFragment() {
     }
@@ -38,6 +46,54 @@ public class VistaAsignaturaFragment extends Fragment {
 
         TextView nameView = view.findViewById(R.id.id_nombre_asignatura);
         nameView.setText(name_asign);
+
+
+        efabAgregar = view.findViewById(R.id.botonAgregarVistaAsignatura);
+        fabAgregarEval = view.findViewById(R.id.botonAgregarEvaluacion);
+        fabAgregarCond = view.findViewById(R.id.botonAgregarCondicion);
+        agregarEvalText = view.findViewById(R.id.agregar_evaluacion_text);
+        agregarCondText = view.findViewById(R.id.agregar_condicion_text);
+
+        fabAgregarEval.setVisibility(View.GONE);
+        fabAgregarCond.setVisibility(View.GONE);
+        agregarEvalText.setVisibility(View.GONE);
+        agregarCondText.setVisibility(View.GONE);
+        fabsVisible = false;
+
+        efabAgregar.shrink();
+        efabAgregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!fabsVisible){
+                    fabAgregarEval.show();
+                    fabAgregarCond.show();
+                    agregarEvalText.setVisibility(View.VISIBLE);
+                    agregarCondText.setVisibility(View.VISIBLE);
+                    efabAgregar.extend();
+                    fabsVisible = true;
+                } else {
+                    fabAgregarEval.hide();
+                    fabAgregarCond.hide();
+                    agregarEvalText.setVisibility(View.GONE);
+                    agregarCondText.setVisibility(View.GONE);
+                    efabAgregar.shrink();
+                    fabsVisible = false;
+                }
+            }
+        });
+
+        fabAgregarEval.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity().getApplicationContext(), "Evaluación Agregado",Toast.LENGTH_SHORT).show();
+            }
+        });
+        fabAgregarCond.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity().getApplicationContext(), "Condición Agregado",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return view;
     }
