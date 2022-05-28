@@ -118,9 +118,9 @@ public class AsignaturasFragment extends Fragment {
                         DbAsignaturas dbAsignaturas = new DbAsignaturas(getActivity().getApplicationContext());
                         Long idAux = dbAsignaturas.crearAsignatura(1, 1, m_Text);
                         // APPS -> solo suma
-//                        Long idAux = dbAsignaturas.crearAsignatura(1, 5, m_Text);
+                        // Long idAux = dbAsignaturas.crearAsignatura(1, 5, m_Text);
                         // BDA -> ponderada
-//                        Long idAux = dbAsignaturas.crearAsignatura(1, 2, m_Text);
+                        // Long idAux = dbAsignaturas.crearAsignatura(1, 2, m_Text);
                         dbAsignaturas.close();
                         if(idAux != 0){
                             Toast.makeText(getActivity().getApplicationContext(), "Asignatura creada!", Toast.LENGTH_LONG).show();

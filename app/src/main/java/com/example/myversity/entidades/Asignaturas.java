@@ -19,6 +19,12 @@ public class Asignaturas {
     public Asignaturas(){
     }
 
+    public Asignaturas(Integer id_configInicial, Integer id_tipoPromedio, String nombre){
+        this.id_configInicial = id_configInicial;
+        this.id_tipoPromedio = id_tipoPromedio;
+        this.nombre = nombre;
+    }
+
     public Asignaturas(Integer id_configInicial, Integer id_tipoPromedio, String nombre, String nota_final){
         this.id_configInicial = id_configInicial;
         this.id_tipoPromedio = id_tipoPromedio;

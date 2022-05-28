@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.example.myversity.entidades.Asignaturas;
 import com.example.myversity.entidades.CondAsignatura;
 import com.example.myversity.entidades.Evaluaciones;
 import com.example.myversity.entidades.Notas;
@@ -71,7 +72,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 "nota_evaluacion TEXT," +
                 "cond BOOLEAN NOT NULL," +
                 "nota_cond TEXT," +
-                "peso REAL," +
+                "peso TEXT," +
                 "FOREIGN KEY(id_asignaturas) REFERENCES " + TABLE_ASIGNATURAS + "(id)," +
                 "FOREIGN KEY(id_tipoPromedio) REFERENCES " + TABLE_TIPO_PROMEDIO + "(id))"
         );
@@ -84,7 +85,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 "nota TEXT," +
                 "cond BOOLEAN NOT NULL," +
                 "nota_cond TEXT," +
-                "peso REAL," +
+                "peso TEXT," +
                 "FOREIGN KEY(id_evaluaciones) REFERENCES " + TABLE_EVALUACIONES + "(id))"
         );
 
@@ -150,23 +151,44 @@ public class DbHelper extends SQLiteOpenHelper {
             sqLiteDatabase.insert(TABLE_TIPO_PROMEDIO, null, values);
         }
 
+        //------------------------------------------------------------------------//
         // DATOS DUMMY PARA TESTEO DE EXPORT E IMPORT
-        /*List<CondAsignatura> ca = new ArrayList<>();
-        ca.add(new CondAsignatura(1, 1, "Asistencia", false));
+        /*values = new ContentValues();
+        values.put("nota_minima", "0");
+        values.put("nota_maxima", "100");
+        values.put("nota_aprobacion", "55");
+        values.put("decimal", false);
+        values.put("orientacion_asc", true);
+        sqLiteDatabase.insert(TABLE_CONFIG_INICIAL, null, values);
+
+        List<Asignaturas> asignaturas = new ArrayList<>();
+        asignaturas.add(new Asignaturas(1, 5, "Aplicaciones Moviles"));
+        asignaturas.add(new Asignaturas(1, 2, "Bases de datos avanzadas"));
+        for(Asignaturas asig : asignaturas){
+            values = new ContentValues();
+            values.put("id_configInicial", asig.getId_configInicial());
+            values.put("id_tipoPromedio", asig.getId_tipoPromedio());
+            values.put("nombre", asig.getNombre());
+            sqLiteDatabase.insert(TABLE_ASIGNATURAS, null, values);
+        }
+
+        List<CondAsignatura> ca = new ArrayList<>();
+        ca.add(new CondAsignatura(1, 1, "Asistencia", false, null));
         for(CondAsignatura c : ca){
             values = new ContentValues();
             values.put("id_asignaturas", c.getId_asignaturas());
             values.put("id_tiposPenalizacion", c.getId_tiposPenalizacion());
             values.put("condicion", c.getCondicion());
             values.put("chequeado", c.getChequeado());
+            values.put("valor", c.getValor());
             sqLiteDatabase.insert(TABLE_COND_ASIGNATURAS, null, values);
         }
 
         List<Evaluaciones> ev = new ArrayList<>();
-        ev.add(new Evaluaciones(1, 2, "Presentacion", 3, false));
-        ev.add(new Evaluaciones(2, 1, "Laboratorio", 3, false, 0.45f));
-        ev.add(new Evaluaciones(2, 1, "Lectura", 3, false, 0.3f));
-        ev.add(new Evaluaciones(2, 1, "Actividad", 5, false, 0.25f));
+        ev.add(new Evaluaciones(1, 2, "Presentacion", 3, false, null, null));
+        ev.add(new Evaluaciones(2, 1, "Laboratorio", 3, false, null, "0.45"));
+        ev.add(new Evaluaciones(2, 1, "Lectura", 3, false, null, "0.3"));
+        ev.add(new Evaluaciones(2, 1, "Actividad", 5, false, null, "0.25"));
         for(Evaluaciones eval : ev){
             values = new ContentValues();
             values.put("id_asignaturas", eval.getId_asignaturas());
@@ -174,34 +196,36 @@ public class DbHelper extends SQLiteOpenHelper {
             values.put("tipo", eval.getTipo());
             values.put("cantidad", eval.getCantidad());
             values.put("cond", eval.getCond());
-            if(eval.getId_asignaturas() == 2){
+            values.put("nota_cond", eval.getNota_cond());
+//            if(eval.getId_asignaturas() == 2){
                 values.put("peso", eval.getPeso());
-            }
+//            }
             sqLiteDatabase.insert(TABLE_EVALUACIONES, null, values);
         }
 
         List<Notas> nota = new ArrayList<>();
-        nota.add(new Notas(1, false, 0.2f));
-        nota.add(new Notas(1, false, 0.3f));
-        nota.add(new Notas(1, false, 0.5f));
-        nota.add(new Notas(2, false));
-        nota.add(new Notas(2, false));
-        nota.add(new Notas(2, false));
-        nota.add(new Notas(3, false));
-        nota.add(new Notas(3, false));
-        nota.add(new Notas(3, false));
-        nota.add(new Notas(4, false));
-        nota.add(new Notas(4, false));
-        nota.add(new Notas(4, false));
-        nota.add(new Notas(4, false));
-        nota.add(new Notas(4, false));
+        nota.add(new Notas(1, false, null, "0.2"));
+        nota.add(new Notas(1, false, null, "0.3"));
+        nota.add(new Notas(1, false, null, "0.5"));
+        nota.add(new Notas(2, false, null, null));
+        nota.add(new Notas(2, false, null, null));
+        nota.add(new Notas(2, false, null, null));
+        nota.add(new Notas(3, false, null, null));
+        nota.add(new Notas(3, false, null, null));
+        nota.add(new Notas(3, false, null, null));
+        nota.add(new Notas(4, false, null, null));
+        nota.add(new Notas(4, false, null, null));
+        nota.add(new Notas(4, false, null, null));
+        nota.add(new Notas(4, false, null, null));
+        nota.add(new Notas(4, false, null, null));
         for(Notas n : nota){
             values = new ContentValues();
             values.put("id_evaluaciones", n.getId_evaluaciones());
             values.put("cond", n.getCond());
-            if(n.getId_evaluaciones() == 1){
+            values.put("nota_cond", n.getNota_cond());
+//            if(n.getId_evaluaciones() == 1){
                 values.put("peso", n.getPeso());
-            }
+//            }
             sqLiteDatabase.insert(TABLE_NOTAS, null, values);
         }*/
     }

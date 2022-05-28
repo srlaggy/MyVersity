@@ -11,7 +11,7 @@ public class Evaluaciones {
     private String nota_evaluacion;
     private Boolean cond;
     private String nota_cond;
-    private Float peso;
+    private String peso;
     // EXTRAS
     private List<Notas> notas;
     private TipoPromedio tp;
@@ -27,7 +27,7 @@ public class Evaluaciones {
         this.cond = cond;
     }
 
-    public Evaluaciones(Integer id_asignaturas, Integer id_tipoPromedio, String tipo, Integer cantidad, Boolean cond, Float peso){
+    public Evaluaciones(Integer id_asignaturas, Integer id_tipoPromedio, String tipo, Integer cantidad, Boolean cond, String peso){
         this.id_asignaturas = id_asignaturas;
         this.id_tipoPromedio = id_tipoPromedio;
         this.tipo = tipo;
@@ -36,15 +36,15 @@ public class Evaluaciones {
         this.peso = peso;
     }
 
-//    public Evaluaciones(Integer id_asignaturas, Integer id_tipoPromedio, String tipo, Integer cantidad, Boolean cond, String nota_cond, Float peso){
-//        this.id_asignaturas = id_asignaturas;
-//        this.id_tipoPromedio = id_tipoPromedio;
-//        this.tipo = tipo;
-//        this.cantidad = cantidad;
-//        this.cond = cond;
-//        this.nota_cond = nota_cond;
-//        this.peso = peso;
-//    }
+    public Evaluaciones(Integer id_asignaturas, Integer id_tipoPromedio, String tipo, Integer cantidad, Boolean cond, String nota_cond, String peso){
+        this.id_asignaturas = id_asignaturas;
+        this.id_tipoPromedio = id_tipoPromedio;
+        this.tipo = tipo;
+        this.cantidad = cantidad;
+        this.cond = cond;
+        this.nota_cond = nota_cond;
+        this.peso = peso;
+    }
 
     public Integer getId() {
         return id;
@@ -110,11 +110,11 @@ public class Evaluaciones {
         this.nota_cond = nota_cond;
     }
 
-    public Float getPeso() {
+    public String getPeso() {
         return peso;
     }
 
-    public void setPeso(Float peso) {
+    public void setPeso(String peso) {
         this.peso = peso;
     }
 

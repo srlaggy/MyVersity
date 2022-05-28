@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 
 public class Utils {
     public static String getPath(Context context, Uri uri) {
@@ -171,5 +172,20 @@ public class Utils {
 
         String nuevaRuta = sourcePath + "/" + filename;
         return nuevaRuta;
+    }
+
+    public static Boolean nombreValido(String ruta){
+        // CASO DE LARGO MENOR AL PERMITIDO
+        if(ruta.length() < 5){
+            return false;
+        } else {
+            // CASO DE FORMATO
+            String ext = ruta.substring(ruta.length() - 4);
+            if (!ext.equals(".myv")){
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 }
