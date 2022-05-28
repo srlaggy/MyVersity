@@ -13,6 +13,13 @@ public class CondAsignatura {
     public CondAsignatura(){
     }
 
+    public CondAsignatura(Integer id_asignaturas, Integer id_tiposPenalizacion, String condicion, Boolean chequeado){
+        this.id_asignaturas = id_asignaturas;
+        this.id_tiposPenalizacion = id_tiposPenalizacion;
+        this.condicion = condicion;
+        this.chequeado = chequeado;
+    }
+
     public CondAsignatura(Integer id_asignaturas, Integer id_tiposPenalizacion, String condicion, Boolean chequeado, String valor){
         this.id_asignaturas = id_asignaturas;
         this.id_tiposPenalizacion = id_tiposPenalizacion;

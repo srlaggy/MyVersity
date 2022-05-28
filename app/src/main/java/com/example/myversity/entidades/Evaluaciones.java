@@ -16,6 +16,36 @@ public class Evaluaciones {
     private List<Notas> notas;
     private TipoPromedio tp;
 
+    public Evaluaciones(){
+    }
+
+    public Evaluaciones(Integer id_asignaturas, Integer id_tipoPromedio, String tipo, Integer cantidad, Boolean cond){
+        this.id_asignaturas = id_asignaturas;
+        this.id_tipoPromedio = id_tipoPromedio;
+        this.tipo = tipo;
+        this.cantidad = cantidad;
+        this.cond = cond;
+    }
+
+    public Evaluaciones(Integer id_asignaturas, Integer id_tipoPromedio, String tipo, Integer cantidad, Boolean cond, Float peso){
+        this.id_asignaturas = id_asignaturas;
+        this.id_tipoPromedio = id_tipoPromedio;
+        this.tipo = tipo;
+        this.cantidad = cantidad;
+        this.cond = cond;
+        this.peso = peso;
+    }
+
+//    public Evaluaciones(Integer id_asignaturas, Integer id_tipoPromedio, String tipo, Integer cantidad, Boolean cond, String nota_cond, Float peso){
+//        this.id_asignaturas = id_asignaturas;
+//        this.id_tipoPromedio = id_tipoPromedio;
+//        this.tipo = tipo;
+//        this.cantidad = cantidad;
+//        this.cond = cond;
+//        this.nota_cond = nota_cond;
+//        this.peso = peso;
+//    }
+
     public Integer getId() {
         return id;
     }

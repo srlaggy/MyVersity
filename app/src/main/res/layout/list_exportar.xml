@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_exportar"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="start"
+        android:paddingStart="14dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:textSize="16sp"
+        android:id="@+id/texto_exportar_item"/>
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:layoutDirection="rtl"
+        android:gravity="center"
+        android:layout_marginStart="14dp"
+        android:theme="@style/MyCheckBox"
+        android:id="@+id/checkbox_exportar"/>
+
+</LinearLayout>
+
+

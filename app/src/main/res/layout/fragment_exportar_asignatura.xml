@@ -3,12 +3,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExportarAsignaturaFragment">
+    tools:context=".ExportarAsignaturaFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+    <LinearLayout
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="14dp"
+            android:paddingTop="15dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="15dp"
+            android:text="@string/asignatura_title_bottombar"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/lista_asignaturas_a_exportar"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            />
+
+        <Button
+            android:id="@+id/btn_exportar_asignatura"
+            style="@style/btn_config_inicial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:layout_gravity="center"
+            android:text="@string/btn_exportar_asignatura"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            app:icon="@drawable/ic_outline_import_export_24"/>
+
+    </LinearLayout>
 
 </FrameLayout>

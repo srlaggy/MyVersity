@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ConfiguracionFragment extends Fragment{
-    private final String NOMBRE_ARCHIVO_EXPORT = "export.myv";
 
     public ConfiguracionFragment() {
     }
@@ -103,7 +102,14 @@ public class ConfiguracionFragment extends Fragment{
                 } else if(i == 1){
                     // CASO EXPORTAR ASIGNATURA
                     // PRUEBA CREANDO Y ENVIANDO ARCHIVO
-                    exportarAsignatura(new ArrayList<Asignaturas>());
+                    Activity activity = getActivity();
+                    if (activity instanceof MainActivity){
+                        ((MainActivity) activity).replaceFragment(new ExportarAsignaturaFragment(), ((MainActivity) activity).getSupportFragmentManager(), R.id.framecentral);
+                        activity.setTitle(getString(R.string.title_opcion_2_config));
+                        ((MainActivity) activity).setFragmentActual(getString(R.string.title_opcion_2_config));
+                        ((MainActivity) activity).setActionBarActivityArrow(true);
+                    }
+//                    exportarAsignatura(new ArrayList<Asignaturas>());
 
                 } else {
                     // CASO IMPORTAR ASIGNATURA
@@ -120,54 +126,6 @@ public class ConfiguracionFragment extends Fragment{
         return view;
     }
 
-    private void exportarAsignatura(List<Asignaturas> asig){
-        // SE CREA ARCHIVO CON FORMATO EXPORT -> POR AHORA ES DE PRUEBA
-        FileOutputStream fout = null;
-        try {
-            fout = getActivity().openFileOutput(NOMBRE_ARCHIVO_EXPORT, MODE_PRIVATE);
-            String texto = "Texto de prueba con tíldes";
-            fout.write(texto.getBytes(StandardCharsets.UTF_8));
-            fout.close();
-        } catch (Exception e){
-            Log.e("EXPORT", "ERROR AL CREAR EL EXPORT DE ASIGNATURAS");
-        }
-
-        // PRUEBA ABRIENDO Y LEYENDO EL ARCHIVO -> SOLO SE DEBE ABRIR
-        File file = null;
-        try {
-            file = new File(getActivity().getFilesDir() + "/" + NOMBRE_ARCHIVO_EXPORT);
-
-            // BORRABLE
-            Scanner scanner = new Scanner(file);
-            while(scanner.hasNextLine()){
-                System.out.println(scanner.nextLine());
-            }
-            scanner.close();
-        } catch (Exception e){
-            Log.e("READ", "ERROR AL LEER ARCHIVO EXPORT");
-        }
-
-        if(fout != null && file != null){
-            // PRUEBA DE EXPORTAR COSAS
-            String authority = getActivity().getApplicationContext().getPackageName() + ".provider";
-            Context contexto = getActivity().getApplicationContext();
-            Uri exportUri = FileProvider.getUriForFile(contexto, authority, file);
-
-            Intent sendIntent = new Intent(Intent.ACTION_SEND);
-            sendIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            if(exportUri != null){
-                sendIntent.putExtra(Intent.EXTRA_STREAM, exportUri);
-                sendIntent.setType("text/*");
-                getActivity().setResult(Activity.RESULT_OK, sendIntent);
-            } else {
-                sendIntent.setDataAndType(null, "");
-                getActivity().setResult(Activity.RESULT_CANCELED, sendIntent);
-            }
-            startActivity(sendIntent);
-        } else {
-            Toast.makeText(getActivity().getApplicationContext(), "Problemas para exportar asignaturas", Toast.LENGTH_LONG).show();
-        }
-    }
 }
 
 // Toast.makeText(getActivity().getApplicationContext(), "La configuración de notas fue actualizada", Toast.LENGTH_LONG).show();
