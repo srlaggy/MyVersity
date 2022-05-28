@@ -14,6 +14,26 @@ public class Asignaturas {
     private List<CondAsignatura> ca;
     private List<Evaluaciones> ev;
 
+    // ------- CONSTRUCTORES ------- //
+
+    public Asignaturas(){
+    }
+
+    public Asignaturas(Integer id_configInicial, Integer id_tipoPromedio, String nombre){
+        this.id_configInicial = id_configInicial;
+        this.id_tipoPromedio = id_tipoPromedio;
+        this.nombre = nombre;
+    }
+
+    public Asignaturas(Integer id_configInicial, Integer id_tipoPromedio, String nombre, String nota_final){
+        this.id_configInicial = id_configInicial;
+        this.id_tipoPromedio = id_tipoPromedio;
+        this.nombre = nombre;
+        this.nota_final = nota_final;
+    }
+
+    // ------- MÉTODOS ------- //
+
     // GETTERS AND SETTERS
     public Integer getId() {
         return id;

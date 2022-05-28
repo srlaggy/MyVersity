@@ -45,6 +45,30 @@ public class DbConfigInicial extends DbHelper{
         return id;
     }
 
+    public long insertarConfigInicialConId(Long id, String nota_minima, String nota_maxima, String nota_aprobacion, Boolean decimal, Boolean orientacion_asc){
+        long idN = 0;
+
+        try{
+            DbHelper dbHelper = new DbHelper(context);
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+            ContentValues values = new ContentValues();
+            values.put("id", id);
+            values.put("nota_minima", nota_minima);
+            values.put("nota_maxima", nota_maxima);
+            values.put("nota_aprobacion", nota_aprobacion);
+            values.put("decimal", decimal);
+            values.put("orientacion_asc", orientacion_asc);
+
+            idN = db.insert(TABLE_CONFIG_INICIAL, null, values);
+            db.close();
+        } catch (Exception e){
+            e.toString();
+        }
+
+        return idN;
+    }
+
     // METODO PARA OBTENER UNA LISTA DE TODOS LOS ELEMENTOS DE LA TABLA
     public ArrayList<ConfiguracionInicial> buscarConfiguraciones(){
         ArrayList<ConfiguracionInicial> listaConfig = new ArrayList<>();
