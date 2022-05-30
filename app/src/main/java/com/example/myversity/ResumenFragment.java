@@ -17,8 +17,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.myversity.db.DbAsignaturas;
+import com.example.myversity.db.DbCondAsignatura;
 import com.example.myversity.db.DbConfigInicial;
+import com.example.myversity.db.DbEvaluaciones;
 import com.example.myversity.db.DbHelper;
+import com.example.myversity.db.DbNotas;
+import com.example.myversity.db.DbTiposPenalizacion;
 import com.example.myversity.entidades.ConfiguracionInicial;
 
 import java.util.ArrayList;
@@ -49,8 +53,13 @@ public class ResumenFragment extends Fragment {
         ListView listaResumenes = (ListView) view.findViewById(R.id.lista_resumenes);
 
         DbAsignaturas dbAsignaturas = new DbAsignaturas(this.getContext());
+        DbConfigInicial dbConfigInicial = new DbConfigInicial(this.getContext());
+        DbEvaluaciones dbEvaluaciones = new DbEvaluaciones(this.getContext());
+        DbNotas dbNotas = new DbNotas(this.getContext());
+        DbCondAsignatura dbCondAsignatura = new DbCondAsignatura(this.getContext());
+        DbTiposPenalizacion dbTiposPenalizacion = new DbTiposPenalizacion(this.getContext());
 
-        listaResumenes.setAdapter(new ResumenAdaptador(this.getContext(),dbAsignaturas.buscarAsignaturas()));
+        listaResumenes.setAdapter(new ResumenAdaptador(this.getContext(),dbAsignaturas.buscarAsignaturas(),dbConfigInicial,dbEvaluaciones,dbNotas,dbCondAsignatura,dbTiposPenalizacion));
 
         return view;
     }

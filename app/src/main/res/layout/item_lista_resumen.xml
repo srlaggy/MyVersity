@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="6dp"
-            android:paddingBottom="10dp"
+            android:paddingBottom="1dp"
             android:layout_centerHorizontal="true"
             android:layout_marginHorizontal="50dp"
             android:layout_marginVertical="10dp"
@@ -33,11 +33,28 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/resumen_promedio_actual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/resumen_promedio_actual"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/resumen_estado_asignatura"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/e_error"
+                android:textSize="16sp"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/resumen_descripcion_asignatura"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:textSize="16sp"
                 android:textAlignment="center"/>
 
