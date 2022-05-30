@@ -28,7 +28,7 @@ public class DbEvaluaciones extends DbHelper{
 
     // INSERTAR EVALUACIONES NO CONTIENE NI NOTA_EVALUACION, NI CONDICION, NI NOTA_COND
     // EL PESO SE DEBE AGREGAR, AUNQUE SEA NULO (DEPENDE DE SI LA ASIGNATURA PADRE USA PESO)
-    public long insertarEvaluaciones(Integer id_asignaturas, Integer id_tipoPromedio, String tipo, Integer cantidad, Float peso){
+    public long insertarEvaluaciones(Integer id_asignaturas, Integer id_tipoPromedio, String tipo, Integer cantidad, String peso){
         long id = 0;
 
         try{
@@ -40,7 +40,38 @@ public class DbEvaluaciones extends DbHelper{
             values.put("id_tipoPromedio", id_tipoPromedio);
             values.put("tipo", tipo);
             values.put("cantidad", cantidad);
-            values.put("peso", peso);
+            if(peso != null){
+                values.put("peso", peso);
+            }
+
+            id = db.insert(TABLE_EVALUACIONES, null, values);
+            db.close();
+        } catch (Exception e){
+            e.toString();
+        }
+
+        return id;
+    }
+
+    public long insertarEvaluacionesFull(Integer id_asignaturas, Integer id_tipoPromedio, String tipo, Integer cantidad, Boolean cond, String nota_cond, String peso){
+        long id = 0;
+
+        try{
+            DbHelper dbHelper = new DbHelper(context);
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+            ContentValues values = new ContentValues();
+            values.put("id_asignaturas", id_asignaturas);
+            values.put("id_tipoPromedio", id_tipoPromedio);
+            values.put("tipo", tipo);
+            values.put("cantidad", cantidad);
+            values.put("cond", cond);
+            if(cond == true){
+                values.put("nota_cond", nota_cond);
+            }
+            if(peso != null){
+                values.put("peso", peso);
+            }
 
             id = db.insert(TABLE_EVALUACIONES, null, values);
             db.close();
@@ -73,7 +104,7 @@ public class DbEvaluaciones extends DbHelper{
                     eval.setNota_evaluacion(cursor.getString(5));
                     eval.setCond(cursor.getInt(6) != 0);
                     eval.setNota_cond(cursor.getString(7));
-                    eval.setPeso(cursor.getFloat(8));
+                    eval.setPeso(cursor.getString(8));
 
                     DbTipoPromedio dbTipoPromedio = new DbTipoPromedio(context);
                     tipoPromedio = dbTipoPromedio.buscarTipoPromedio(eval.getId_tipoPromedio());
@@ -121,7 +152,7 @@ public class DbEvaluaciones extends DbHelper{
                     eval.setNota_evaluacion(cursor.getString(5));
                     eval.setCond(cursor.getInt(6) != 0);
                     eval.setNota_cond(cursor.getString(7));
-                    eval.setPeso(cursor.getFloat(8));
+                    eval.setPeso(cursor.getString(8));
 
                     DbTipoPromedio dbTipoPromedio = new DbTipoPromedio(context);
                     tipoPromedio = dbTipoPromedio.buscarTipoPromedio(eval.getId_tipoPromedio());
@@ -167,7 +198,7 @@ public class DbEvaluaciones extends DbHelper{
                 eval.setNota_evaluacion(cursor.getString(5));
                 eval.setCond(cursor.getInt(6) != 0);
                 eval.setNota_cond(cursor.getString(7));
-                eval.setPeso(cursor.getFloat(8));
+                eval.setPeso(cursor.getString(8));
 
                 DbTipoPromedio dbTipoPromedio = new DbTipoPromedio(context);
                 tipoPromedio = dbTipoPromedio.buscarTipoPromedio(eval.getId_tipoPromedio());
@@ -309,7 +340,7 @@ public class DbEvaluaciones extends DbHelper{
         return estado;
     }
 
-    public Long actualizarPeso(Integer id, Float peso){
+    public Long actualizarPeso(Integer id, String peso){
         Long estado = 0L;
         String where = "id = " + id.toString();
 

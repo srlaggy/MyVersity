@@ -23,7 +23,7 @@ public class DbNotas extends DbHelper{
 
     // INSERTAR NOTAS NO CONTIENE NI NOTA, NI CONDICION, NI NOTA_COND
     // EL PESO SE DEBE AGREGAR, AUNQUE SEA NULO (DEPENDE DE SI LA EVALUACION PADRE USA PESO)
-    public long insertarNota(Integer id_evaluaciones, Float peso){
+    public long insertarNota(Integer id_evaluaciones, String peso){
         long id = 0;
 
         try{
@@ -32,7 +32,35 @@ public class DbNotas extends DbHelper{
 
             ContentValues values = new ContentValues();
             values.put("id_evaluaciones", id_evaluaciones);
-            values.put("peso", peso);
+            if(peso != null){
+                values.put("peso", peso);
+            }
+
+            id = db.insert(TABLE_NOTAS, null, values);
+            db.close();
+        } catch (Exception e){
+            e.toString();
+        }
+
+        return id;
+    }
+
+    public long insertarNotaFull(Integer id_evaluaciones, Boolean cond, String nota_cond, String peso){
+        long id = 0;
+
+        try{
+            DbHelper dbHelper = new DbHelper(context);
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+            ContentValues values = new ContentValues();
+            values.put("id_evaluaciones", id_evaluaciones);
+            values.put("cond", cond);
+            if(cond == true){
+                values.put("nota_cond", nota_cond);
+            }
+            if(peso != null){
+                values.put("peso", peso);
+            }
 
             id = db.insert(TABLE_NOTAS, null, values);
             db.close();
@@ -52,7 +80,7 @@ public class DbNotas extends DbHelper{
         String nota = null;
         Boolean cond = null;
         String nota_cond = null;
-        Float peso = null;
+        String peso = null;
         try {
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -65,7 +93,7 @@ public class DbNotas extends DbHelper{
                     nota = cursor.getString(2);
                     cond = cursor.getInt(3) != 0;
                     nota_cond = cursor.getString(4);
-                    peso = cursor.getFloat(5);
+                    peso = cursor.getString(5);
 
                     notas = new Notas(id, id_evaluaciones, nota, cond, nota_cond, peso);
                     listaNotas.add(notas);
@@ -90,7 +118,7 @@ public class DbNotas extends DbHelper{
         String nota = null;
         Boolean cond = null;
         String nota_cond = null;
-        Float peso = null;
+        String peso = null;
         try {
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -103,7 +131,7 @@ public class DbNotas extends DbHelper{
                     nota = cursor.getString(2);
                     cond = cursor.getInt(3) != 0;
                     nota_cond = cursor.getString(4);
-                    peso = cursor.getFloat(5);
+                    peso = cursor.getString(5);
 
                     notas = new Notas(id, id_evaluaciones, nota, cond, nota_cond, peso);
                     listaNotas.add(notas);
@@ -128,7 +156,7 @@ public class DbNotas extends DbHelper{
         String nota = null;
         Boolean cond = null;
         String nota_cond = null;
-        Float peso = null;
+        String peso = null;
         try {
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -140,7 +168,7 @@ public class DbNotas extends DbHelper{
                 nota = cursor.getString(2);
                 cond = cursor.getInt(3) != 0;
                 nota_cond = cursor.getString(4);
-                peso = cursor.getFloat(5);
+                peso = cursor.getString(5);
 
                 notas = new Notas(id, id_evaluaciones, nota, cond, nota_cond, peso);
             }
@@ -215,7 +243,7 @@ public class DbNotas extends DbHelper{
         return estado;
     }
 
-    public Long actualizarPeso(Integer id, Float peso){
+    public Long actualizarPeso(Integer id, String peso){
         Long estado = 0L;
         String where = "id = " + id.toString();
 
