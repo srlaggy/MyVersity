@@ -26,6 +26,7 @@
     <string name="max_nota_config_inicial">Max</string>
     <string name="min_nota_config_inicial">Min</string>
     <string name="sin_asignaturas">NO HAY ASIGNATURAS INGRESADAS!</string>
+    <string name="sin_evaluaciones">NO HAY EVALUACIONES INGRESADAS!</string>
 
     <string name="title_opcion_1_config">CONFIGURACIÓN DE NOTAS</string>
     <string name="title_opcion_2_config">EXPORTAR ASIGNATURA</string>

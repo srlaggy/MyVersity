@@ -1,5 +1,6 @@
 package com.example.myversity;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,11 +9,23 @@ import androidx.fragment.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myversity.db.DbAsignaturas;
+import com.example.myversity.db.DbEvaluaciones;
+import com.example.myversity.entidades.Asignaturas;
+import com.example.myversity.entidades.Evaluaciones;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class VistaAsignaturaFragment extends Fragment {
     ExtendedFloatingActionButton efabAgregar;
@@ -44,9 +57,33 @@ public class VistaAsignaturaFragment extends Fragment {
         System.out.println("NOMBRE ASIGNATURA ->");
         System.out.println(name_asign);
 
-        TextView nameView = view.findViewById(R.id.id_nombre_asignatura);
-        nameView.setText(name_asign);
+        // ---- LISTA EVALUACIONES ---- //
+        DbEvaluaciones dbEvaluaciones = new DbEvaluaciones(getActivity().getApplicationContext());
+        List<Evaluaciones> listaEvaluaciones = dbEvaluaciones.buscarEvaluacionesPorIdAsignatura(id_asign);
+        dbEvaluaciones.close();
+        List<String> nombreEvaluaciones = new ArrayList<>();
+        List<String> cantidadEvaluaciones = new ArrayList<>();
 
+        // SE VERIFICA SI HAY DATOS O NO
+        if( listaEvaluaciones.size() == 0){
+            TextView view_null = (TextView) view.findViewById(R.id.view_null_eval);
+            System.out.println("NO HAY EVALUACIONES");
+        }else{
+            System.out.println(listaEvaluaciones);
+            System.out.println("LISTA EVALUACIONES:");
+            for (Evaluaciones a : listaEvaluaciones){
+                nombreEvaluaciones.add(a.getTipo());
+                cantidadEvaluaciones.add(a.getCantidad().toString());
+            }
+            System.out.println(nombreEvaluaciones);
+            System.out.println(cantidadEvaluaciones);
+
+            ArrayAdapter adapterEvaluaciones = new ArrayAdapter(getActivity().getApplicationContext(), R.layout.list_actividades, nombreEvaluaciones);
+            ListView lvEvaluaciones = (ListView) view.findViewById(R.id.lista_evaluaciones);
+            lvEvaluaciones.setAdapter(adapterEvaluaciones);
+        }
+
+        //ScrollView scrollView = view.findViewById(R.id.scrollview_vista_asignatura);
 
         efabAgregar = view.findViewById(R.id.botonAgregarVistaAsignatura);
         fabAgregarEval = view.findViewById(R.id.botonAgregarEvaluacion);
@@ -85,13 +122,13 @@ public class VistaAsignaturaFragment extends Fragment {
         fabAgregarEval.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity().getApplicationContext(), "Evaluación Agregado",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Evaluación agregada!",Toast.LENGTH_SHORT).show();
             }
         });
         fabAgregarCond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity().getApplicationContext(), "Condición Agregado",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Condición agregada!",Toast.LENGTH_SHORT).show();
             }
         });
 

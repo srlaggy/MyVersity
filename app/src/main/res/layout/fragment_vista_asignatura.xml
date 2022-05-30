@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".VistaAsignaturaFragment">
 
+    <!--
     <TextView
         android:id="@+id/id_nombre_asignatura"
         android:layout_width="match_parent"
@@ -15,6 +16,20 @@
         android:textSize="20sp"
         android:text="@string/app_name"
         />
+    -->
+
+    <ScrollView
+        android:id="@+id/scrollview_vista_asignatura"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+    </ScrollView>
+
+    <ListView
+        android:id="@+id/lista_evaluaciones"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -38,29 +53,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!--Floating Action Button for Evaluacion-->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/botonAgregarEvaluacion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            app:fabSize="normal"
-            app:tint="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/botonAgregarVistaAsignatura"
-            app:layout_constraintEnd_toEndOf="@+id/botonAgregarVistaAsignatura"
-            app:srcCompat="@drawable/ic_baseline_grading_24" />
-
-        <!--Action name text for agregrar evaluacion button-->
-        <TextView
-            android:id="@+id/agregar_evaluacion_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="Agregar Evaluación"
-            app:layout_constraintBottom_toBottomOf="@+id/botonAgregarEvaluacion"
-            app:layout_constraintEnd_toStartOf="@+id/botonAgregarEvaluacion"
-            app:layout_constraintTop_toTopOf="@+id/botonAgregarEvaluacion" />
-
         <!--Floating Action Button for Condicion-->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/botonAgregarCondicion"
@@ -69,9 +61,8 @@
             android:layout_marginBottom="24dp"
             app:fabSize="normal"
             app:tint="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/botonAgregarEvaluacion"
-            app:layout_constraintEnd_toEndOf="@+id/botonAgregarEvaluacion"
-            app:layout_constraintStart_toStartOf="@+id/botonAgregarEvaluacion"
+            app:layout_constraintBottom_toTopOf="@+id/botonAgregarVistaAsignatura"
+            app:layout_constraintEnd_toEndOf="@+id/botonAgregarVistaAsignatura"
             app:srcCompat="@drawable/ic_baseline_rule_24" />
 
         <!--Action name text for agregrar condicion button-->
@@ -84,6 +75,30 @@
             app:layout_constraintBottom_toBottomOf="@+id/botonAgregarCondicion"
             app:layout_constraintEnd_toStartOf="@+id/botonAgregarCondicion"
             app:layout_constraintTop_toTopOf="@+id/botonAgregarCondicion" />
+
+        <!--Floating Action Button for Evaluacion-->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botonAgregarEvaluacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:fabSize="normal"
+            app:tint="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/botonAgregarCondicion"
+            app:layout_constraintEnd_toEndOf="@+id/botonAgregarCondicion"
+            app:layout_constraintStart_toStartOf="@+id/botonAgregarCondicion"
+            app:srcCompat="@drawable/ic_baseline_grading_24" />
+
+        <!--Action name text for agregrar evaluacion button-->
+        <TextView
+            android:id="@+id/agregar_evaluacion_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Agregar Evaluación"
+            app:layout_constraintBottom_toBottomOf="@+id/botonAgregarEvaluacion"
+            app:layout_constraintEnd_toStartOf="@+id/botonAgregarEvaluacion"
+            app:layout_constraintTop_toTopOf="@+id/botonAgregarEvaluacion" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
