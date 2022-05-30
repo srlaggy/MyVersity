@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myversity.adapters.RvEvalAdapter;
 import com.example.myversity.db.DbAsignaturas;
 import com.example.myversity.db.DbEvaluaciones;
 import com.example.myversity.entidades.Asignaturas;
@@ -32,6 +35,7 @@ public class VistaAsignaturaFragment extends Fragment {
     FloatingActionButton fabAgregarEval, fabAgregarCond;
     TextView agregarEvalText, agregarCondText;
     Boolean fabsVisible;
+    RecyclerView recyclerEval;
 
     public VistaAsignaturaFragment() {
     }
@@ -61,6 +65,7 @@ public class VistaAsignaturaFragment extends Fragment {
         DbEvaluaciones dbEvaluaciones = new DbEvaluaciones(getActivity().getApplicationContext());
         List<Evaluaciones> listaEvaluaciones = dbEvaluaciones.buscarEvaluacionesPorIdAsignatura(id_asign);
         dbEvaluaciones.close();
+
         List<String> nombreEvaluaciones = new ArrayList<>();
         List<String> cantidadEvaluaciones = new ArrayList<>();
 
@@ -78,9 +83,14 @@ public class VistaAsignaturaFragment extends Fragment {
             System.out.println(nombreEvaluaciones);
             System.out.println(cantidadEvaluaciones);
 
-            ArrayAdapter adapterEvaluaciones = new ArrayAdapter(getActivity().getApplicationContext(), R.layout.list_actividades, nombreEvaluaciones);
-            ListView lvEvaluaciones = (ListView) view.findViewById(R.id.lista_evaluaciones);
-            lvEvaluaciones.setAdapter(adapterEvaluaciones);
+            //ArrayAdapter adapterEvaluaciones = new ArrayAdapter(getActivity().getApplicationContext(), R.layout.list_actividades, nombreEvaluaciones);
+            //ListView lvEvaluaciones = (ListView) view.findViewById(R.id.lista_evaluaciones);
+            //lvEvaluaciones.setAdapter(adapterEvaluaciones);
+
+            recyclerEval = view.findViewById(R.id.recyclerview_eval);
+            RvEvalAdapter adapter = new RvEvalAdapter(getActivity().getApplicationContext(), nombreEvaluaciones, cantidadEvaluaciones);
+            recyclerEval.setAdapter(adapter);
+            recyclerEval.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         }
 
         //ScrollView scrollView = view.findViewById(R.id.scrollview_vista_asignatura);

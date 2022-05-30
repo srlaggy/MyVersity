@@ -6,34 +6,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".VistaAsignaturaFragment">
 
-    <!--
-    <TextView
-        android:id="@+id/id_nombre_asignatura"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:text="@string/app_name"
-        />
-    -->
-
-    <ScrollView
-        android:id="@+id/scrollview_vista_asignatura"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
-    </ScrollView>
-
     <ListView
         android:id="@+id/lista_evaluaciones"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </ListView>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_eval"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <!--Constraint view for the buttons-->
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".VistaAsignaturaFragment">
