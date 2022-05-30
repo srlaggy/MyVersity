@@ -42,5 +42,10 @@
         <item name="iconTint">?attr/colorOnSecondary</item>
     </style>
 
+    <style name="MyCheckBox" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorControlNormal">@color/reply_blue_700</item>
+        <item name="colorControlActivated">@color/reply_orange</item>
+    </style>
+
 
 </resources>

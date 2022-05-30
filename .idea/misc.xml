@@ -20,10 +20,16 @@
         <entry key="app/src/main/res/layout/fragment_asignaturas_popup.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/layout/fragment_configuracion.xml" value="0.30362116991643456" />
         <entry key="app/src/main/res/layout/fragment_configuracion_inicial.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_exportar_asignatura.xml" value="0.33229166666666665" />
+        <entry key="app/src/main/res/layout/fragment_importar_asignatura.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/layout/fragment_resumen.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/layout/list_actividades.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/layout/list_configuracion.xml" value="0.33229166666666665" />
+        <entry key="app/src/main/res/layout/list_exportar.xml" value="0.33229166666666665" />
+        <entry key="app/src/main/res/layout/sin_asignaturas.xml" value="0.33229166666666665" />
+        <entry key="app/src/main/res/layout/sin_asignaturas_exportar.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.25" />
+        <entry key="app/src/main/res/xml/provider_paths.xml" value="0.33125" />
       </map>
     </option>
   </component>
@@ -36,7 +42,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.33" />
+        <option name="scale" value="0.33229166666666665" />
       </ProjectState>
     </option>
   </component>

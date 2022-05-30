@@ -6,12 +6,30 @@ public class Notas {
     private String nota;
     private Boolean cond;
     private String nota_cond;
-    private Float peso;
+    private String peso;
 
     public Notas(){
     }
 
-    public Notas(Integer id, Integer id_evaluaciones, String nota, Boolean cond, String nota_cond, Float peso){
+    public Notas(Integer id_evaluaciones, Boolean cond){
+        this.id_evaluaciones = id_evaluaciones;
+        this.cond = cond;
+    }
+
+    public Notas(Integer id_evaluaciones, Boolean cond, String peso){
+        this.id_evaluaciones = id_evaluaciones;
+        this.cond = cond;
+        this.peso = peso;
+    }
+
+    public Notas(Integer id_evaluaciones, Boolean cond, String nota_cond, String peso){
+        this.id_evaluaciones = id_evaluaciones;
+        this.cond = cond;
+        this.nota_cond = nota_cond;
+        this.peso = peso;
+    }
+
+    public Notas(Integer id, Integer id_evaluaciones, String nota, Boolean cond, String nota_cond, String peso){
         this.id = id;
         this.id_evaluaciones = id_evaluaciones;
         this.nota = nota;
@@ -60,11 +78,11 @@ public class Notas {
         this.nota_cond = nota_cond;
     }
 
-    public Float getPeso() {
+    public String getPeso() {
         return peso;
     }
 
-    public void setPeso(Float peso) {
+    public void setPeso(String peso) {
         this.peso = peso;
     }
 }

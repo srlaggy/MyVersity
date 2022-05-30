@@ -19,8 +19,8 @@ public class MediaPonderada extends TipoPromedio {
             Float suma_pesos = 0f;
             for(int i=0; i<eval.size(); i++){
                 Evaluaciones ev = eval.get(i);
-                nota_y_peso += (ev.getPeso() * Float.parseFloat(ev.getNota_evaluacion()));
-                suma_pesos += ev.getPeso();
+                nota_y_peso += (Float.parseFloat(ev.getPeso()) * Float.parseFloat(ev.getNota_evaluacion()));
+                suma_pesos += Float.parseFloat(ev.getPeso());
             }
             resultado = nota_y_peso / suma_pesos;
         } catch (Exception e) {
@@ -37,8 +37,8 @@ public class MediaPonderada extends TipoPromedio {
             Float suma_pesos = 0f;
             for(int i=0; i<eval.getCantidad(); i++){
                 Notas n = notas.get(i);
-                nota_y_peso += (n.getPeso() * Float.parseFloat(n.getNota()));
-                suma_pesos += n.getPeso();
+                nota_y_peso += (Float.parseFloat(n.getPeso()) * Float.parseFloat(n.getNota()));
+                suma_pesos += Float.parseFloat(n.getPeso());
             }
             resultado = nota_y_peso / suma_pesos;
         } catch (Exception e) {
