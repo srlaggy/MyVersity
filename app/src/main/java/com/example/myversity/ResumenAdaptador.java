@@ -109,7 +109,8 @@ public class ResumenAdaptador extends BaseAdapter {
                     if(!tipoPenalizacion.getRequiere_valor() && !condAsignatura.getChequeado()) {
                         textViewEstado.setText(contexto.getResources().getString(R.string.resumen_estado_no_aprobado));
                         linearLayoutRectangulo.setBackgroundResource(R.color.reply_orange);
-                        textViewDescripcion.append(contexto.getResources().getString(R.string.resumen_condicion_incumplida) + " " + condAsignatura.getCondicion() + "\n");
+                        if(textViewDescripcion.getText() == "") textViewDescripcion.setText(contexto.getResources().getString(R.string.resumen_condicion_incumplida) + "\n");
+                        textViewDescripcion.append("-" + condAsignatura.getCondicion() + "\n");
                     }
                 }
 
@@ -121,10 +122,12 @@ public class ResumenAdaptador extends BaseAdapter {
                         if((Float.parseFloat(evaluacion.getNota_cond()) > Float.parseFloat(evaluacion.getNota_evaluacion()) && config.getOrientacionAsc()) || (Float.parseFloat(evaluacion.getNota_cond()) < Float.parseFloat(evaluacion.getNota_evaluacion()) && !config.getOrientacionAsc())){
                             textViewEstado.setText(contexto.getResources().getString(R.string.resumen_estado_reprobado));
                             linearLayoutRectangulo.setBackgroundResource(R.color.red);
-                            textViewDescripcion.append(contexto.getResources().getString(R.string.resumen_condicion_incumplida) + " " + contexto.getResources().getString(R.string.resumen_conducion_incumplida_promedio) + " " + evaluacion.getTipo() + "\n");
+                            if(textViewDescripcion.getText() == "") textViewDescripcion.setText(contexto.getResources().getString(R.string.resumen_condicion_incumplida) + "\n");
+                            textViewDescripcion.append("-" + contexto.getResources().getString(R.string.resumen_conducion_incumplida_promedio) + " " + evaluacion.getTipo() + "\n");
                         }
                     }
 
+                    float sumaMediaActual = 0;
                     float sumaMediaOptimista = 0;
                     float sumaMediaRealista = 0;
                     //SE VE DENTRO DE CADA UNA LAS CONDICIONES DE LAS NOTAS
@@ -135,12 +138,86 @@ public class ResumenAdaptador extends BaseAdapter {
                             if ((Float.parseFloat(nota.getNota_cond()) > Float.parseFloat(nota.getNota()) && config.getOrientacionAsc()) || (Float.parseFloat(nota.getNota_cond()) < Float.parseFloat(nota.getNota()) && !config.getOrientacionAsc())){
                                 textViewEstado.setText(contexto.getResources().getString(R.string.resumen_estado_reprobado));
                                 linearLayoutRectangulo.setBackgroundResource(R.color.red);
-                                textViewDescripcion.append(contexto.getResources().getString(R.string.resumen_condicion_incumplida) + " " + contexto.getResources().getString(R.string.resumen_conducion_incumplida_nota) + " " + evaluacion.getTipo() + "\n");
+                                if(textViewDescripcion.getText() == "") textViewDescripcion.setText(contexto.getResources().getString(R.string.resumen_condicion_incumplida) + "\n");
+                                textViewDescripcion.append("-" + contexto.getResources().getString(R.string.resumen_conducion_incumplida_nota) + " " + evaluacion.getTipo() + "\n");
                             }
                         }
+                        /*
+                        //SE CALCULA SU NOTA FINAL SI EN LAS NOTAS FALTANTES OBTUVIERA: EL MINIMO NECESARIO PARA APROBAR, Y LA NOTA MÁXIMA
+                        switch (asignatura.getId_tipoPromedio()){
+                            case 1: case 5: //MEDIA ARIMÉTICA O SUMA
+                                if(nota.getNota() != null) {
+                                    sumaMediaOptimista += Float.parseFloat(nota.getNota());
+                                    sumaMediaRealista += Float.parseFloat(nota.getNota());
+                                    sumaMediaActual += Float.parseFloat(nota.getNota());
+                                }
+                                else{
+                                    sumaMediaOptimista += Float.parseFloat(config.getMax());
+                                    if(nota.getNota_cond() != null) sumaMediaRealista += Float.parseFloat(nota.getNota_cond());
+                                    else if (evaluacion.getNota_cond() != null)sumaMediaRealista += Float.parseFloat(evaluacion.getNota_evaluacion());
+                                    else sumaMediaRealista += Float.parseFloat(config.getNotaAprobacion());
+                                }
 
+                            case 2: //MEDIA PONDERADA
+                                if(nota.getNota() != null) {
+                                    sumaMediaOptimista += Float.parseFloat(nota.getNota()) * Float.parseFloat(nota.getPeso());
+                                    sumaMediaRealista += Float.parseFloat(nota.getNota()) * Float.parseFloat(nota.getPeso());
+                                    sumaMediaActual += Float.parseFloat(nota.getNota()) * Float.parseFloat(nota.getPeso());
+                                }
+                                else{
+                                    sumaMediaOptimista += Float.parseFloat(config.getMax()) * Float.parseFloat(nota.getPeso());;
+                                    if(nota.getNota_cond() != null) sumaMediaRealista *= Float.parseFloat(nota.getNota_cond()) * Float.parseFloat(nota.getPeso());
+                                    else if (evaluacion.getNota_cond() != null)sumaMediaRealista *= Float.parseFloat(evaluacion.getNota_evaluacion()) * Float.parseFloat(nota.getPeso());
+                                    else sumaMediaRealista *= Float.parseFloat(config.getNotaAprobacion()) * Float.parseFloat(nota.getPeso());
+                                }
+
+                            case 3: //MEDIA GEOMÉTRICA
+                                if(nota.getNota() != null) {
+                                    sumaMediaOptimista *= Float.parseFloat(nota.getNota());
+                                    sumaMediaRealista *= Float.parseFloat(nota.getNota());
+                                }
+                                else{
+                                    sumaMediaOptimista *= Float.parseFloat(config.getMax());
+                                    if(nota.getNota_cond() != null) sumaMediaRealista *= Float.parseFloat(nota.getNota_cond());
+                                    else if (evaluacion.getNota_cond() != null)sumaMediaRealista *= Float.parseFloat(evaluacion.getNota_evaluacion());
+                                    else sumaMediaRealista *= Float.parseFloat(config.getNotaAprobacion());
+                                }
+
+                            case 4: //MEDIA CUADRÁTICA
+                                if(nota.getNota() != null) {
+                                    sumaMediaOptimista += Float.parseFloat(nota.getNota()) * Float.parseFloat(nota.getNota());
+                                    sumaMediaRealista += Float.parseFloat(nota.getNota()) * Float.parseFloat(nota.getNota());
+                                    sumaMediaActual += Float.parseFloat(nota.getNota()) * Float.parseFloat(nota.getNota());
+                                }
+                                else{
+                                    sumaMediaOptimista *= Float.parseFloat(config.getMax());
+                                    if(nota.getNota_cond() != null) sumaMediaRealista += Float.parseFloat(nota.getNota_cond()) * Float.parseFloat(nota.getNota_cond()) ;
+                                    else if (evaluacion.getNota_cond() != null)sumaMediaRealista += Float.parseFloat(evaluacion.getNota_evaluacion()) * Float.parseFloat(evaluacion.getNota_evaluacion());
+                                    else sumaMediaRealista += Float.parseFloat(config.getNotaAprobacion()) * Float.parseFloat(config.getNotaAprobacion());
+                                }
+                        }*/
                     }
+                    /*
+                    float notaFinalRealista;
+                    float notaFinalOptimista;
+                    float notaFinalActual;
 
+                    switch (asignatura.getId_tipoPromedio()){
+
+                        case 1:
+                            notaFinalRealista = sumaMediaRealista / arrayListNotas.size();
+                            notaFinalOptimista = sumaMediaOptimista / arrayListNotas.size();
+                            notaFinalActual = sumaMediaActual / arrayListNotas.size();
+
+                        case 2: case 5:
+                            notaFinalRealista = sumaMediaRealista;
+                            notaFinalOptimista = sumaMediaOptimista;
+                            notaFinalActual = sumaMediaActual;
+
+                        case 3:
+                            notaFinalRealista = sumaMediaRealista / arrayListNotas.size();
+                            notaFinalOptimista = sumaMediaOptimista / arrayListNotas.size();
+                    }*/
                 }
 
             }
