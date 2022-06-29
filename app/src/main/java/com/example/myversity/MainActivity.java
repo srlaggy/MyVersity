@@ -132,6 +132,14 @@ public class MainActivity extends AppCompatActivity {
                     setActionBarActivityArrow(false);
                     return true;
                 }
+                // EXPORTAR ASIGNATURA -> CONFIGURACION
+                if (Objects.equals(fragmentActual, getString(R.string.title_opcion_2_config))) {
+                    setTitle(getString(R.string.configuracion_title_topbar));
+                    replaceFragment(new ConfiguracionFragment(), getSupportFragmentManager(), R.id.framecentral);
+                    setFragmentActual(getString(R.string.configuracion_title_topbar));
+                    setActionBarActivityArrow(false);
+                    return true;
+                }
                 break;
 
         }

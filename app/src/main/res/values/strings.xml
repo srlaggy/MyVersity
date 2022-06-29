@@ -26,23 +26,38 @@
     <string name="max_nota_config_inicial">Max</string>
     <string name="min_nota_config_inicial">Min</string>
     <string name="sin_asignaturas">NO HAY ASIGNATURAS INGRESADAS!</string>
+    <string name="sin_evaluaciones">NO HAY EVALUACIONES INGRESADAS!</string>
 
     <string name="title_opcion_1_config">CONFIGURACIÓN DE NOTAS</string>
     <string name="title_opcion_2_config">EXPORTAR ASIGNATURA</string>
     <string name="title_opcion_3_config">IMPORTAR ASIGNATURA</string>
 
+    <string name="resumen_estado_aprobado">Has aprobado</string>
+    <string name="resumen_estado_no_aprobado">Todavía no has aprobado</string>
+    <string name="resumen_estado_reprobado">Has reprobado</string>
+    <string name="resumen_promedio_actual">Nota final actual:</string>
+    <string name="resumen_condicion_incumplida">No cumples con:</string>
+    <string name="resumen_conducion_incumplida_nota">Nota mínima en </string>
+    <string name="resumen_conducion_incumplida_promedio">Nota final en </string>
+
     <!-- ERRORES -->
+    <string name="e_error">Error</string>
     <string name="e_campo_obligatorio">Campo obligatorio</string>
     <string name="e_formato_incorrecto">Formato incorrecto</string>
     <string name="e_tipo_nota_incorrecta">Tipo de nota incorrecta</string>
     <string name="e_no_minimo">No corresponde al mínimo</string>
     <string name="e_no_rango">No está en el rango</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="e_resumen_no_nota_final">No se ha podido acceder a la nota final</string>
+    <string name="e_resumen_no_configuracion">No se ha podido acceder a la configuración de esta asignatura</string>
+    <string name="e_resumen_no_asignaturas">No se ha podido acceder a las asignaturas</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="asign1">Bases de Datos Avanzadas</string>
     <string name="asign2">Aplicaciones Móviles</string>
     <string name="asign3">Inteligencia Artificial</string>
     <string name="cancelar_config_inicial">Cancelar</string>
+    <string name="btn_exportar_asignatura">Exportar</string>
+    <string name="no_asignaturas_export">NO HAY ASIGNATURAS</string>
 
 </resources>
