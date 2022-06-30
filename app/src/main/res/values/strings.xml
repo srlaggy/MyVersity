@@ -36,8 +36,9 @@
     <string name="resumen_estado_reprobado">Has reprobado</string>
     <string name="resumen_promedio_actual">Nota final actual:</string>
     <string name="resumen_condicion_incumplida">No cumples con:</string>
-    <string name="resumen_conducion_incumplida_nota">Nota mínima en </string>
-    <string name="resumen_conducion_incumplida_promedio">Nota final en </string>
+    <string name="resumen_condicion_incumplida_nota">Nota mínima en </string>
+    <string name="resumen_condicion_incumplida_promedio">Nota final en </string>
+    <string name="resumen_nota_insuficiente">Nota final en </string>
 
     <!-- ERRORES -->
     <string name="e_error">Error</string>
