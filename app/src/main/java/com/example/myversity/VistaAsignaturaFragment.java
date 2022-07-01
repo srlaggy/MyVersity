@@ -19,11 +19,14 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myversity.adapters.GridNotasAdapter;
 import com.example.myversity.adapters.RvEvalAdapter;
 import com.example.myversity.db.DbAsignaturas;
 import com.example.myversity.db.DbEvaluaciones;
+import com.example.myversity.db.DbNotas;
 import com.example.myversity.entidades.Asignaturas;
 import com.example.myversity.entidades.Evaluaciones;
+import com.example.myversity.entidades.Notas;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -66,35 +69,62 @@ public class VistaAsignaturaFragment extends Fragment {
         List<Evaluaciones> listaEvaluaciones = dbEvaluaciones.buscarEvaluacionesPorIdAsignatura(id_asign);
         dbEvaluaciones.close();
 
+        // ---- LISTA NOTAS ---- //
+        DbNotas dbNotas = new DbNotas(getActivity().getApplicationContext());
+        List<Notas> listaNotas = dbNotas.buscarNotas();
+        dbNotas.close();
+
         List<String> nombreEvaluaciones = new ArrayList<>();
-        List<String> cantidadEvaluaciones = new ArrayList<>();
+        List<Integer> cantidadEvaluaciones = new ArrayList<>();
+        List<Integer> idEvaluaciones = new ArrayList<>();
+        List<String> valueNotas = new ArrayList<>();
 
         // SE VERIFICA SI HAY DATOS O NO
         if( listaEvaluaciones.size() == 0){
             TextView view_null = (TextView) view.findViewById(R.id.view_null_eval);
             System.out.println("NO HAY EVALUACIONES");
         }else{
-            System.out.println(listaEvaluaciones);
             System.out.println("LISTA EVALUACIONES:");
+            System.out.println(listaEvaluaciones);
             for (Evaluaciones a : listaEvaluaciones){
                 nombreEvaluaciones.add(a.getTipo());
-                cantidadEvaluaciones.add(a.getCantidad().toString());
+                cantidadEvaluaciones.add(a.getCantidad());
+                idEvaluaciones.add(a.getId());
             }
+            System.out.println("TIPO EVALUACIONES:");
             System.out.println(nombreEvaluaciones);
+            System.out.println("CANTIDAD EVALUACIONES:");
             System.out.println(cantidadEvaluaciones);
+            System.out.println("ID EVALUACIONES:");
+            System.out.println(idEvaluaciones);
 
-            //ArrayAdapter adapterEvaluaciones = new ArrayAdapter(getActivity().getApplicationContext(), R.layout.list_actividades, nombreEvaluaciones);
-            //ListView lvEvaluaciones = (ListView) view.findViewById(R.id.lista_evaluaciones);
-            //lvEvaluaciones.setAdapter(adapterEvaluaciones);
+            // ---- LISTA NOTAS PRIMER EVALUACIÓN ---- //
+            DbNotas dbNotasID = new DbNotas(getActivity().getApplicationContext());
+            List<Notas> listaNotasID = dbNotasID.buscarNotasPorIdEvaluacion(idEvaluaciones.get(0));
+            /*for (int i : idEvaluaciones){
+                List<Notas> listaNotas = dbNotas.buscarNotasPorIdEvaluacion(i);
+                for (Notas n : listaNotas){
+                }
+            }*/
+            dbNotas.close();
+            System.out.println("LISTA NOTAS:");
+            System.out.println(listaNotas);
+            for (Notas n : listaNotasID){
+                valueNotas.add(n.getNota());
+            }
+            System.out.println("LISTA NOTAS PRIMER EVALUACIÓN:");
+            System.out.println(valueNotas);
 
             recyclerEval = view.findViewById(R.id.recyclerview_eval);
-            RvEvalAdapter adapter = new RvEvalAdapter(getActivity().getApplicationContext(), nombreEvaluaciones, cantidadEvaluaciones);
-            recyclerEval.setAdapter(adapter);
+            RvEvalAdapter rvEvalAdapter = new RvEvalAdapter(getActivity().getApplicationContext(), listaEvaluaciones /*, nombreEvaluaciones, cantidadEvaluaciones, idEvaluaciones*/);
+            rvEvalAdapter.notifyDataSetChanged();
+            recyclerEval.setAdapter(rvEvalAdapter);
+            recyclerEval.setHasFixedSize(true);
             recyclerEval.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+
         }
 
-        //ScrollView scrollView = view.findViewById(R.id.scrollview_vista_asignatura);
-
+        //---- BOTONES PARA AGREGAR ----//
         efabAgregar = view.findViewById(R.id.botonAgregarVistaAsignatura);
         fabAgregarEval = view.findViewById(R.id.botonAgregarEvaluacion);
         fabAgregarCond = view.findViewById(R.id.botonAgregarCondicion);

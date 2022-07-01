@@ -4,26 +4,34 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myversity.R;
+import com.example.myversity.entidades.Evaluaciones;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RvEvalAdapter extends RecyclerView.Adapter<RvEvalAdapter.EvalViewHolder> {
 
-    List<String> nombreEvaluaciones = new ArrayList<>();
-    List<String> cantidadEvaluaciones = new ArrayList<>();
+    private List<Evaluaciones> evalItemList;
+    //List<String> nombreEvaluaciones = new ArrayList<>();
+    //List<Integer> cantidadEvaluaciones = new ArrayList<>();
+    //List<Integer> idEvaluaciones = new ArrayList<>();
     Context context;
+    //Integer curr_Id;
 
-    public RvEvalAdapter(Context ct, List<String> nombreEval, List<String> cantidadEval){
-        context = ct;
-        nombreEvaluaciones = nombreEval;
-        cantidadEvaluaciones = cantidadEval;
+    public RvEvalAdapter(Context ct, List<Evaluaciones> evalItemList /*, List<String> nombreEval, List<Integer> cantidadEval, List<Integer> idEval*/){
+        this.context = ct;
+        this.evalItemList = evalItemList;
+        //this.nombreEvaluaciones = nombreEval;
+        //this.cantidadEvaluaciones = cantidadEval;
+        //this.idEvaluaciones = idEval;
     }
 
     @NonNull
@@ -35,27 +43,40 @@ public class RvEvalAdapter extends RecyclerView.Adapter<RvEvalAdapter.EvalViewHo
 
     @Override
     public void onBindViewHolder(@NonNull EvalViewHolder holder, int position) {
-        holder.titleEval.setText(nombreEvaluaciones.get(position));
-        //holder.nota_1.setText("80");
-        //holder.nota_2.setText("55");
-        //holder.nota_3.setText("75");
+        Evaluaciones evaluacion = evalItemList.get(position);
+        holder.titleEval.setText(evaluacion.getTipo());
+
+        holder.notaRecyclerView.setHasFixedSize(true);
+        holder.notaRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        GridNotasAdapter gridNotasAdapter = new GridNotasAdapter(holder.notaRecyclerView.getContext(), evaluacion.getNotas());
+        holder.notaRecyclerView.setAdapter(gridNotasAdapter);
+        gridNotasAdapter.notifyDataSetChanged();
+
     }
 
     @Override
     public int getItemCount() {
-        return nombreEvaluaciones.size();
+        if(evalItemList != null){
+            return evalItemList.size();
+        }else{
+            return 0;
+        }
     }
 
     public class EvalViewHolder extends RecyclerView.ViewHolder{
-        TextView titleEval, nota1;
-        //com.google.android.material.textfield.TextInputEditText nota_1, nota_2, nota_3;
+        private TextView titleEval;
+        private RecyclerView notaRecyclerView;
+
+        //EditText nota_1, nota_2, nota_3;
 
         public EvalViewHolder(@NonNull View itemView) {
             super(itemView);
             titleEval = (TextView) itemView.findViewById(R.id.title_evaluacion);
-            //nota_1 = itemView.findViewById(R.id.nota_dummy1);
-            //nota_2 = itemView.findViewById(R.id.nota_dummy2);
-            //nota_3 = itemView.findViewById(R.id.nota_dummy3);
+            notaRecyclerView = (RecyclerView) itemView.findViewById(R.id.grid_notas);
+
+            //nota_1 = itemView.findViewById(R.id.editText_nota_dummy1);
+            //nota_2 = itemView.findViewById(R.id.editText_nota_dummy2);
+            //nota_3 = itemView.findViewById(R.id.editText_nota_dummy3);
         }
     }
 }

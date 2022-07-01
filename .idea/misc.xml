@@ -16,15 +16,16 @@
         <entry key="app/src/main/res/drawable/ic_outline_school_24.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/ic_outline_settings_24.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/ic_outline_wysiwyg_24.xml" value="0.169" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_asignaturas.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_asignaturas_popup.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/layout/fragment_configuracion.xml" value="0.30362116991643456" />
         <entry key="app/src/main/res/layout/fragment_configuracion_inicial.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_importar_asignatura.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/layout/fragment_resumen.xml" value="0.33229166666666665" />
-        <entry key="app/src/main/res/layout/fragment_vista_asignatura.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/item_evaluacion.xml" value="0.30885416666666665" />
+        <entry key="app/src/main/res/layout/fragment_vista_asignatura.xml" value="0.2868972778320313" />
+        <entry key="app/src/main/res/layout/item_evaluacion.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_nota.xml" value="0.1" />
         <entry key="app/src/main/res/layout/list_actividades.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/layout/list_configuracion.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/layout/sin_asignaturas.xml" value="0.1716485507246377" />
