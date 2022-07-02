@@ -1,61 +1,92 @@
 package com.example.myversity.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myversity.R;
+import com.example.myversity.entidades.Evaluaciones;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RvEvalAdapter extends RecyclerView.Adapter<RvEvalAdapter.EvalViewHolder> {
 
-    List<String> nombreEvaluaciones = new ArrayList<>();
-    List<String> cantidadEvaluaciones = new ArrayList<>();
-    Context context;
+    private List<Evaluaciones> evalItemList;
+    private static final DecimalFormat df = new DecimalFormat("0.00");
+    Context context, ctx;
+    View rootView;
+    FloatingActionButton BtnGuardar;
 
-    public RvEvalAdapter(Context ct, List<String> nombreEval, List<String> cantidadEval){
-        context = ct;
-        nombreEvaluaciones = nombreEval;
-        cantidadEvaluaciones = cantidadEval;
+    public RvEvalAdapter(Context ct, List<Evaluaciones> evalItemList){
+        this.context = ct;
+        this.evalItemList = evalItemList;
     }
 
     @NonNull
     @Override
     public EvalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_evaluacion, parent,false);
+
+        ctx = parent.getContext();
+        rootView = ((Activity) ctx).getWindow().getDecorView().findViewById(android.R.id.content);
+        BtnGuardar = (FloatingActionButton) rootView.findViewById(R.id.btn_guardar_notas);
+
         return new EvalViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull EvalViewHolder holder, int position) {
-        holder.titleEval.setText(nombreEvaluaciones.get(position));
-        //holder.nota_1.setText("80");
-        //holder.nota_2.setText("55");
-        //holder.nota_3.setText("75");
+        Evaluaciones evaluacion = evalItemList.get(position);
+        holder.titleEval.setText(evaluacion.getTipo());
+
+        //TODO: how to handle notas Null
+        holder.promedioEval.setText(df.format(evaluacion.getTp().calcularPromedioEvaluaciones(evaluacion,evaluacion.getNotas())).toString());
+
+        holder.notaRecyclerView.setHasFixedSize(true);
+        holder.notaRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        GridNotasAdapter gridNotasAdapter = new GridNotasAdapter(holder.notaRecyclerView.getContext(), evaluacion.getNotas());
+        holder.notaRecyclerView.setAdapter(gridNotasAdapter);
+        gridNotasAdapter.notifyDataSetChanged();
+
+        /*
+        BtnGuardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.promedioEval.setText(df.format(evaluacion.getNota_evaluacion()).toString());
+            }
+        });*/
+
     }
 
     @Override
     public int getItemCount() {
-        return nombreEvaluaciones.size();
+        if(evalItemList != null){
+            return evalItemList.size();
+        }else{
+            return 0;
+        }
     }
 
     public class EvalViewHolder extends RecyclerView.ViewHolder{
-        TextView titleEval, nota1;
-        //com.google.android.material.textfield.TextInputEditText nota_1, nota_2, nota_3;
+        private TextView titleEval, promedioEval;
+        private RecyclerView notaRecyclerView;
 
         public EvalViewHolder(@NonNull View itemView) {
             super(itemView);
             titleEval = (TextView) itemView.findViewById(R.id.title_evaluacion);
-            //nota_1 = itemView.findViewById(R.id.nota_dummy1);
-            //nota_2 = itemView.findViewById(R.id.nota_dummy2);
-            //nota_3 = itemView.findViewById(R.id.nota_dummy3);
+            notaRecyclerView = (RecyclerView) itemView.findViewById(R.id.grid_notas);
+            promedioEval = (TextView) itemView.findViewById(R.id.eval_promedio);
         }
     }
 }

@@ -12,6 +12,9 @@
     <color name="reply_blue_700">#344955</color>
     <color name="reply_blue_800">#232F34</color>
     <color name="reply_blue_600">#4A6572</color>
+    <color name="reply_blue_400">#83A0AF</color>
     <color name="reply_orange">#F9AA33</color>
     <color name="reply_orange_variant">#C57907</color>
+    <color name="light_gray">#9A9EA0</color>
+    <color name="gray">#626669</color>
 </resources>
