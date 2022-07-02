@@ -1,5 +1,6 @@
 package com.example.myversity.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,31 +14,34 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myversity.R;
 import com.example.myversity.entidades.Evaluaciones;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RvEvalAdapter extends RecyclerView.Adapter<RvEvalAdapter.EvalViewHolder> {
 
     private List<Evaluaciones> evalItemList;
-    //List<String> nombreEvaluaciones = new ArrayList<>();
-    //List<Integer> cantidadEvaluaciones = new ArrayList<>();
-    //List<Integer> idEvaluaciones = new ArrayList<>();
-    Context context;
-    //Integer curr_Id;
+    private static final DecimalFormat df = new DecimalFormat("0.00");
+    Context context, ctx;
+    View rootView;
+    FloatingActionButton BtnGuardar;
 
-    public RvEvalAdapter(Context ct, List<Evaluaciones> evalItemList /*, List<String> nombreEval, List<Integer> cantidadEval, List<Integer> idEval*/){
+    public RvEvalAdapter(Context ct, List<Evaluaciones> evalItemList){
         this.context = ct;
         this.evalItemList = evalItemList;
-        //this.nombreEvaluaciones = nombreEval;
-        //this.cantidadEvaluaciones = cantidadEval;
-        //this.idEvaluaciones = idEval;
     }
 
     @NonNull
     @Override
     public EvalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_evaluacion, parent,false);
+
+        ctx = parent.getContext();
+        rootView = ((Activity) ctx).getWindow().getDecorView().findViewById(android.R.id.content);
+        BtnGuardar = (FloatingActionButton) rootView.findViewById(R.id.btn_guardar_notas);
+
         return new EvalViewHolder(view);
     }
 
@@ -46,11 +50,22 @@ public class RvEvalAdapter extends RecyclerView.Adapter<RvEvalAdapter.EvalViewHo
         Evaluaciones evaluacion = evalItemList.get(position);
         holder.titleEval.setText(evaluacion.getTipo());
 
+        //TODO: how to handle notas Null
+        holder.promedioEval.setText(df.format(evaluacion.getTp().calcularPromedioEvaluaciones(evaluacion,evaluacion.getNotas())).toString());
+
         holder.notaRecyclerView.setHasFixedSize(true);
         holder.notaRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         GridNotasAdapter gridNotasAdapter = new GridNotasAdapter(holder.notaRecyclerView.getContext(), evaluacion.getNotas());
         holder.notaRecyclerView.setAdapter(gridNotasAdapter);
         gridNotasAdapter.notifyDataSetChanged();
+
+        /*
+        BtnGuardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.promedioEval.setText(df.format(evaluacion.getNota_evaluacion()).toString());
+            }
+        });*/
 
     }
 
@@ -64,19 +79,14 @@ public class RvEvalAdapter extends RecyclerView.Adapter<RvEvalAdapter.EvalViewHo
     }
 
     public class EvalViewHolder extends RecyclerView.ViewHolder{
-        private TextView titleEval;
+        private TextView titleEval, promedioEval;
         private RecyclerView notaRecyclerView;
-
-        //EditText nota_1, nota_2, nota_3;
 
         public EvalViewHolder(@NonNull View itemView) {
             super(itemView);
             titleEval = (TextView) itemView.findViewById(R.id.title_evaluacion);
             notaRecyclerView = (RecyclerView) itemView.findViewById(R.id.grid_notas);
-
-            //nota_1 = itemView.findViewById(R.id.editText_nota_dummy1);
-            //nota_2 = itemView.findViewById(R.id.editText_nota_dummy2);
-            //nota_3 = itemView.findViewById(R.id.editText_nota_dummy3);
+            promedioEval = (TextView) itemView.findViewById(R.id.eval_promedio);
         }
     }
 }

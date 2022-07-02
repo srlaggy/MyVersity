@@ -17,8 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myversity.AsignaturasFragment;
+import com.example.myversity.MainActivity;
 import com.example.myversity.R;
+import com.example.myversity.db.DbEvaluaciones;
 import com.example.myversity.db.DbNotas;
+import com.example.myversity.entidades.Evaluaciones;
 import com.example.myversity.entidades.Notas;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -30,12 +34,14 @@ import java.util.List;
 public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.NotaViewHolder> {
     public List<Notas> notaItemList;
     boolean isOnValueChanged = false;
-    Context context;
-    Context ctx;
+    Context context, ctx;
     View rootView;
     public static ArrayList<Notas> notasActualizadas = new ArrayList<Notas>();
     public static ArrayList<Integer> IdNotas = new ArrayList<Integer>();
+    public static ArrayList<Long> IdAux = new ArrayList<Long>();
     FloatingActionButton BtnGuardar;
+    Evaluaciones currEvaluacion;
+    List<Notas> notasActualesPorEval;
 
     public static class NotaViewHolder extends RecyclerView.ViewHolder{
         public EditText NotaText;
@@ -96,8 +102,6 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
                         if(notasActualizadas.size() > 0){
                             for(int i = 0; i < notasActualizadas.size(); i++){
                                 if(IdNotas.contains(nota.getId())){
-                                    //curr_Id = nota.getId();
-                                    //pos = IdNotas.indexOf(curr_Id);
                                     notasActualizadas.set(IdNotas.indexOf(nota.getId()), nota);
                                     System.out.println("Nota with existing ID replaced in: "+i+", IdNotas: " + IdNotas);
                                 }else {
@@ -111,9 +115,7 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
                             notasActualizadas.add(nota);
                             IdNotas.add(nota.getId());
                         }
-
                         System.out.println("Size Lista notas actualizadas "+ notasActualizadas.size());
-
                     } catch (NumberFormatException e) {
 
                     }
@@ -129,15 +131,32 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
 
                 if(!notasActualizadas.isEmpty()){
                     DbNotas dbNotas = new DbNotas(context.getApplicationContext());
+                    DbEvaluaciones dbEvaluaciones = new DbEvaluaciones(context.getApplicationContext());
 
                     for(int j=0; j < notasActualizadas.size(); j++){
                         Long id = dbNotas.actualizarNota(notasActualizadas.get(j).getId(), notasActualizadas.get(j).getNota());
+                        IdAux.add(id);
+                        //TODO: correct behavior of setNota_evaluación -> currently not storing value (but Null)
+                        //get list of all notas for the current EvalID
+                        notasActualesPorEval = dbNotas.buscarNotasPorIdEvaluacion(notasActualizadas.get(j).getId_evaluaciones());
+                        //get an Evaluaciones item for the current EvalID
+                        currEvaluacion = dbEvaluaciones.buscarEvaluacionPorId(notasActualizadas.get(j).getId_evaluaciones());
+                        //actualizar promedio para esta evaluación
+                        currEvaluacion.setNota_evaluacion(currEvaluacion.getTp().calcularPromedioEvaluaciones(currEvaluacion,notasActualesPorEval).toString());
 
                         System.out.println("Successfully saved notas: "+id);
                         System.out.println("ID: "+notasActualizadas.get(j).getId());
                         System.out.println("Nota: "+notasActualizadas.get(j).getNota());
                     }
+                    if(!IdAux.contains(0)){
+                        //TODO: update fragment to update promedio values
+                        Toast.makeText(context.getApplicationContext(), "Notas actualizadas!", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(context.getApplicationContext(), "Error al actualizar notas", Toast.LENGTH_LONG).show();
+                    }
+
                     dbNotas.close();
+                    dbEvaluaciones.close();
                     notasActualizadas.clear();
                     IdNotas.clear();
                 }
