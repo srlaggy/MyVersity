@@ -47,19 +47,19 @@ public class DialogFragment2 extends androidx.fragment.app.DialogFragment {
             String seleccionTipoPromedio;
             @Override
             public void onClick(View v) {
-                if (r1.isChecked() == true){
+                if (r1.isChecked()){
                     seleccionTipoPromedio = "1";
                 }
-                else if (r2.isChecked() == true){
+                else if (r2.isChecked()){
                     seleccionTipoPromedio = "2";
                 }
-                else if (r3.isChecked() == true){
+                else if (r3.isChecked()){
                     seleccionTipoPromedio = "3";
                 }
-                else if (r4.isChecked() == true){
+                else if (r4.isChecked()){
                     seleccionTipoPromedio = "4";
                 }
-                else if (r5.isChecked() == true){
+                else if (r5.isChecked()){
                     seleccionTipoPromedio = "5";
                 }
                 else {
@@ -67,12 +67,14 @@ public class DialogFragment2 extends androidx.fragment.app.DialogFragment {
                 }
 
                 // ---- SE VERIFICA LA SELECCIÓN ---- //
-                if(seleccionTipoPromedio == "0"){
+                if(seleccionTipoPromedio.equals("0")){
                     Toast toast = Toast.makeText(getActivity().getApplicationContext(),"Seleccione una opción", Toast.LENGTH_SHORT);
                     toast.show();
                 }
                 else {
+                    // se almacena variable de TipoPromedio_ingresada
                     AsignaturasFragment.setTipoPromedio_ingresada(seleccionTipoPromedio);
+
                     // ---- para imprimir ---- //
                     // Toast toast = Toast.makeText(getActivity().getApplicationContext(),seleccionTipoPromedio, Toast.LENGTH_SHORT);
                     Toast toast = Toast.makeText(getActivity().getApplicationContext(),AsignaturasFragment.getTipoPromedio_ingresada(), Toast.LENGTH_SHORT);
@@ -81,6 +83,9 @@ public class DialogFragment2 extends androidx.fragment.app.DialogFragment {
                     // ---- AVANZAR AL SIGUIENTE DIALOGO 3 DE 3 ---- //
                     DialogFragment3 dialogFragment3 = new DialogFragment3();
                     dialogFragment3.show(getActivity().getSupportFragmentManager(), "My  Fragment3");
+
+                    // ---- SE CIERRA EL DIALOGO ACTUAL ---- //
+                    getDialog().dismiss();
                 }
 
             }

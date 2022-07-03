@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myversity.db.DbAsignaturas;
 import com.example.myversity.entidades.Asignaturas;
@@ -164,4 +166,22 @@ public class AsignaturasFragment extends Fragment {
 
     public static void setTipoPromedio_ingresada(String t){tipoPromedio_ingresada = t;}
     public static String getTipoPromedio_ingresada(){return tipoPromedio_ingresada;}
+
+    public static void dismissAllDialogs(FragmentManager manager) {
+        List<Fragment> fragments = manager.getFragments();
+
+        if (fragments == null)
+            return;
+
+        for (Fragment fragment : fragments) {
+            if (fragment instanceof DialogFragment) {
+                DialogFragment dialogFragment = (DialogFragment) fragment;
+                dialogFragment.dismissAllowingStateLoss();
+            }
+
+            FragmentManager childFragmentManager = fragment.getChildFragmentManager();
+            if (childFragmentManager != null)
+                dismissAllDialogs(childFragmentManager);
+        }
+    }
 }

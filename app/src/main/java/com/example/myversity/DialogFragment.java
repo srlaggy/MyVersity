@@ -43,6 +43,7 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
             public void onClick(View v) {
                 String input = mInput.getText().toString();
                 if(!input.equals("")){
+                    // se almacena variable de Nombre_Asignatura_ingresada
                     AsignaturasFragment.setNombre_Asignatura_ingresada(input);
 
                     // ---- para imprimir ---- //
@@ -50,12 +51,12 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
                     Toast toast = Toast.makeText(getActivity().getApplicationContext(),AsignaturasFragment.getNombre_Asignatura_ingresada(), Toast.LENGTH_SHORT);
                     toast.show();
 
-                    // NO SE SI IR SACANDO EL DIALOGO ACTUAL CUANDO SE PASE A LA SIG VISTA O NO
-                    // getDialog().dismiss();
-
                     // ---- AVANZAR AL SIGUIENTE DIALOGO 2 DE 3 ---- //
                     DialogFragment2 dialogFragment2 = new DialogFragment2();
                     dialogFragment2.show(getActivity().getSupportFragmentManager(), "My  Fragment2");
+
+                    // ---- SE CIERRA EL DIALOGO ACTUAL ---- //
+                    getDialog().dismiss();
                 }
                 else{
                     Toast toast = Toast.makeText(getActivity().getApplicationContext(),"Ingrese nombre asignatura", Toast.LENGTH_SHORT);

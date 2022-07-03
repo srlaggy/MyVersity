@@ -1,13 +1,294 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="0dp"
     android:layout_height="0dp"
-    android:paddingTop="60dp"
-    android:paddingBottom="60dp"
+    android:paddingTop="30dp"
+    android:paddingBottom="30dp"
     android:paddingEnd="15dp"
     android:paddingStart="15dp">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="4dp"
+        android:text="Configuración personalizada"
+        android:textAlignment="center"
+        android:layout_gravity="center"
+        android:textSize="18sp"
+        android:textColor="?attr/colorSecondaryVariant"/>
 
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center" />
+
+    <ScrollView
+        android:id="@+id/scrollview_config_inicial"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--        Titulo de Rango de notas-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="14dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="15dp"
+                android:text="@string/rango_notas_config_inicial"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <!--                Campo de Minimo en el rango de notas-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/min_rango_nota_config_inicial"
+                    style="@style/LoginTextInputLayoutStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_weight="1"
+                    android:hint="@string/min_nota_config_inicial"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_min_rango_nota_config_inicial"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="5"
+                        android:inputType="numberDecimal"
+                        android:maxLength="5"
+                        android:maxLines="1"
+                        android:textCursorDrawable="@drawable/color_cursor" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--                Separador de Minimo y Maximo-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:text="-" />
+
+                <!--                Campo de Maximo en el rango de notas-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/max_rango_nota_config_inicial"
+                    style="@style/LoginTextInputLayoutStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_weight="1"
+                    android:hint="@string/max_nota_config_inicial"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_max_rango_nota_config_inicial"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="5"
+                        android:inputType="numberDecimal"
+                        android:maxLength="5"
+                        android:maxLines="1"
+                        android:textCursorDrawable="@drawable/color_cursor" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:dividerInsetStart="14dp" />
+
+            <!--        Titulo de Orientacion de notas-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="14dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="15dp"
+                android:text="@string/orientacion_notas_config_inicial"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radio_orientacion_config_inicial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checkedButton="@+id/radio_ascendente_config_inicial"
+                android:layoutDirection="rtl"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/radio_ascendente_config_inicial"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:text="@string/menor_a_mayor_config_inicial" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dividerInsetEnd="14dp" />
+
+                <RadioButton
+                    android:id="@+id/radio_descendente_config_inicial"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:text="@string/mayor_a_menor_config_inicial" />
+
+            </RadioGroup>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:dividerInsetStart="14dp" />
+
+            <!--        Titulo de Notas de aprobacion-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="14dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="15dp"
+                android:text="@string/nota_aprobacion_config_inicial"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nota_aprobacion_config_inicial"
+                style="@style/LoginTextInputLayoutStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                app:errorEnabled="true"
+                android:hint="@string/nota_config_inicial">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_nota_aprobacion_config_inicial"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="5"
+                    android:inputType="numberDecimal"
+                    android:maxLength="5"
+                    android:maxLines="1"
+                    android:textCursorDrawable="@drawable/color_cursor" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:dividerInsetStart="14dp" />
+
+            <!--        Titulo de Tipo de nota-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="14dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="15dp"
+                android:text="@string/tipo_nota_config_inicial"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radio_tiponota_config_inicial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checkedButton="@+id/radio_discreta_config_inicial"
+                android:layoutDirection="rtl"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/radio_discreta_config_inicial"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:text="@string/nota_discreta_config_inicial" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dividerInsetEnd="14dp" />
+
+                <RadioButton
+                    android:id="@+id/radio_continua_config_inicial"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:text="@string/nota_continua_config_inicial" />
+
+            </RadioGroup>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:dividerInsetStart="14dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="14dp"
+                android:gravity="center">
+                <Button
+                    android:id="@+id/botonCuatroCancelar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#8FA7B3"
+                    android:layout_marginEnd="5dp"
+                    android:text="Cancelar"
+                    android:textSize="13sp"/>
+
+                <Button
+                    android:id="@+id/botonCuatroGuardar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="?attr/colorSecondary"
+                    android:textColor="?attr/colorPrimaryVariant"
+                    android:layout_marginStart="5dp"
+                    android:text="Guardar"
+                    android:textSize="13sp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

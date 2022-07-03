@@ -20,6 +20,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.myversity.db.DbAsignaturas;
 import com.example.myversity.db.DbConfigInicial;
 import com.example.myversity.entidades.ConfiguracionInicial;
 import com.google.android.material.textfield.TextInputEditText;
@@ -44,8 +45,14 @@ public class ConfiguracionInicialFragment extends Fragment {
         this.estado = estado;
     }
 
-    public static ConfiguracionInicialFragment newInstance(String param1, String param2) {
-        ConfiguracionInicialFragment fragment = new ConfiguracionInicialFragment();
+    public static ConfiguracionInicialFragment newInstance(Integer estado) {
+        ConfiguracionInicialFragment fragment;
+        if (estado == 0){
+            fragment = new ConfiguracionInicialFragment();
+        }
+        else{
+            fragment = new ConfiguracionInicialFragment(estado);
+        }
         return fragment;
     }
 
@@ -76,6 +83,11 @@ public class ConfiguracionInicialFragment extends Fragment {
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // ---- SETEAR VARIABLES ESTÁTICAS ---- //
+                AsignaturasFragment.setNombre_Asignatura_ingresada("");
+                AsignaturasFragment.setTipoPromedio_ingresada("");
+
                 Activity activity = getActivity();
                 if (activity instanceof MainActivity){
                     ((MainActivity) activity).replaceFragment(new AsignaturasFragment(), ((MainActivity) activity).getSupportFragmentManager(), R.id.framecentral);
@@ -138,10 +150,17 @@ public class ConfiguracionInicialFragment extends Fragment {
                         idEstado = dbConfigInicial.insertarConfigInicial(minSend, maxSend, notaSend, decimalSend, orientacionAscSend);
 
                         if(idEstado > 0){
+                            DbAsignaturas dbAsignaturas = new DbAsignaturas(getActivity().getApplicationContext());
+                            Long idAux = dbAsignaturas.crearAsignatura(idEstado.intValue(), Integer.parseInt(AsignaturasFragment.getTipoPromedio_ingresada()), AsignaturasFragment.getNombre_Asignatura_ingresada());
+                            dbAsignaturas.close();
                             Toast.makeText(getActivity().getApplicationContext(), "Asignatura creada!", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getActivity().getApplicationContext(), "Error al crear la asignatura", Toast.LENGTH_LONG).show();
                         }
+
+                        // ---- SETEAR VARIABLES ESTÁTICAS ---- //
+                        AsignaturasFragment.setNombre_Asignatura_ingresada("");
+                        AsignaturasFragment.setTipoPromedio_ingresada("");
 
                         if (activity instanceof MainActivity){
                             ((MainActivity) activity).replaceFragment(new AsignaturasFragment(), ((MainActivity) activity).getSupportFragmentManager(), R.id.framecentral);
