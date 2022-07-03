@@ -1,35 +1,24 @@
 package com.example.myversity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.myversity.db.DbAsignaturas;
-import com.example.myversity.db.DbConfigInicial;
 import com.example.myversity.entidades.Asignaturas;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AsignaturasFragment extends Fragment {
@@ -37,6 +26,9 @@ public class AsignaturasFragment extends Fragment {
     FloatingActionButton fab;
     static Integer id_Asignatura;
     static String name_Asignatura;
+    private FloatingActionButton btnFragment;
+    public static String nombre_Asignatura_ingresada;
+    public static String tipoPromedio_ingresada;
 
     // ----------------------------------------------------------------//
     public AsignaturasFragment() {
@@ -56,9 +48,6 @@ public class AsignaturasFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_asignaturas, container, false);
-        View viewPopup = getLayoutInflater().inflate(R.layout.fragment_asignaturas_popup, null);
-
-        input = (EditText) viewPopup.findViewById(R.id.nombre_asignatura_popup);
 
         // ---- LISTA ASIGNATURAS ---- //
         DbAsignaturas dbAsignaturas = new DbAsignaturas(getActivity().getApplicationContext());
@@ -96,12 +85,25 @@ public class AsignaturasFragment extends Fragment {
                         ((MainActivity) activity).setFragmentActual(name_Asignatura);
                         ((MainActivity) activity).setActionBarActivityArrow(true);
                     }
-
                 }
             });
         }
 
+        // ---- BOTÓN DIALOG FRAGMENT ---- //
+        btnFragment = (FloatingActionButton) view.findViewById(R.id.botonAgregarAsignatura);
+        btnFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // ---- AVANZAR AL DIALOGO 1 DE 3 ---- //
+                DialogFragment dialogFragment1 = new DialogFragment();
+                dialogFragment1.show(getActivity().getSupportFragmentManager(), "My  Fragment");
+            }
+        });
+
         // ---- BOTÓN Y POPUP ----- //
+        /*
+        View viewPopup = getLayoutInflater().inflate(R.layout.fragment_asignaturas_popup, null);
+        input = (EditText) viewPopup.findViewById(R.id.nombre_asignatura_popup);
         fab = (FloatingActionButton) view.findViewById(R.id.botonAgregarAsignatura);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,6 +146,7 @@ public class AsignaturasFragment extends Fragment {
                 builder.show();
             }
         });
+        */
 
         return view;
     }
@@ -155,4 +158,10 @@ public class AsignaturasFragment extends Fragment {
     public static String getName_Asignatura() {
         return name_Asignatura;
     }
+
+    public static void setNombre_Asignatura_ingresada(String n){nombre_Asignatura_ingresada = n;}
+    public static String getNombre_Asignatura_ingresada(){return nombre_Asignatura_ingresada;}
+
+    public static void setTipoPromedio_ingresada(String t){tipoPromedio_ingresada = t;}
+    public static String getTipoPromedio_ingresada(){return tipoPromedio_ingresada;}
 }
