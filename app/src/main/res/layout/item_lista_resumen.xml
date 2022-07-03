@@ -53,22 +53,22 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/resumen_descripcion_asignatura"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:textSize="16sp" />
-
-            <TextView
                 android:id="@+id/resumen_estado_evaluaciones"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:text=""
-                android:layout_margin="10dp"
-                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="20dp"
                 android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/resumen_descripcion_asignatura"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:textSize="16sp" />
+
+
 
         </LinearLayout>
 
