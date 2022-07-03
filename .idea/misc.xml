@@ -3,6 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Repositorio/MyVersity/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.142" />
+        <entry key="..\:/Repositorio/MyVersity/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.142" />
+        <entry key="..\:/Repositorio/MyVersity/app/src/main/res/drawable/ic_launcher_background.xml" value="0.142" />
+        <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/activity_main.xml" value="0.10461956521739131" />
+        <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/dialog_fragment.xml" value="0.22" />
+        <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/dialog_fragment2.xml" value="0.1" />
+        <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/dialog_fragment3.xml" value="0.1" />
+        <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/dialog_fragment4.xml" value="0.1" />
+        <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/fragment_configuracion_inicial.xml" value="0.1" />
+        <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/fragment_dialog.xml" value="0.1" />
         <entry key="..\:/Users/Admin/Documents/GitHub/MyVersity/app/src/main/res/layout/activity_main.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/Admin/Documents/GitHub/MyVersity/app/src/main/res/layout/fragment_asignaturas.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/Admin/Documents/GitHub/MyVersity/app/src/main/res/layout/fragment_configuracion.xml" value="0.11302083333333333" />
@@ -10,30 +20,37 @@
         <entry key="..\:/Users/Admin/Documents/GitHub/MyVersity/app/src/main/res/layout/fragment_resumen.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/Admin/Documents/GitHub/MyVersity/app/src/main/res/layout/item_lista_resumen.xml" value="0.264" />
         <entry key="..\:/Users/Admin/Documents/GitHub/MyVersity/app/src/main/res/layout/list_configuracion.xml" value="0.13451086956521738" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1625" />
         <entry key="app/src/main/res/drawable/color_cursor.xml" value="0.176" />
+        <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.1955" />
+        <entry key="app/src/main/res/drawable/ic_baseline_grading_24.xml" value="0.1625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_rule_24.xml" value="0.1625" />
         <entry key="app/src/main/res/drawable/ic_graduation_cap_svgrepo_com.xml" value="0.1825" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1625" />
+        <entry key="app/src/main/res/drawable/ic_outline_cancel_24.xml" value="0.1625" />
         <entry key="app/src/main/res/drawable/ic_outline_school_24.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/ic_outline_settings_24.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/ic_outline_wysiwyg_24.xml" value="0.169" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/roundstyle.xml" value="0.1625" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_asignaturas.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_asignaturas_popup.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/layout/fragment_configuracion.xml" value="0.30362116991643456" />
         <entry key="app/src/main/res/layout/fragment_configuracion_inicial.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_exportar_asignatura.xml" value="0.33229166666666665" />
-        <entry key="app/src/main/res/layout/fragment_importar_asignatura.xml" value="0.33229166666666665" />
+        <entry key="app/src/main/res/layout/fragment_importar_asignatura.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/layout/fragment_resumen.xml" value="0.33229166666666665" />
+        <entry key="app/src/main/res/layout/fragment_vista_asignatura.xml" value="0.2868972778320313" />
+        <entry key="app/src/main/res/layout/item_evaluacion.xml" value="0.23632507324218754" />
+        <entry key="app/src/main/res/layout/item_nota.xml" value="0.1" />
         <entry key="app/src/main/res/layout/list_actividades.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/layout/list_configuracion.xml" value="0.33229166666666665" />
-        <entry key="app/src/main/res/layout/list_exportar.xml" value="0.33229166666666665" />
-        <entry key="app/src/main/res/layout/sin_asignaturas.xml" value="0.33229166666666665" />
-        <entry key="app/src/main/res/layout/sin_asignaturas_exportar.xml" value="0.33229166666666665" />
+        <entry key="app/src/main/res/layout/sin_asignaturas.xml" value="0.1716485507246377" />
+        <entry key="app/src/main/res/layout/sin_evaluaciones.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.25" />
-        <entry key="app/src/main/res/xml/provider_paths.xml" value="0.33125" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
@@ -42,7 +59,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.33229166666666665" />
+        <option name="scale" value="0.33" />
       </ProjectState>
     </option>
   </component>

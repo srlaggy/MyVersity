@@ -3,16 +3,139 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".VistaAsignaturaFragment">
 
-    <TextView
-        android:id="@+id/id_nombre_asignatura"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_guardar_notas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guardar"
+        android:layout_marginEnd="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_gravity="top|right"
+        app:fabSize="mini"
+        app:tint="@color/white"
+        app:srcCompat="@drawable/ic_outline_save_24">
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nota final: "
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:textColor="@color/reply_blue_600"
+                android:gravity="left"
+                android:paddingStart="50dp"
+                android:paddingEnd="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="0dp">
+            </TextView>
+            <TextView
+                android:id="@+id/asignatura_promedio"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:background="@drawable/roundstyle"
+                android:backgroundTint="@color/reply_blue_600"
+                android:text="0.00"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_centerInParent="true"
+                android:gravity="center">
+            </TextView>
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_eval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:paddingTop="5dp">
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
+    <!--Constraint view for the buttons-->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:text="@string/app_name"
-        />
+        tools:context=".VistaAsignaturaFragment"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp">
+
+        <!--Parent Floating Action Button-->
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/botonAgregarVistaAsignatura"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:text="Agregar"
+            android:layout_margin="5dp"
+            app:icon="@drawable/ic_baseline_add_24"
+            android:textColor="@color/white"
+            app:iconTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!--Floating Action Button for Condicion-->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botonAgregarCondicion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:fabSize="mini"
+            app:tint="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/botonAgregarVistaAsignatura"
+            app:layout_constraintEnd_toEndOf="@+id/botonAgregarVistaAsignatura"
+            app:srcCompat="@drawable/ic_baseline_rule_24" />
+
+        <!--Action name text for agregrar condicion button-->
+        <TextView
+            android:id="@+id/agregar_condicion_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Agregar Condición"
+            android:backgroundTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/botonAgregarCondicion"
+            app:layout_constraintEnd_toStartOf="@+id/botonAgregarCondicion"
+            app:layout_constraintTop_toTopOf="@+id/botonAgregarCondicion" />
+
+        <!--Floating Action Button for Evaluacion-->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/botonAgregarEvaluacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:fabSize="mini"
+            app:tint="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/botonAgregarCondicion"
+            app:layout_constraintEnd_toEndOf="@+id/botonAgregarCondicion"
+            app:layout_constraintStart_toStartOf="@+id/botonAgregarCondicion"
+            app:srcCompat="@drawable/ic_baseline_grading_24" />
+
+        <!--Action name text for agregrar evaluacion button-->
+        <TextView
+            android:id="@+id/agregar_evaluacion_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Agregar Evaluación"
+            android:backgroundTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/botonAgregarEvaluacion"
+            app:layout_constraintEnd_toStartOf="@+id/botonAgregarEvaluacion"
+            app:layout_constraintTop_toTopOf="@+id/botonAgregarEvaluacion" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

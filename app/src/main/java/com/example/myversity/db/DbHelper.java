@@ -204,25 +204,26 @@ public class DbHelper extends SQLiteOpenHelper {
         }
 
         List<Notas> nota = new ArrayList<>();
-        nota.add(new Notas(1, false, null, "0.2"));
-        nota.add(new Notas(1, false, null, "0.3"));
-        nota.add(new Notas(1, false, null, "0.5"));
-        nota.add(new Notas(2, false, null, null));
-        nota.add(new Notas(2, false, null, null));
-        nota.add(new Notas(2, false, null, null));
-        nota.add(new Notas(3, false, null, null));
-        nota.add(new Notas(3, false, null, null));
-        nota.add(new Notas(3, false, null, null));
-        nota.add(new Notas(4, false, null, null));
-        nota.add(new Notas(4, false, null, null));
-        nota.add(new Notas(4, false, null, null));
-        nota.add(new Notas(4, false, null, null));
-        nota.add(new Notas(4, false, null, null));
+        nota.add(new Notas(0, 1, "80", false, null, "0.2"));
+        nota.add(new Notas(1, 1,"75" , false, null, "0.3"));
+        nota.add(new Notas(2, 1,"90", false, null, "0.5"));
+        nota.add(new Notas(3, 2,"85", false, null, null));
+        nota.add(new Notas(4, 2, "95", false, null, null));
+        nota.add(new Notas(5, 2, "55", false, null, null));
+        nota.add(new Notas(6, 3, "65", false, null, null));
+        nota.add(new Notas(7, 3, "70", false, null, null));
+        nota.add(new Notas(8, 3, "80", false, null, null));
+        nota.add(new Notas(9, 4, "99", false, null, null));
+        nota.add(new Notas(10, 4, "60", false, null, null));
+        nota.add(new Notas(11, 4, "87", false, null, null));
+        nota.add(new Notas(12, 4, "90", false, null, null));
+        nota.add(new Notas(13, 4, "80", false, null, null));
         for(Notas n : nota){
             values = new ContentValues();
             values.put("id_evaluaciones", n.getId_evaluaciones());
             values.put("cond", n.getCond());
             values.put("nota_cond", n.getNota_cond());
+            values.put("nota", n.getNota());
 //            if(n.getId_evaluaciones() == 1){
                 values.put("peso", n.getPeso());
 //            }

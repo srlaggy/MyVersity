@@ -20,7 +20,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.myversity.db.DbAsignaturas;
 import com.example.myversity.db.DbConfigInicial;
+import com.example.myversity.entidades.Asignaturas;
 import com.example.myversity.entidades.ConfiguracionInicial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -34,6 +36,7 @@ public class ConfiguracionInicialFragment extends Fragment {
     // Indica desde donde se esta requiriendo la configuracion inicial o de notas
     // 0 -> viene desde la configuracion
     // 1 -> viene desde las asignaturas
+    // 2 -> editar la configuración de una asignatura
     private Integer estado = 0;
 
     public ConfiguracionInicialFragment() {
@@ -44,8 +47,14 @@ public class ConfiguracionInicialFragment extends Fragment {
         this.estado = estado;
     }
 
-    public static ConfiguracionInicialFragment newInstance(String param1, String param2) {
-        ConfiguracionInicialFragment fragment = new ConfiguracionInicialFragment();
+    public static ConfiguracionInicialFragment newInstance(Integer estado) {
+        ConfiguracionInicialFragment fragment;
+        if (estado == 0){
+            fragment = new ConfiguracionInicialFragment();
+        }
+        else{
+            fragment = new ConfiguracionInicialFragment(estado);
+        }
         return fragment;
     }
 
@@ -76,6 +85,11 @@ public class ConfiguracionInicialFragment extends Fragment {
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // ---- SETEAR VARIABLES ESTÁTICAS ---- //
+                AsignaturasFragment.setNombre_Asignatura_ingresada("");
+                AsignaturasFragment.setTipoPromedio_ingresada("");
+
                 Activity activity = getActivity();
                 if (activity instanceof MainActivity){
                     ((MainActivity) activity).replaceFragment(new AsignaturasFragment(), ((MainActivity) activity).getSupportFragmentManager(), R.id.framecentral);
@@ -138,10 +152,17 @@ public class ConfiguracionInicialFragment extends Fragment {
                         idEstado = dbConfigInicial.insertarConfigInicial(minSend, maxSend, notaSend, decimalSend, orientacionAscSend);
 
                         if(idEstado > 0){
+                            DbAsignaturas dbAsignaturas = new DbAsignaturas(getActivity().getApplicationContext());
+                            Long idAux = dbAsignaturas.crearAsignatura(idEstado.intValue(), Integer.parseInt(AsignaturasFragment.getTipoPromedio_ingresada()), AsignaturasFragment.getNombre_Asignatura_ingresada());
+                            dbAsignaturas.close();
                             Toast.makeText(getActivity().getApplicationContext(), "Asignatura creada!", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getActivity().getApplicationContext(), "Error al crear la asignatura", Toast.LENGTH_LONG).show();
                         }
+
+                        // ---- SETEAR VARIABLES ESTÁTICAS ---- //
+                        AsignaturasFragment.setNombre_Asignatura_ingresada("");
+                        AsignaturasFragment.setTipoPromedio_ingresada("");
 
                         if (activity instanceof MainActivity){
                             ((MainActivity) activity).replaceFragment(new AsignaturasFragment(), ((MainActivity) activity).getSupportFragmentManager(), R.id.framecentral);
@@ -151,6 +172,32 @@ public class ConfiguracionInicialFragment extends Fragment {
                             // Para cambiar focus en barra de abajo
                             ((MainActivity) activity).binding.bottombar.setSelectedItemId(R.id.btn_nav_asignatura);
                         }
+                    } else if (estado == 2){
+                        Asignaturas asig_est2 = AsignaturasFragment.getAsignatura_seleccionada();
+
+                        // SE AGREGA A LA BD
+                        DbAsignaturas dbAsignaturas = new DbAsignaturas(getActivity().getApplicationContext());
+                        Long idAux = dbAsignaturas.actualizarConfigInicial(asig_est2.getId(), asig_est2.getId_configInicial(), configAux);
+                        dbAsignaturas.close();
+
+                        // SE SETEA EL ID_CONF_INICIAL ASOCIADO A LA ASIGNATURA DENTRO DE LA SESIÓN
+                        if (idAux != 0L ){
+                            // CASO 1: configuración inicial por defecto = 1
+                            // se debe crear una nueva configuración y setear a la asignatura modificada
+                            if (asig_est2.getId_configInicial() == 1){
+                                asig_est2.setId_configInicial(idAux.intValue());
+                                ConfiguracionInicial configAux_sesion = new ConfiguracionInicial(idAux.intValue(), minSend, maxSend, notaSend, decimalSend, orientacionAscSend);
+                                asig_est2.setConfig(configAux_sesion);
+                            }
+                            else{
+                                // CASO 2: la asignatura tiene su propia configuración (id conf !=0)
+                                configAux.setId(asig_est2.getId_configInicial());
+                                asig_est2.setConfig(configAux);
+                            }
+                        }
+
+
+
                     }
                     dbConfigInicial.close();
                 }
