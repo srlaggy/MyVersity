@@ -34,6 +34,7 @@ import java.util.List;
 public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.NotaViewHolder> {
     public List<Notas> notaItemList;
     boolean isOnValueChanged = false;
+    boolean notasUpdated = false;
     Context context, ctx;
     View rootView;
     public static ArrayList<Notas> notasActualizadas = new ArrayList<Notas>();
@@ -42,6 +43,7 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
     FloatingActionButton BtnGuardar;
     Evaluaciones currEvaluacion;
     List<Notas> notasActualesPorEval;
+    public RecyclerView gridNotas;
 
     public static class NotaViewHolder extends RecyclerView.ViewHolder{
         public EditText NotaText;
@@ -64,7 +66,16 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
         ctx = parent.getContext();
         rootView = ((Activity) ctx).getWindow().getDecorView().findViewById(android.R.id.content);
         BtnGuardar = (FloatingActionButton) rootView.findViewById(R.id.btn_guardar_notas);
-
+        /*
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5));
+        adapter = new RecyclerViewAdapter(items);
+        adapter.setOnItemClickListener(this);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged(); algo así?
+         */
+        //rvEvalView = (RecyclerView) view.findViewById(R.id.recyclerview_eval);
+        //rvEvalView.setAdapter(new RvEvalAdapter(ctx,));
         return new NotaViewHolder(view);
     }
 
@@ -143,6 +154,7 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
                         currEvaluacion = dbEvaluaciones.buscarEvaluacionPorId(notasActualizadas.get(j).getId_evaluaciones());
                         //actualizar promedio para esta evaluación
                         currEvaluacion.setNota_evaluacion(currEvaluacion.getTp().calcularPromedioEvaluaciones(currEvaluacion,notasActualesPorEval).toString());
+                        System.out.println("SAVED PROMEDIO: "+ currEvaluacion.getNota_evaluacion());
 
                         System.out.println("Successfully saved notas: "+id);
                         System.out.println("ID: "+notasActualizadas.get(j).getId());
@@ -151,6 +163,16 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
                     if(!IdAux.contains(0)){
                         //TODO: update fragment to update promedio values
                         Toast.makeText(context.getApplicationContext(), "Notas actualizadas!", Toast.LENGTH_LONG).show();
+                        /*
+                        recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
+                        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5));
+                        adapter = new RecyclerViewAdapter(items);
+                        adapter.setOnItemClickListener(this);
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged(); algo así?
+                         */
+                        holder.getBindingAdapter().notifyDataSetChanged();
+                        notasUpdated = true;
                     } else {
                         Toast.makeText(context.getApplicationContext(), "Error al actualizar notas", Toast.LENGTH_LONG).show();
                     }

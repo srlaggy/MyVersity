@@ -27,6 +27,8 @@ public class RvEvalAdapter extends RecyclerView.Adapter<RvEvalAdapter.EvalViewHo
     Context context, ctx;
     View rootView;
     FloatingActionButton BtnGuardar;
+    public GridNotasAdapter gridNotasAdapter;
+    boolean evalPromedioUpdated = false;
 
     public RvEvalAdapter(Context ct, List<Evaluaciones> evalItemList){
         this.context = ct;
@@ -55,9 +57,15 @@ public class RvEvalAdapter extends RecyclerView.Adapter<RvEvalAdapter.EvalViewHo
 
         holder.notaRecyclerView.setHasFixedSize(true);
         holder.notaRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        GridNotasAdapter gridNotasAdapter = new GridNotasAdapter(holder.notaRecyclerView.getContext(), evaluacion.getNotas());
+        gridNotasAdapter = new GridNotasAdapter(holder.notaRecyclerView.getContext(), evaluacion.getNotas());
         holder.notaRecyclerView.setAdapter(gridNotasAdapter);
         gridNotasAdapter.notifyDataSetChanged();
+
+        if(gridNotasAdapter.notasUpdated){
+            holder.promedioEval.setText(df.format(evaluacion.getNota_evaluacion()).toString());
+            System.out.println("NOTASupdated getNota_evaluacion(): "+evaluacion.getNota_evaluacion());
+            System.out.println("PROMEDIO CALCULADO ACA: "+ evaluacion.getTp().calcularPromedioEvaluaciones(evaluacion,evaluacion.getNotas()));
+        }
 
         /*
         BtnGuardar.setOnClickListener(new View.OnClickListener() {
