@@ -37,8 +37,19 @@
     <string name="resumen_estado_reprobado">Has reprobado</string>
     <string name="resumen_promedio_actual">Nota final actual:</string>
     <string name="resumen_condicion_incumplida">No cumples con:</string>
-    <string name="resumen_conducion_incumplida_nota">Nota mínima en </string>
-    <string name="resumen_conducion_incumplida_promedio">Nota final en </string>
+    <string name="resumen_condicion_incumplida_nota">Nota mínima en </string>
+    <string name="resumen_condicion_incumplida_promedio">Nota final en </string>
+    <string name="resumen_nota_insuficiente">Nota final en </string>
+    <string name="resumen_evaluacion_aprobada"> (Ya has aprobado estas evaluaciones)</string>
+    <string name="resumen_evaluacion_insuficiente"> (Nota más baja de lo requerido. Causal de reprobación)</string>
+    <string name="resumen_evaluacion_riesgo_reprobar"> (En riesgo de reprobar)</string>
+    <string name="resumen_evaluacion_riesgo_reprobar_leve"> (En leve riesgo de reprobar)</string>
+    <string name="resumen_asignatura_todavia_no_aprobada">Asignatura todavía no aprobada</string>
+    <string name="resumen_asignatura_todavia_no_aprobada_condiciones">Asignatura todavía no aprobada debido a condiciones</string>
+    <string name="resumen_asignatura_ya_aprobada">Asignatura ya aprobada</string>
+    <string name="resumen_asignatura_riesgo_reprobar">Asignatura en riesgo de reprobar</string>
+    <string name="resumen_asignatura_riesgo_reprobar_alto">Asignatura en alto riesgo de reprobar</string>
+    <string name="resumen_asignatura_imposible_aprobar">Asignatura reprobada (Imposible obtener nota mínima)</string>
 
     <!-- ERRORES -->
     <string name="e_error">Error</string>

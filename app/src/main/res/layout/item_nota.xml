@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:layout_width="100dp"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="20dp"
+    android:outlineAmbientShadowColor="@color/white">
+
+    <com.google.android.material.textfield.TextInputLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:id="@+id/nota_field"
+        style="@style/LoginTextInputLayoutStyle"
+        android:textColorHint="@color/light_gray"
+        app:boxStrokeColor="@color/reply_blue_600"
+        app:hintTextColor="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:hint="Nota"
+        app:errorEnabled="true">
+
+        <EditText
+            android:id="@+id/editText_nota"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:backgroundTint="@color/white"
+            android:inputType="text"
+            android:text="Nota"
+            android:visibility="visible"/>
+    </com.google.android.material.textfield.TextInputLayout>
+</androidx.cardview.widget.CardView>
