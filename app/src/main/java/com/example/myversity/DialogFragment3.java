@@ -70,7 +70,6 @@ public class DialogFragment3 extends androidx.fragment.app.DialogFragment {
                 AsignaturasFragment.setTipoPromedio_ingresada("");
 
                 // ---- VOLVER A LA LISTA DE ASIGNATURAS ACTUALIZADA ---- //
-                AsignaturasFragment.dismissAllDialogs(getActivity().getSupportFragmentManager());
                 Activity activity = getActivity();
                 if (activity instanceof MainActivity){
                     ((MainActivity) activity).replaceFragment(new AsignaturasFragment(), ((MainActivity) activity).getSupportFragmentManager(), R.id.framecentral);
