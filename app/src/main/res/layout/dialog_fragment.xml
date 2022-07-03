@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_margin="10dp"
+    android:paddingTop="30dp"
+    android:paddingBottom="30dp"
+    android:paddingEnd="15dp"
+    android:paddingStart="15dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="4dp"
+        android:text="Paso 1 de 3"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="?attr/colorSecondaryVariant"/>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="4dp"
+        android:text="Nombre asignatura"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:id="@+id/nombre_asignatura_dialog"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="4dp"
+        android:hint="Ej: Programación" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp">
+
+        <Button
+            android:id="@+id/botonUnoCancelar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#8FA7B3"
+            android:layout_marginEnd="5dp"
+            android:text="Cancelar"
+            android:textSize="13sp"/>
+
+        <Button
+            android:id="@+id/botonUnoConfirmar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorSecondary"
+            android:textColor="?attr/colorPrimaryVariant"
+            android:layout_marginStart="5dp"
+            android:text="Siguiente"
+            android:textSize="13sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -41,6 +41,7 @@ public class VistaAsignaturaFragment extends Fragment {
     Boolean fabsVisible;
     RecyclerView recyclerEval;
     private static final DecimalFormat df = new DecimalFormat("0.00");
+    public RvEvalAdapter rvEvalAdapter;
 
     public VistaAsignaturaFragment() {
     }
@@ -101,8 +102,7 @@ public class VistaAsignaturaFragment extends Fragment {
             System.out.println(valueNotas);
 
             recyclerEval = view.findViewById(R.id.recyclerview_eval);
-            RvEvalAdapter rvEvalAdapter = new RvEvalAdapter(getActivity().getApplicationContext(), listaEvaluaciones);
-            rvEvalAdapter.notifyDataSetChanged();
+            rvEvalAdapter = new RvEvalAdapter(getActivity().getApplicationContext(), listaEvaluaciones);
             recyclerEval.setAdapter(rvEvalAdapter);
             recyclerEval.setHasFixedSize(true);
             recyclerEval.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
@@ -117,6 +117,7 @@ public class VistaAsignaturaFragment extends Fragment {
 
         }
 
+
         /*
         BtnGuardar = view.findViewById(R.id.btn_guardar_notas);
         BtnGuardar.setOnClickListener(new View.OnClickListener() {
@@ -125,8 +126,9 @@ public class VistaAsignaturaFragment extends Fragment {
                 // REFRESH DEL FRAMELAYOUT PARA OBTENER LA VISTA ACTUALIZADA
                 Activity activity = getActivity();
                 if (activity instanceof MainActivity){
-                    ((MainActivity) activity).replaceFragment(new VistaAsignaturaFragment(), ((MainActivity) activity).getSupportFragmentManager(), R.id.framecentral);
+                    ((MainActivity) activity).replaceFragment(VistaAsignaturaFragment.newInstance(), ((MainActivity) activity).getSupportFragmentManager(), R.id.framecentral);
                 }
+                rvEvalAdapter.notifyDataSetChanged();
             }
         });*/
 
