@@ -21,6 +21,15 @@ public class ConfiguracionInicial {
         this.orientacionAsc = orientacionAsc;
     }
 
+    public ConfiguracionInicial(int id, String min, String max, String notaAprobacion, Boolean decimal, Boolean orientacionAsc){
+        this.id = id;
+        this.min = min;
+        this.max = max;
+        this.notaAprobacion = notaAprobacion;
+        this.decimal = decimal;
+        this.orientacionAsc = orientacionAsc;
+    }
+
     public int getId() {
         return id;
     }
