@@ -242,7 +242,7 @@ public class DbCondAsignatura extends DbHelper{
 
     public Long borrarCondAsignatura(Integer id){
         Long estado = 0L;
-        String whereClause = "_id=?";
+        String whereClause = "id=?";
         String[] whereArgs = new String[] {id.toString()};
 
         try {
