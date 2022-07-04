@@ -76,7 +76,7 @@
         android:paddingEnd="5dp">
 
         <Button
-            android:id="@+id/dialogFragment_agre_eval2_cancelar"
+            android:id="@+id/dialogFragment_agre_eval3_cancelar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#8FA7B3"
@@ -85,7 +85,7 @@
             android:textSize="13sp"/>
 
         <Button
-            android:id="@+id/dialogFragment_agre_eval2_confirmar"
+            android:id="@+id/dialogFragment_agre_eval3_confirmar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="?attr/colorSecondary"

@@ -41,7 +41,6 @@ public class VistaAsignaturaFragment extends Fragment {
     public static TipoPromedio tipoPromedio_eval_agregar;
     public static Boolean cond_eval_agregar;
     public static String notaCond_eval_agregar;
-    public static String pesoCond_eval_agregar;
 
     public VistaAsignaturaFragment() {
         // Required empty public constructor
