@@ -89,6 +89,9 @@ public class DialogFragmentAgregarEval extends androidx.fragment.app.DialogFragm
         btn_dialogFragment_agre_eval_cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                VistaAsignaturaFragment.nombre_eval_agregar = "";
+                VistaAsignaturaFragment.cant_eval_agregar = "";
+                VistaAsignaturaFragment.tipoPromedio_eval_agregar = null;
                 getDialog().dismiss();
             }
         });
@@ -102,16 +105,25 @@ public class DialogFragmentAgregarEval extends androidx.fragment.app.DialogFragm
                 // dropdown.setSelection(0);
 
                 if(!input_nombre.equals("") && !input_cant.equals("") && tipoPromedio_seleccionado != null){
-                    // ---- se agrega la evaluación en la asignatura (bd) ----//
+                    // ---- setear variables globales para agregar evaluación ---- //
+                    VistaAsignaturaFragment.nombre_eval_agregar = input_nombre;
+                    VistaAsignaturaFragment.cant_eval_agregar = input_cant;
+                    VistaAsignaturaFragment.tipoPromedio_eval_agregar = tipoPromedio_seleccionado;
+
+                    // ---- se agrega la evaluación en la asignatura (bd) ---- //
 
 
 
-                    // ---- se agrega la evaluación en la asignatura (clase) ----//
+                    // ---- se agrega la evaluación en la asignatura (clase) ---- //
 
 
                     // ---- para imprimir ---- //
                     // Toast toast = Toast.makeText(getActivity().getApplicationContext(),input, Toast.LENGTH_SHORT);
-                    Toast toast = Toast.makeText(getActivity().getApplicationContext(),input_nombre + input_cant + tipoPromedio_seleccionado.getNombre(), Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                            VistaAsignaturaFragment.nombre_eval_agregar + " " +
+                                    VistaAsignaturaFragment.cant_eval_agregar + " " +
+                                    VistaAsignaturaFragment.tipoPromedio_eval_agregar.getNombre(),
+                            Toast.LENGTH_SHORT);
                     toast.show();
 
                     // ---- SE CIERRA EL DIALOGO ACTUAL ---- //
@@ -121,6 +133,9 @@ public class DialogFragmentAgregarEval extends androidx.fragment.app.DialogFragm
                     if(tipoPromedio_seleccionado.getId() == 2){
                         DialogFragmentAgregarEval2 dialogFragmentAgregarEval2 = new DialogFragmentAgregarEval2();
                         dialogFragmentAgregarEval2.show(getActivity().getSupportFragmentManager(), "DialogFragmentAgregarEval2");
+                    }
+                    else{
+
                     }
 
                     // ---- ACTUALIZAR LA VISTA DE LA ASIGNATURA ---- //

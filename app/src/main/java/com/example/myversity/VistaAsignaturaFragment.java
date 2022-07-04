@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.myversity.adapters.RvEvalAdapter;
 import com.example.myversity.entidades.Asignaturas;
 import com.example.myversity.entidades.Evaluaciones;
+import com.example.myversity.entidades.TipoPromedio;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -33,6 +34,14 @@ public class VistaAsignaturaFragment extends Fragment {
     public static RvEvalAdapter rvEvalAdapter;
     public static List<Evaluaciones> listaEvaluaciones;
     FloatingActionButton BtnGuardar;
+
+    // ---- VARIABLES ESTÁTICAS PARA DIALOG FRAGMENT DE AGREGAR EVALUACIÓN ---- //
+    public static String nombre_eval_agregar;
+    public static String cant_eval_agregar;
+    public static TipoPromedio tipoPromedio_eval_agregar;
+    public static Boolean cond_eval_agregar;
+    public static String notaCond_eval_agregar;
+    public static String pesoCond_eval_agregar;
 
     public VistaAsignaturaFragment() {
         // Required empty public constructor
