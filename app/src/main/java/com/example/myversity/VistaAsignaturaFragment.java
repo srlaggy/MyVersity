@@ -36,7 +36,6 @@ public class VistaAsignaturaFragment extends Fragment {
     public static CondAdapter condAdapter;
     public static List<Evaluaciones> listaEvaluaciones;
     public static List<CondAsignatura> listaCondiciones;
-    FloatingActionButton BtnGuardar;
 
     public VistaAsignaturaFragment() {
         // Required empty public constructor
@@ -106,8 +105,25 @@ public class VistaAsignaturaFragment extends Fragment {
                 asignPromedio.setText(df.format(asignatura.getTp().calcularPromedioAsignaturas(listaEvaluaciones)));
             }
 
+            Float notaFinal = Float.parseFloat(asignatura.getNota_final());
+            Float notaAprobacion = Float.parseFloat(asignatura.getConfig().getNotaAprobacion());
+            List<String> listaCond = new ArrayList<>();
+            List<Boolean> listaCheck = new ArrayList<>();
+            for (CondAsignatura c: listaCondiciones){
+                if(c.getCondicion()!=null){
+                    listaCond.add(c.getCondicion());
+                    listaCheck.add(c.getChequeado());
+                }
+            }
+
+            if(notaFinal < notaAprobacion){
+                asignPromedio.setBackground(getContext().getDrawable(R.drawable.roundstyle_error_final));
+            } else if(!listaCond.isEmpty() && listaCheck.contains(false)){
+                asignPromedio.setBackground(getContext().getDrawable(R.drawable.roundstyle_error_final));
+            }
+
         }
-        System.out.println("NUMBER CONDICIONES"+listaCondiciones.size());
+        System.out.println("NUMBER CONDICIONES "+listaCondiciones.size());
         if(listaCondiciones.size() > 0){
             System.out.println("LISTA CONDICIONES:");
             System.out.println(listaCondiciones);

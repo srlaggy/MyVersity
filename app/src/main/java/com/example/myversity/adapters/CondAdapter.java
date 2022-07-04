@@ -1,5 +1,6 @@
 package com.example.myversity.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +20,9 @@ import java.util.List;
 
 public class CondAdapter extends RecyclerView.Adapter<CondAdapter.CondViewHolder> {
     private List<CondAsignatura> condItemList;
-    Context context;
-    public Boolean isChecked;
+    Context context, ctx;
+    View rootView;
+    TextView notaFinal;
 
     public CondAdapter(Context ct, List<CondAsignatura> condItemList){
         this.context = ct;
@@ -31,6 +33,10 @@ public class CondAdapter extends RecyclerView.Adapter<CondAdapter.CondViewHolder
     @Override
     public CondAdapter.CondViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_condicion, parent,false);
+
+        ctx = parent.getContext();
+        rootView = ((Activity) ctx).getWindow().getDecorView().findViewById(android.R.id.content);
+        notaFinal = rootView.findViewById(R.id.asignatura_promedio);
         return new CondViewHolder(view);
     }
 
@@ -48,6 +54,13 @@ public class CondAdapter extends RecyclerView.Adapter<CondAdapter.CondViewHolder
                 condAsignatura.setChequeado(b);
                 //guardar estado en db
                 Long state = dbCondAsignatura.actualizarChequeado(condAsignatura.getId(), condAsignatura.getChequeado());
+
+                //actualizar color nota final
+                if(!condAsignatura.getChequeado()){
+                    notaFinal.setBackground(ctx.getDrawable(R.drawable.roundstyle_error_final));
+                }else{
+                    notaFinal.setBackground(ctx.getDrawable(R.drawable.roundstyle_nota_final));
+                }
 
                 System.out.println("Successfully updated condición: " + state);
                 System.out.println("ESTADO CONDICIÒN: "+ condAsignatura.getChequeado());

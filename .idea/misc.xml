@@ -22,6 +22,9 @@
         <entry key="app/src/main/res/drawable/ic_outline_settings_24.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/ic_outline_wysiwyg_24.xml" value="0.169" />
         <entry key="app/src/main/res/drawable/roundstyle.xml" value="0.1625" />
+        <entry key="app/src/main/res/drawable/roundstyle_error.xml" value="0.11" />
+        <entry key="app/src/main/res/drawable/roundstyle_error_final.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/roundstyle_nota_final.xml" value="0.1565" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_asignaturas.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_asignaturas_popup.xml" value="0.33229166666666665" />
