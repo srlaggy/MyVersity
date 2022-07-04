@@ -4,29 +4,18 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.myversity.adapters.GridNotasAdapter;
 import com.example.myversity.adapters.RvEvalAdapter;
-import com.example.myversity.db.DbAsignaturas;
-import com.example.myversity.db.DbEvaluaciones;
-import com.example.myversity.db.DbNotas;
 import com.example.myversity.entidades.Asignaturas;
 import com.example.myversity.entidades.Evaluaciones;
-import com.example.myversity.entidades.Notas;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -36,14 +25,17 @@ import java.util.List;
 
 public class VistaAsignaturaFragment extends Fragment {
     ExtendedFloatingActionButton efabAgregar;
-    FloatingActionButton fabAgregarEval, fabAgregarCond, BtnGuardar;
+    FloatingActionButton fabAgregarEval, fabAgregarCond;
     TextView agregarEvalText, agregarCondText, asignPromedio;
     Boolean fabsVisible;
     RecyclerView recyclerEval;
     private static final DecimalFormat df = new DecimalFormat("0.00");
-    public RvEvalAdapter rvEvalAdapter;
+    public static RvEvalAdapter rvEvalAdapter;
+    public static List<Evaluaciones> listaEvaluaciones;
+    FloatingActionButton BtnGuardar;
 
     public VistaAsignaturaFragment() {
+        // Required empty public constructor
     }
     public static VistaAsignaturaFragment newInstance() {
         VistaAsignaturaFragment fragment = new VistaAsignaturaFragment();
@@ -63,16 +55,11 @@ public class VistaAsignaturaFragment extends Fragment {
 
         Integer id_asign = AsignaturasFragment.getId_Asignatura();
         String name_asign = AsignaturasFragment.getName_Asignatura();
+        Asignaturas asignatura = AsignaturasFragment.getAsignatura_seleccionada();
+        listaEvaluaciones = asignatura.getEv();
+
+        System.out.println("ID ASIGNATURA: "+id_asign);
         System.out.println("NOMBRE ASIGNATURA: "+name_asign);
-
-        // ---- ASIGNATURA ACTUAL ---- //
-        DbAsignaturas dbAsignaturas = new DbAsignaturas(getActivity().getApplicationContext());
-        Asignaturas asignatura = dbAsignaturas.buscarAsignaturaPorId(id_asign);
-        dbAsignaturas.close();
-
-        // ---- LISTA EVALUACIONES ---- //
-        List<Evaluaciones> listaEvaluaciones = asignatura.getEv();
-
 
         List<String> nombreEvaluaciones = new ArrayList<>();
         List<Integer> cantidadEvaluaciones = new ArrayList<>();
@@ -81,7 +68,7 @@ public class VistaAsignaturaFragment extends Fragment {
 
         // SE VERIFICA SI HAY DATOS O NO
         if( listaEvaluaciones.size() == 0){
-            TextView view_null = (TextView) view.findViewById(R.id.view_null_eval);
+            TextView view_null = view.findViewById(R.id.view_null_eval);
             System.out.println("NO HAY EVALUACIONES");
         }else{
             System.out.println("LISTA EVALUACIONES:");
@@ -108,29 +95,10 @@ public class VistaAsignaturaFragment extends Fragment {
             recyclerEval.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
             asignPromedio = view.findViewById(R.id.asignatura_promedio);
-            //TODO: find out why Nota_evaluacion is Null -> why Promedio Asignatura = 0.00
-            System.out.println("Current ASIGNATURA: "+asignatura.getNombre());
-            System.out.println("Tipo Promedio: " + asignatura.getTp().getNombre());
-            System.out.println("Promedio Asignatura: "+String.valueOf(asignatura.getTp().calcularPromedioAsignaturas(listaEvaluaciones)));
-            System.out.println("Promedio primer evaluación: "+listaEvaluaciones.get(0).getNota_evaluacion());
-            asignPromedio.setText(df.format(asignatura.getTp().calcularPromedioAsignaturas(listaEvaluaciones)).toString());
+            asignPromedio.setText(df.format(Float.parseFloat(asignatura.getNota_final())));
 
         }
 
-
-        /*
-        BtnGuardar = view.findViewById(R.id.btn_guardar_notas);
-        BtnGuardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // REFRESH DEL FRAMELAYOUT PARA OBTENER LA VISTA ACTUALIZADA
-                Activity activity = getActivity();
-                if (activity instanceof MainActivity){
-                    ((MainActivity) activity).replaceFragment(VistaAsignaturaFragment.newInstance(), ((MainActivity) activity).getSupportFragmentManager(), R.id.framecentral);
-                }
-                rvEvalAdapter.notifyDataSetChanged();
-            }
-        });*/
 
         //---- BOTONES PARA AGREGAR ----//
         efabAgregar = view.findViewById(R.id.botonAgregarVistaAsignatura);

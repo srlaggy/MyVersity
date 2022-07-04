@@ -133,4 +133,17 @@ public class Evaluaciones {
     public void setTp(TipoPromedio tp) {
         this.tp = tp;
     }
+
+    @Override
+    public String toString() {
+        String aux1 = "EVALUACION ID=" + id + "\n" +
+                "-> Nombre: " + tipo + "\n" +
+                "-> Nota: " + nota_evaluacion +
+                "\n";
+        String aux2 = "NOTAS:";
+        for(Notas n: notas){
+            aux2 += "\n" + "ID: " + n.getId() + " -- " + "NOTA: " + n.getNota();
+        }
+        return aux1+aux2;
+    }
 }
