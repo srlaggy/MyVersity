@@ -142,7 +142,9 @@ public class VistaAsignaturaFragment extends Fragment {
         fabAgregarEval.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity().getApplicationContext(), "Evaluación agregada!",Toast.LENGTH_SHORT).show();
+                DialogFragmentAgregarEval dialogFragmentAgregarEval = new DialogFragmentAgregarEval();
+                dialogFragmentAgregarEval.show(getActivity().getSupportFragmentManager(), "DialogFragmentAgregarEval");
+                // Toast.makeText(getActivity().getApplicationContext(), "Evaluación agregada!",Toast.LENGTH_SHORT).show();
             }
         });
         fabAgregarCond.setOnClickListener(new View.OnClickListener() {

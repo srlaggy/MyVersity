@@ -7,15 +7,18 @@
         <entry key="..\:/Repositorio/MyVersity/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.142" />
         <entry key="..\:/Repositorio/MyVersity/app/src/main/res/drawable/ic_launcher_background.xml" value="0.142" />
         <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/activity_main.xml" value="0.10461956521739131" />
+        <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/adapter_spinner_tipopromedio.xml" value="0.1" />
         <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/dialog_fragment.xml" value="0.22" />
         <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/dialog_fragment2.xml" value="0.1" />
         <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/dialog_fragment3.xml" value="0.1" />
         <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/dialog_fragment4.xml" value="0.1" />
         <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/dialog_fragment_agregar_condicion.xml" value="0.18854166666666666" />
-        <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/dialog_fragment_agregar_eval.xml" value="0.18854166666666666" />
+        <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/dialog_fragment_agregar_eval.xml" value="0.1" />
+        <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/dialog_fragment_agregar_eval2.xml" value="0.18854166666666666" />
         <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/fragment_configuracion_inicial.xml" value="0.1" />
         <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/fragment_dialog.xml" value="0.1" />
         <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/fragment_vista_asignatura.xml" value="0.1" />
+        <entry key="..\:/Repositorio/MyVersity/app/src/main/res/layout/item_evaluacion.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/Admin/Documents/GitHub/MyVersity/app/src/main/res/layout/activity_main.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/Admin/Documents/GitHub/MyVersity/app/src/main/res/layout/fragment_asignaturas.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/Admin/Documents/GitHub/MyVersity/app/src/main/res/layout/fragment_configuracion.xml" value="0.11302083333333333" />

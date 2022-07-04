@@ -17,7 +17,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="4dp"
-        android:text="Agregar evaluación"
+        android:text="Agregar peso"
         android:textAlignment="center"
         android:gravity="center"
         android:textSize="20sp"
@@ -31,18 +31,8 @@
         android:layout_marginBottom="10dp"
         android:layout_gravity="center"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="4dp"
-        android:text="Nombre evaluación"
-        android:textSize="20sp"/>
-
     <EditText
-        android:id="@+id/nombre_eval_agregar"
+        android:id="@+id/cuadro1"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,20 +42,8 @@
         android:layout_marginBottom="4dp"
         android:hint="Ej: Laboratorio" />
 
-    <!-- ////////////////////////////////////////////// -->
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="4dp"
-        android:text="Cantidad de notas"
-        android:textSize="20sp"/>
-
     <EditText
-        android:id="@+id/cant_eval_agregar"
+        android:id="@+id/cuadro2"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,24 +53,16 @@
         android:layout_marginBottom="4dp"
         android:hint="Ej: 3" />
 
-    <!-- ////////////////////////////////////////////// -->
-
-    <TextView
+    <EditText
+        android:id="@+id/cuadro3"
+        android:inputType="text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="4dp"
-        android:text="Tipo de promedio"
-        android:textSize="20sp"/>
-
-    <Spinner
-        android:id="@+id/spinner_tipo_promedio_agregar_eval"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown"/>
+        android:hint="Ej: Laboratorio" />
 
 
     <LinearLayout
@@ -106,7 +76,7 @@
         android:paddingEnd="5dp">
 
         <Button
-            android:id="@+id/dialogFragment_agre_eval_cancelar"
+            android:id="@+id/dialogFragment_agre_eval2_cancelar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#8FA7B3"
@@ -115,7 +85,7 @@
             android:textSize="13sp"/>
 
         <Button
-            android:id="@+id/dialogFragment_agre_eval_confirmar"
+            android:id="@+id/dialogFragment_agre_eval2_confirmar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="?attr/colorSecondary"
