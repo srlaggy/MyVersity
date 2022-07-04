@@ -13,8 +13,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myversity.adapters.CondAdapter;
 import com.example.myversity.adapters.RvEvalAdapter;
 import com.example.myversity.entidades.Asignaturas;
+import com.example.myversity.entidades.CondAsignatura;
 import com.example.myversity.entidades.Evaluaciones;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,10 +30,12 @@ public class VistaAsignaturaFragment extends Fragment {
     FloatingActionButton fabAgregarEval, fabAgregarCond;
     TextView agregarEvalText, agregarCondText, asignPromedio;
     Boolean fabsVisible;
-    RecyclerView recyclerEval;
+    RecyclerView recyclerEval, recyclerCond;
     private static final DecimalFormat df = new DecimalFormat("0.00");
     public static RvEvalAdapter rvEvalAdapter;
+    public static CondAdapter condAdapter;
     public static List<Evaluaciones> listaEvaluaciones;
+    public static List<CondAsignatura> listaCondiciones;
     FloatingActionButton BtnGuardar;
 
     public VistaAsignaturaFragment() {
@@ -57,6 +61,7 @@ public class VistaAsignaturaFragment extends Fragment {
         String name_asign = AsignaturasFragment.getName_Asignatura();
         Asignaturas asignatura = AsignaturasFragment.getAsignatura_seleccionada();
         listaEvaluaciones = asignatura.getEv();
+        listaCondiciones = asignatura.getCa();
 
         System.out.println("ID ASIGNATURA: "+id_asign);
         System.out.println("NOMBRE ASIGNATURA: "+name_asign);
@@ -101,6 +106,17 @@ public class VistaAsignaturaFragment extends Fragment {
                 asignPromedio.setText(df.format(asignatura.getTp().calcularPromedioAsignaturas(listaEvaluaciones)));
             }
 
+        }
+        System.out.println("NUMBER CONDICIONES"+listaCondiciones.size());
+        if(listaCondiciones.size() > 0){
+            System.out.println("LISTA CONDICIONES:");
+            System.out.println(listaCondiciones);
+
+            recyclerCond = view.findViewById(R.id.recyclerview_cond);
+            condAdapter = new CondAdapter(getActivity().getApplicationContext(), listaCondiciones);
+            recyclerCond.setAdapter(condAdapter);
+            recyclerCond.setHasFixedSize(true);
+            recyclerCond.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         }
 
 
