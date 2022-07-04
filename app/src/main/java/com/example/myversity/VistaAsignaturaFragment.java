@@ -1,5 +1,6 @@
 package com.example.myversity;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -31,6 +32,7 @@ public class VistaAsignaturaFragment extends Fragment {
     private static final DecimalFormat df = new DecimalFormat("0.00");
     public static RvEvalAdapter rvEvalAdapter;
     public static List<Evaluaciones> listaEvaluaciones;
+    FloatingActionButton BtnGuardar;
 
     public VistaAsignaturaFragment() {
         // Required empty public constructor
@@ -93,14 +95,10 @@ public class VistaAsignaturaFragment extends Fragment {
             recyclerEval.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
             asignPromedio = view.findViewById(R.id.asignatura_promedio);
-            //TODO: find out why Promedio Asignatura = 0.00
-            System.out.println("Current ASIGNATURA: "+asignatura.getNombre());
-            System.out.println("Tipo Promedio: " + asignatura.getTp().getNombre());
-            System.out.println("Promedio Asignatura: "+asignatura.getTp().calcularPromedioAsignaturas(listaEvaluaciones));
-            System.out.println("Promedio primer evaluación: "+listaEvaluaciones.get(0).getNota_evaluacion());
-            asignPromedio.setText(df.format(asignatura.getTp().calcularPromedioAsignaturas(listaEvaluaciones)));
+            asignPromedio.setText(df.format(Float.parseFloat(asignatura.getNota_final())));
 
         }
+
 
         //---- BOTONES PARA AGREGAR ----//
         efabAgregar = view.findViewById(R.id.botonAgregarVistaAsignatura);

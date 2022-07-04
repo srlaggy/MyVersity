@@ -8,15 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myversity.AsignaturasFragment;
 import com.example.myversity.R;
 import com.example.myversity.VistaAsignaturaFragment;
+import com.example.myversity.db.DbAsignaturas;
 import com.example.myversity.db.DbEvaluaciones;
 import com.example.myversity.db.DbNotas;
+import com.example.myversity.entidades.Asignaturas;
 import com.example.myversity.entidades.Evaluaciones;
 import com.example.myversity.entidades.Notas;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,7 +38,9 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
     public static ArrayList<Integer> IdNotas = new ArrayList<>();
     public static ArrayList<Long> IdAux = new ArrayList<>();
     FloatingActionButton BtnGuardar;
+    TextView notaFinal;
     Evaluaciones currEvaluacion;
+    public Asignaturas currAsignatura = AsignaturasFragment.getAsignatura_seleccionada();
     public List<Evaluaciones> evaluaciones;
     public RvEvalAdapter adapter = VistaAsignaturaFragment.rvEvalAdapter;
 
@@ -59,6 +65,7 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
         ctx = parent.getContext();
         rootView = ((Activity) ctx).getWindow().getDecorView().findViewById(android.R.id.content);
         BtnGuardar = rootView.findViewById(R.id.btn_guardar_notas);
+        notaFinal = rootView.findViewById(R.id.asignatura_promedio);
 
         return new NotaViewHolder(view);
     }
@@ -128,16 +135,17 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
                 if(!notasActualizadas.isEmpty()){
                     DbNotas dbNotas = new DbNotas(ctx.getApplicationContext());
                     DbEvaluaciones dbEvaluaciones = new DbEvaluaciones(ctx.getApplicationContext());
+                    DbAsignaturas dbAsignaturas = new DbAsignaturas((ctx.getApplicationContext()));
 
                     for(int j=0; j < notasActualizadas.size(); j++){
                         Long id = dbNotas.actualizarNota(notasActualizadas.get(j).getId(), notasActualizadas.get(j).getNota());
-                        IdAux.add(id);
+
                         //get Evaluaciones item for the current EvalID
                         currEvaluacion = dbEvaluaciones.buscarEvaluacionPorId(notasActualizadas.get(j).getId_evaluaciones());
                         //actualizar promedio para esta evaluación
                         currEvaluacion.setNota_evaluacion(currEvaluacion.getTp().calcularPromedioEvaluaciones(currEvaluacion,currEvaluacion.getNotas()).toString());
-                        //actualizar notas en BD
-                        Long state = dbEvaluaciones.actualizarNotaEvaluacion(currEvaluacion.getId(), currEvaluacion.getNota_evaluacion());
+                        //actualizar notas promedios en DB
+                        Long statePromedio = dbEvaluaciones.actualizarNotaEvaluacion(currEvaluacion.getId(), currEvaluacion.getNota_evaluacion());
 
                         Integer savedIndex = -1;
                         for(int k=0; k<evaluaciones.size(); k++){
@@ -153,7 +161,18 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
                         }
                         System.out.println("SAVED PROMEDIO: "+ currEvaluacion.getNota_evaluacion());
 
-                        System.out.println("Successfully saved nota: "+id + " y promedio: "+state);
+                        //actualizar nota final para asignatura
+                        currAsignatura.setNota_final(currAsignatura.getTp().calcularPromedioAsignaturas(evaluaciones).toString());
+                        //actualizar nota final en DB
+                        Long stateNotaFinal = dbAsignaturas.actualizarNotaAsignatura(currAsignatura.getId(),currAsignatura.getNota_final());
+
+                        notaFinal.setText(currAsignatura.getNota_final());
+
+                        IdAux.add(id);
+                        IdAux.add(statePromedio);
+                        IdAux.add(stateNotaFinal);
+
+                        System.out.println("Successfully saved nota: "+id + " y promedio: "+statePromedio + " y nota final: "+stateNotaFinal);
                         System.out.println("ID: "+notasActualizadas.get(j).getId());
                         System.out.println("Nota: "+notasActualizadas.get(j).getNota());
                     }
@@ -166,6 +185,7 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
 
                     dbNotas.close();
                     dbEvaluaciones.close();
+                    dbAsignaturas.close();
                     notasActualizadas.clear();
                     IdNotas.clear();
                 }
