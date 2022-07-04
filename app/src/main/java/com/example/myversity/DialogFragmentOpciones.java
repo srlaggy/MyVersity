@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 
 public class DialogFragmentOpciones extends androidx.fragment.app.DialogFragment {
     private Button btn_editar, btn_eliminar, btn_cancelar;
-    private EditText mInput;
     private TextView nameAsignatura;
 
 
@@ -28,7 +27,6 @@ public class DialogFragmentOpciones extends androidx.fragment.app.DialogFragment
         btn_cancelar = view.findViewById(R.id.botonDialogOpcionesCancelar);
         btn_editar = view.findViewById(R.id.botonDialogOpcionesEditar);
         btn_eliminar = view.findViewById(R.id.botonDialogOpcionesEliminar);
-        mInput = view.findViewById(R.id.nombre_asignatura_dialog);
 
        nameAsignatura.setText(getArguments().getString("name"));
 
@@ -65,6 +63,18 @@ public class DialogFragmentOpciones extends androidx.fragment.app.DialogFragment
         btn_editar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                DialogFragmentEditar dialogFragmentEditar = new DialogFragmentEditar();
+
+                Bundle args = new Bundle();
+                args.putString("name", getArguments().getString("name"));
+                args.putInt("id", getArguments().getInt("id"));
+                args.putInt("idConfig", getArguments().getInt("idConfig"));
+                dialogFragmentEditar.setArguments(args);
+
+                dialogFragmentEditar.show(getActivity().getSupportFragmentManager(), "My Fragment Edit");
+
+                // ---- SE CIERRA EL DIALOGO ACTUAL ---- //
                 getDialog().dismiss();
             }
         });

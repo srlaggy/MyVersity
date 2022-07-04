@@ -99,6 +99,7 @@ public class AsignaturasFragment extends Fragment {
             lvAsignaturas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    asignatura_seleccionada = listaAsignaturas.get(position);
                     name_Asignatura = listaAsignaturas.get(position).getNombre();
                     id_Asignatura = listaAsignaturas.get(position).getId();
                     id_config_Asignatura = listaAsignaturas.get(position).getId_configInicial();
