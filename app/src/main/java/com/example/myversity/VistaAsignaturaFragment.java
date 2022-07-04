@@ -95,7 +95,11 @@ public class VistaAsignaturaFragment extends Fragment {
             recyclerEval.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
             asignPromedio = view.findViewById(R.id.asignatura_promedio);
-            asignPromedio.setText(df.format(Float.parseFloat(asignatura.getNota_final())));
+            if(asignatura.getNota_final() != null){
+                asignPromedio.setText(df.format(Float.parseFloat(asignatura.getNota_final())));
+            }else {
+                asignPromedio.setText(df.format(asignatura.getTp().calcularPromedioAsignaturas(listaEvaluaciones)));
+            }
 
         }
 
