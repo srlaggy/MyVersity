@@ -52,11 +52,6 @@ public class DialogFragment3 extends androidx.fragment.app.DialogFragment {
         btn_si.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // ---- para imprimir ---- //
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(),"LISTO!", Toast.LENGTH_SHORT);
-                toast.show();
-
                 // ---- almacenar en BD ---- //
                 DbAsignaturas dbAsignaturas = new DbAsignaturas(getActivity().getApplicationContext());
                 Long idAux = dbAsignaturas.crearAsignatura(1, Integer.parseInt(AsignaturasFragment.getTipoPromedio_ingresada()), AsignaturasFragment.getNombre_Asignatura_ingresada());

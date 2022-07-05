@@ -159,16 +159,6 @@ public class DialogFragmentAgregarEval extends androidx.fragment.app.DialogFragm
                         VistaAsignaturaFragment.cant_eval_agregar = input_cant;
                         VistaAsignaturaFragment.tipoPromedio_eval_agregar = tipoPromedio_seleccionado;
 
-                        // ---- para imprimir ---- //
-                        Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-                                VistaAsignaturaFragment.nombre_eval_agregar + " " +
-                                        VistaAsignaturaFragment.cant_eval_agregar + " " +
-                                        VistaAsignaturaFragment.tipoPromedio_eval_agregar.getNombre() + " " +
-                                        VistaAsignaturaFragment.cond_eval_agregar + " " +
-                                VistaAsignaturaFragment.notaCond_eval_agregar,
-                                Toast.LENGTH_SHORT);
-                        toast.show();
-
                         // ---- SE PASA AL SIGUIENTE DIALOGO SI TIPO DE PROMEDIO ES MEDIA PONDERADA ---- //
                         if (tipoPromedio_seleccionado.getId() == 2) {
                             DialogFragmentAgregarEval2 dialogFragmentAgregarEval2 = new DialogFragmentAgregarEval2();

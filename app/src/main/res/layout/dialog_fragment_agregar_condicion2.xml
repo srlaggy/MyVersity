@@ -11,13 +11,14 @@
     android:paddingStart="15dp">
 
     <TextView
+        android:id="@+id/textoTipoCond"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="4dp"
-        android:text="Agregar condición"
+        android:text="TIPOCOND"
         android:gravity="center"
         android:textAlignment="center"
         android:textSize="20sp"
@@ -29,7 +30,7 @@
         android:layout_marginBottom="10dp"
         android:layout_gravity="center"/>
 
-    <!-- //// TEXTO CONDICIÓN //// -->
+    <!-- //// INGRESAR VALOR //// -->
 
     <TextView
         android:layout_width="match_parent"
@@ -37,55 +38,31 @@
         android:layout_marginTop="16dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="Indicar condición"
+        android:text="Ingrese el valor"
         android:textSize="20sp"/>
 
-    <EditText
-        android:id="@+id/editText_textoCondicion"
-        android:inputType="text"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/valor_Cond"
+        style="@style/LoginTextInputLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="4dp"
-        android:maxLength="15"
-        android:hint="Ej: Asistencia" />
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:layout_weight="1"
+        android:hint="Valor"
+        app:errorEnabled="true">
 
-    <!-- //// TIPO CONDICIÓN //// -->
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editText_valorCond"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="5"
+            android:inputType="numberDecimal"
+            android:maxLength="5"
+            android:maxLines="1"
+            android:textCursorDrawable="@drawable/color_cursor" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="4dp"
-        android:text="Tipo de condición"
-        android:textSize="20sp"/>
-
-    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/RadioGroupAgregarCondicion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <RadioButton android:id="@+id/RadioButtonCond_Reprobación"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reprobación"/>
-        <RadioButton android:id="@+id/RadioButtonCond_DctoPorcentaje"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Descuento porcentaje nota final"/>
-        <RadioButton android:id="@+id/RadioButtonCond_DctoPuntaje"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Descuento puntaje nota final"/>
-        <RadioButton android:id="@+id/RadioButtonCond_AdcPuntaje"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Adición puntaje nota final"/>
-    </RadioGroup>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -98,7 +75,7 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/botonCondCancelar"
+            android:id="@+id/botonCond2Cancelar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#8FA7B3"
@@ -107,7 +84,7 @@
             android:textSize="13sp"/>
 
         <Button
-            android:id="@+id/botonCondConfirmar"
+            android:id="@+id/botonCond2Confirmar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="?attr/colorSecondary"
