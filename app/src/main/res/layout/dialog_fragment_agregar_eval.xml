@@ -140,30 +140,7 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!--
-                <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/RadioGroupsino"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-                    <RadioButton android:id="@+id/si"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:text="No"
-                        android:checked="true"/>
-                    <RadioButton android:id="@+id/no"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="Si"/>
-                </RadioGroup>
-
-            -->
-
             <!-- //// BOTONES CANCELAR Y CONFIRMAR //// -->
-
 
             <LinearLayout
                 android:layout_width="match_parent"

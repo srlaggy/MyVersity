@@ -42,6 +42,12 @@ public class VistaAsignaturaFragment extends Fragment {
     public static Boolean cond_eval_agregar;
     public static String notaCond_eval_agregar;
 
+    // ---- VARIABLES ESTÁTICAS PARA DIALOG FRAGMENT DE AGREGAR CONDICIÓN ---- //
+    public static String static_id_tipoCondicion;
+    public static String static_texto_condicion;
+    public static String static_valor_condicion_opc;
+
+
     public VistaAsignaturaFragment() {
         // Required empty public constructor
     }
@@ -152,13 +158,13 @@ public class VistaAsignaturaFragment extends Fragment {
             public void onClick(View view) {
                 DialogFragmentAgregarEval dialogFragmentAgregarEval = new DialogFragmentAgregarEval();
                 dialogFragmentAgregarEval.show(getActivity().getSupportFragmentManager(), "DialogFragmentAgregarEval");
-                // Toast.makeText(getActivity().getApplicationContext(), "Evaluación agregada!",Toast.LENGTH_SHORT).show();
             }
         });
         fabAgregarCond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity().getApplicationContext(), "Condición agregada!",Toast.LENGTH_SHORT).show();
+                DialogFragmentAgregarCond dialogFragmentAgregarCond = new DialogFragmentAgregarCond();
+                dialogFragmentAgregarCond.show(getActivity().getSupportFragmentManager(), "DialogFragmentAgregarCond");
             }
         });
 

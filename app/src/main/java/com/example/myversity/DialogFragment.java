@@ -46,11 +46,6 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
                     // se almacena variable de Nombre_Asignatura_ingresada
                     AsignaturasFragment.setNombre_Asignatura_ingresada(input);
 
-                    // ---- para imprimir ---- //
-                    // Toast toast = Toast.makeText(getActivity().getApplicationContext(),input, Toast.LENGTH_SHORT);
-                    Toast toast = Toast.makeText(getActivity().getApplicationContext(),AsignaturasFragment.getNombre_Asignatura_ingresada(), Toast.LENGTH_SHORT);
-                    toast.show();
-
                     // ---- AVANZAR AL SIGUIENTE DIALOGO 2 DE 3 ---- //
                     DialogFragment2 dialogFragment2 = new DialogFragment2();
                     dialogFragment2.show(getActivity().getSupportFragmentManager(), "My  Fragment2");
