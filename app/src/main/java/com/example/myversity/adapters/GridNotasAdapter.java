@@ -125,7 +125,7 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
 
                     try {
                         //Check for correct format of entered number
-                        if(!patternNumber.matcher(editable.toString()).find()){
+                        if(!patternNumber.matcher(editable.toString()).find() && !editable.toString().isEmpty()){
                             valido = false;
                             Toast.makeText(ctx.getApplicationContext(), "Formato incorrecto", Toast.LENGTH_LONG).show();
                             System.out.println("FORMATO INCORRECTO");
