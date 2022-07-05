@@ -116,38 +116,44 @@ public class DialogFragmentAgregarEval extends androidx.fragment.app.DialogFragm
                 String input_cant = input_cant_eval_agregar.getText().toString();
                 String input_nota_min_eval_opcional = nota_min_eval_opcional.getText().toString();
 
-                Integer iaux = Integer.parseInt(input_cant)+4;
-                Toast toast2 = Toast.makeText(getActivity().getApplicationContext(),iaux.toString(), Toast.LENGTH_SHORT);
-                toast2.show();
-
                 // Se valida que se ingrese nombre, cantidad y se seleccione un tipo de promedio
                 if(!input_nombre.equals("") && !input_cant.equals("") && tipoPromedio_seleccionado != null){
                     Integer casos_nota_min = 0;
 
-                    // se verifica que no ingresó nota minima
-                    if(input_nota_min_eval_opcional.equals("")){
-                        casos_nota_min = 1;
-                        VistaAsignaturaFragment.cond_eval_agregar = false;
-                        input_nota_min_eval_opcional = null;
-                    } // caso contrario: se ingresó una nota mínima
-                    else{
-                        Integer min_aux = Integer.parseInt(AsignaturasFragment.getAsignatura_seleccionada().getConfig().getMin());
-                        Integer max_aux = Integer.parseInt(AsignaturasFragment.getAsignatura_seleccionada().getConfig().getMax());
-                        Integer input_nota = Integer.parseInt(input_nota_min_eval_opcional);
-                        // se valida que el valor ingresado esté dentro del rango de nota de la asignatura
-                        if(input_nota >= min_aux && input_nota <= max_aux) {
-                            casos_nota_min = 2;
-                            VistaAsignaturaFragment.cond_eval_agregar = true;
-                            VistaAsignaturaFragment.notaCond_eval_agregar = input_nota_min_eval_opcional;
+                    // la cantidad de notas debe ser mayor a 0
+                    if(Integer.parseInt(input_cant) != 0){
+                        // se verifica que no ingresó nota minima
+                        if(input_nota_min_eval_opcional.equals("")){
+                            casos_nota_min = 1;
+                            VistaAsignaturaFragment.cond_eval_agregar = false;
+                            input_nota_min_eval_opcional = null;
+                        } // caso contrario: se ingresó una nota mínima
+                        else{
+                            Integer min_aux = Integer.parseInt(AsignaturasFragment.getAsignatura_seleccionada().getConfig().getMin());
+                            Integer max_aux = Integer.parseInt(AsignaturasFragment.getAsignatura_seleccionada().getConfig().getMax());
+                            Integer input_nota = Integer.parseInt(input_nota_min_eval_opcional);
+
+                                // se valida que el valor ingresado esté dentro del rango de nota de la asignatura
+                                if(input_nota >= min_aux && input_nota <= max_aux) {
+                                    casos_nota_min = 2;
+                                    VistaAsignaturaFragment.cond_eval_agregar = true;
+                                    VistaAsignaturaFragment.notaCond_eval_agregar = input_nota_min_eval_opcional;
+                                }
+
                         }
+                    }
+                    else{
+                        casos_nota_min = 3;
+                        Toast toast = Toast.makeText(getActivity().getApplicationContext(),"La cantidad de notas debe ser mayor a 0", Toast.LENGTH_SHORT);
+                        toast.show();
                     }
 
                     // si el caso_nota_min es 0: no se ingresó un valor min válido
                     if(casos_nota_min == 0) {
                         Toast toast = Toast.makeText(getActivity().getApplicationContext(),"Nota mínima evaluación fuera de rango", Toast.LENGTH_SHORT);
-                        toast2.show();
+                        toast.show();
                     } // en caso contrario si o es vacío
-                    else {
+                    else if (casos_nota_min == 1 | casos_nota_min == 2){
                         // ---- setear variables globales para agregar evaluación ---- //
                         VistaAsignaturaFragment.nombre_eval_agregar = input_nombre;
                         VistaAsignaturaFragment.cant_eval_agregar = input_cant;
@@ -167,18 +173,20 @@ public class DialogFragmentAgregarEval extends androidx.fragment.app.DialogFragm
                         if (tipoPromedio_seleccionado.getId() == 2) {
                             DialogFragmentAgregarEval2 dialogFragmentAgregarEval2 = new DialogFragmentAgregarEval2();
                             dialogFragmentAgregarEval2.show(getActivity().getSupportFragmentManager(), "DialogFragmentAgregarEval2");
+
+                            getDialog().dismiss();
                         } else {
                             Integer eval_id_asignaturas = AsignaturasFragment.getAsignatura_seleccionada().getId();
-                            Integer eval_id_tipoPromedio = AsignaturasFragment.getAsignatura_seleccionada().getId_tipoPromedio();
+                            TipoPromedio input_tipoPromedio = VistaAsignaturaFragment.tipoPromedio_eval_agregar;
+                            Boolean input_cond_eval_agregar = VistaAsignaturaFragment.cond_eval_agregar;
 
                             // ---- se agrega la evaluación en la asignatura (bd) ---- //
                             DbEvaluaciones dbEvaluaciones = new DbEvaluaciones(getActivity().getApplicationContext());
-                            Long idAuxEval = dbEvaluaciones.insertarEvaluacionesFull(eval_id_asignaturas, eval_id_tipoPromedio, input_nombre, Integer.parseInt(input_cant), VistaAsignaturaFragment.cond_eval_agregar, input_nota_min_eval_opcional, null);
+                            Long idAuxEval = dbEvaluaciones.insertarEvaluacionesFull(eval_id_asignaturas, input_tipoPromedio.getId(), input_nombre, Integer.parseInt(input_cant), input_cond_eval_agregar, input_nota_min_eval_opcional, null);
                             dbEvaluaciones.close();
 
                             // ---- se agregan las notas de la evaluación según la cantidad ---- //
                             for (int i=1; i<=Integer.parseInt(input_cant); i++){
-                                System.out.println("\nSE IMPRIME i SOBRE CANT input_cant: "+i);
                                 DbNotas dbNotas = new DbNotas(getActivity().getApplicationContext());
                                 Long idAuxNota = dbNotas.insertarNotaFull (idAuxEval.intValue(), false, null, null);
                                 dbNotas.close();
