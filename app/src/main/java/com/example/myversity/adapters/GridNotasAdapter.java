@@ -96,6 +96,9 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
         EditText NotaText = holder.NotaText;
         evaluaciones = VistaAsignaturaFragment.listaEvaluaciones;
 
+        //automatically scroll the text field above the keyboard
+        NotaText.requestFocus();
+
         // EXPRESION REGULAR PARA CALZAR LOS NUMEROS CON Y SIN DECIMAL
         Pattern patternNumber = Pattern.compile("^(?:(?:\\d\\.\\d+)|(?:[1-9]\\d+\\.\\d+)|(?:\\d)|(?:[1-9]\\d+))$", Pattern.MULTILINE);
 

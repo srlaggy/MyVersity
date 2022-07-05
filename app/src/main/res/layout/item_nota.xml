@@ -30,6 +30,7 @@
             android:backgroundTint="@color/white"
             android:inputType="number"
             android:text="Nota"
-            android:visibility="visible"/>
+            android:visibility="visible"
+            android:focusableInTouchMode="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.cardview.widget.CardView>
