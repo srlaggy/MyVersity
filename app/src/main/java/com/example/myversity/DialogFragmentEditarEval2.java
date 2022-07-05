@@ -83,7 +83,6 @@ public class DialogFragmentEditarEval2 extends androidx.fragment.app.DialogFragm
                         dbEvaluaciones.actualizarCondicion(getArguments().getInt("id"),getArguments().getBoolean("cond"));
                         dbEvaluaciones.actualizarNotaCond(getArguments().getInt("id"),getArguments().getString("notaCond"));
                         dbEvaluaciones.close();
-                        dbEvaluaciones.close();
 
                         // ---- se agrega la evaluación en la asignatura (clase) ---- //
                         DbAsignaturas dbAsignaturas = new DbAsignaturas(getActivity().getApplicationContext());

@@ -217,7 +217,11 @@ public class ResumenAdaptador extends BaseAdapter {
 
                 if(!config.getDecimal()) mediaFinalActual = Math.round(mediaFinalActual);
 
-                if(!CompararNotas(mediaFinalOptimista,Float.parseFloat(config.getNotaAprobacion()),config.getOrientacionAsc())){
+                if(estaReprobado){
+                    textViewEstado.setText("Asignatura reprobada");
+                }
+
+                else if(!CompararNotas(mediaFinalOptimista,Float.parseFloat(config.getNotaAprobacion()),config.getOrientacionAsc())){
                     textViewEstado.setText(R.string.resumen_asignatura_imposible_aprobar);
                     estaReprobado = Boolean.TRUE;
                 }

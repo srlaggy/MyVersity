@@ -104,12 +104,6 @@ public class AsignaturasFragment extends Fragment {
                     id_Asignatura = listaAsignaturas.get(position).getId();
                     id_config_Asignatura = listaAsignaturas.get(position).getId_configInicial();
 
-                    Toast toast = Toast.makeText(getActivity().getApplicationContext(),name_Asignatura, Toast.LENGTH_SHORT);
-                    toast.show();
-
-                    //TextView dialogOpcionesNombre = (TextView) view.findViewById(R.id.asignatura_opciones_nombre);
-                    //dialogOpcionesNombre.setText(name_Asignatura);
-
                     DialogFragmentOpciones dialogFragmentOpciones = new DialogFragmentOpciones();
 
                     Bundle args = new Bundle();

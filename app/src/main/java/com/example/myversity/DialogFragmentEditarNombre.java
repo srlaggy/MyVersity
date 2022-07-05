@@ -61,7 +61,7 @@ public class DialogFragmentEditarNombre extends androidx.fragment.app.DialogFrag
                     }
                 }
                 else{
-                    Toast toast = Toast.makeText(getActivity().getApplicationContext(),"Ingrese nuevo nombre asignatura", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(),"Ingrese nuevo nombre para asignatura", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
