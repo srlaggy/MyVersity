@@ -20,6 +20,7 @@ import com.example.myversity.adapters.RvEvalAdapter;
 import com.example.myversity.entidades.Asignaturas;
 import com.example.myversity.entidades.CondAsignatura;
 import com.example.myversity.entidades.Evaluaciones;
+import com.example.myversity.entidades.TipoPromedio;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -38,6 +39,13 @@ public class VistaAsignaturaFragment extends Fragment {
     public static CondAdapter condAdapter;
     public static List<Evaluaciones> listaEvaluaciones;
     public static List<CondAsignatura> listaCondiciones;
+
+    // ---- VARIABLES ESTÁTICAS PARA DIALOG FRAGMENT DE AGREGAR EVALUACIÓN ---- //
+    public static String nombre_eval_agregar;
+    public static String cant_eval_agregar;
+    public static TipoPromedio tipoPromedio_eval_agregar;
+    public static Boolean cond_eval_agregar;
+    public static String notaCond_eval_agregar;
 
     public VistaAsignaturaFragment() {
         // Required empty public constructor
@@ -180,7 +188,9 @@ public class VistaAsignaturaFragment extends Fragment {
         fabAgregarEval.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity().getApplicationContext(), "Evaluación agregada!",Toast.LENGTH_SHORT).show();
+                DialogFragmentAgregarEval dialogFragmentAgregarEval = new DialogFragmentAgregarEval();
+                dialogFragmentAgregarEval.show(getActivity().getSupportFragmentManager(), "DialogFragmentAgregarEval");
+                // Toast.makeText(getActivity().getApplicationContext(), "Evaluación agregada!",Toast.LENGTH_SHORT).show();
             }
         });
         fabAgregarCond.setOnClickListener(new View.OnClickListener() {
