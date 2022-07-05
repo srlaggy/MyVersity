@@ -254,15 +254,16 @@ public class ResumenAdaptador extends BaseAdapter {
                 }
 
                 if(estaReprobado){
-                    linearLayoutRectangulo.setBackgroundResource(R.color.red);
+                    //linearLayoutRectangulo.setBackgroundResource(R.color.red);
+                    linearLayoutRectangulo.setBackground(contexto.getDrawable(R.drawable.roundstyle_error));
                 }
                 else if (hayCondicionesNoCumplidas){
-                    linearLayoutRectangulo.setBackgroundResource(R.color.reply_orange);
+                    linearLayoutRectangulo.setBackground(contexto.getDrawable(R.drawable.roundstyle_risk));
                 }
                 else if (estaAprobado){
-                    linearLayoutRectangulo.setBackgroundResource(R.color.green);
+                    linearLayoutRectangulo.setBackground(contexto.getDrawable(R.drawable.roundstyle_aprobado));
                 }
-                else linearLayoutRectangulo.setBackgroundResource(R.color.reply_orange);
+                else linearLayoutRectangulo.setBackground(contexto.getDrawable(R.drawable.roundstyle_risk));
 
                 textViewPromedioActual.append(String.valueOf(mediaFinalActual));
 
