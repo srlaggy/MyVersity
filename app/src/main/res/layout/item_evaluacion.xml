@@ -7,6 +7,19 @@
     android:orientation="vertical"
     tools:context=".VistaAsignaturaFragment">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_editar_evaluacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guardar"
+        android:layout_marginEnd="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_gravity="top|right"
+        app:fabSize="mini"
+        app:tint="@color/white"
+        app:srcCompat="@drawable/ic_outline_settings_24">
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
