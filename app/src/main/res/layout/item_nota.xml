@@ -28,7 +28,7 @@
             android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
             android:backgroundTint="@color/white"
-            android:inputType="text"
+            android:inputType="number"
             android:text="Nota"
             android:visibility="visible"/>
     </com.google.android.material.textfield.TextInputLayout>

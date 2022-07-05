@@ -1,6 +1,7 @@
 package com.example.myversity;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -116,10 +118,10 @@ public class VistaAsignaturaFragment extends Fragment {
                 }
             }
 
-            if(notaFinal < notaAprobacion){
+            if((notaFinal < notaAprobacion) || (!listaCond.isEmpty() && listaCheck.contains(false))){
                 asignPromedio.setBackground(getContext().getDrawable(R.drawable.roundstyle_error_final));
-            } else if(!listaCond.isEmpty() && listaCheck.contains(false)){
-                asignPromedio.setBackground(getContext().getDrawable(R.drawable.roundstyle_error_final));
+            } else {
+                asignPromedio.setBackground(getContext().getDrawable(R.drawable.roundstyle_nota_final));
             }
 
         }
@@ -158,6 +160,10 @@ public class VistaAsignaturaFragment extends Fragment {
                     fabAgregarCond.show();
                     agregarEvalText.setVisibility(View.VISIBLE);
                     agregarCondText.setVisibility(View.VISIBLE);
+                    agregarCondText.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    agregarCondText.getBackground().setAlpha(180);
+                    agregarEvalText.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    agregarEvalText.getBackground().setAlpha(180);
                     efabAgregar.extend();
                     fabsVisible = true;
                 } else {

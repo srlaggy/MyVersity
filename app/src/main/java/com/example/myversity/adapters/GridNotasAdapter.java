@@ -2,7 +2,6 @@ package com.example.myversity.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -11,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +23,7 @@ import com.example.myversity.db.DbEvaluaciones;
 import com.example.myversity.db.DbNotas;
 import com.example.myversity.entidades.Asignaturas;
 import com.example.myversity.entidades.CondAsignatura;
+import com.example.myversity.entidades.ConfiguracionInicial;
 import com.example.myversity.entidades.Evaluaciones;
 import com.example.myversity.entidades.Notas;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,6 +36,7 @@ import java.util.Objects;
 public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.NotaViewHolder> {
     public List<Notas> notaItemList;
     boolean isOnValueChanged = false;
+    public static boolean valido = true;
     Context context, ctx;
     View rootView;
     public static ArrayList<Notas> notasActualizadas = new ArrayList<>();
@@ -49,6 +51,8 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
     public List<String> listaCond = new ArrayList<>();
     public List<Boolean> listaCheck = new ArrayList<>();
     public RvEvalAdapter adapter = VistaAsignaturaFragment.rvEvalAdapter;
+    public ConfiguracionInicial configInicial = AsignaturasFragment.getAsignatura_seleccionada().getConfig();
+    Boolean decimal = configInicial.getDecimal();
 
     public static class NotaViewHolder extends RecyclerView.ViewHolder{
         public EditText NotaText;
@@ -92,6 +96,9 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
         EditText NotaText = holder.NotaText;
         evaluaciones = VistaAsignaturaFragment.listaEvaluaciones;
 
+        // EXPRESION REGULAR PARA CALZAR LOS NUMEROS CON Y SIN DECIMAL
+        Pattern patternNumber = Pattern.compile("^(?:(?:\\d\\.\\d+)|(?:[1-9]\\d+\\.\\d+)|(?:\\d)|(?:[1-9]\\d+))$", Pattern.MULTILINE);
+
         if(!nota.getCond() && nota.getNota_cond() != null ){
             holder.notaField.setErrorEnabled(true);
             holder.notaField.setError("insuficiente");
@@ -105,6 +112,7 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 isOnValueChanged = true;
+                valido = true;
             }
 
             @Override
@@ -113,32 +121,64 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
                     isOnValueChanged = false;
 
                     try {
-                        if(editable.toString().isEmpty()){
-                            nota.setNota("Null");
-                        }else {
-                            nota.setNota(editable.toString());
+                        //Check for correct format of entered number
+                        if(!patternNumber.matcher(editable.toString()).find()){
+                            valido = false;
+                            Toast.makeText(ctx.getApplicationContext(), "Formato incorrecto", Toast.LENGTH_LONG).show();
+                            System.out.println("FORMATO INCORRECTO");
+                        } else if(editable.toString().contains(".") != decimal){
+                            valido = false;
+                            Toast.makeText(ctx.getApplicationContext(), "Tipo de nota incorrecta", Toast.LENGTH_LONG).show();
+                            System.out.println("TIPO DE NOTA INCORRECTA");
                         }
-
-                        System.out.println("ID Nota "+nota.getId().toString()+" ID Evaluación "+nota.getId_evaluaciones().toString());
-                        System.out.println("Nota "+nota.getNota());
-
-                        if(notasActualizadas.size() > 0){
-                            for(int i = 0; i < notasActualizadas.size(); i++){
-                                if(IdNotas.contains(nota.getId())){
-                                    notasActualizadas.set(IdNotas.indexOf(nota.getId()), nota);
-                                    System.out.println("Nota with existing ID replaced in: "+i+", IdNotas: " + IdNotas);
-                                }else {
-                                    notasActualizadas.add(nota);
-                                    IdNotas.add(nota.getId());
-                                    System.out.println("New nota added to notasActualizadas in: "+i+", IdNotas: "+IdNotas);
+                        //Check if nota ingresada is in the permitted range (min-max) del config
+                        if(valido){
+                            if(decimal){
+                                Float minNumF = Float.parseFloat(configInicial.getMin());
+                                Float maxNumF = Float.parseFloat(configInicial.getMax());
+                                if((Float.parseFloat(editable.toString()) < minNumF) || (Float.parseFloat(editable.toString()) > maxNumF)){
+                                    valido = false;
+                                    Toast.makeText(ctx.getApplicationContext(), "Valor fuera del rango", Toast.LENGTH_LONG).show();
+                                    System.out.println("VALOR FUERA DEL RANGO");
                                 }
-                                System.out.println("Entry "+i+"in notasActualizadas: "+notasActualizadas.get(i).getId());
+                            }else{
+                                Integer minNum = Integer.parseInt(configInicial.getMin());
+                                Integer maxNum = Integer.parseInt(configInicial.getMax());
+                                if((Integer.parseInt(editable.toString()) < minNum) || (Integer.parseInt(editable.toString()) > maxNum)){
+                                    valido = false;
+                                    Toast.makeText(ctx.getApplicationContext(), "Valor fuera del rango", Toast.LENGTH_LONG).show();
+                                    System.out.println("VALOR FUERA DEL RANGO");
+                                }
                             }
-                        }else{
-                            notasActualizadas.add(nota);
-                            IdNotas.add(nota.getId());
                         }
-                        System.out.println("Size Lista notas actualizadas "+ notasActualizadas.size());
+                        if(valido){
+                            if(editable.toString().isEmpty()){
+                                nota.setNota("Null");
+                            }else {
+                                nota.setNota(editable.toString());
+                            }
+
+                            System.out.println("ID Nota "+nota.getId().toString()+" ID Evaluación "+nota.getId_evaluaciones().toString());
+                            System.out.println("Nota "+nota.getNota());
+
+                            if(notasActualizadas.size() > 0){
+                                for(int i = 0; i < notasActualizadas.size(); i++){
+                                    if(IdNotas.contains(nota.getId())){
+                                        notasActualizadas.set(IdNotas.indexOf(nota.getId()), nota);
+                                        System.out.println("Nota with existing ID replaced in: "+i+", IdNotas: " + IdNotas);
+                                    }else {
+                                        notasActualizadas.add(nota);
+                                        IdNotas.add(nota.getId());
+                                        System.out.println("New nota added to notasActualizadas in: "+i+", IdNotas: "+IdNotas);
+                                    }
+                                    System.out.println("Entry "+i+"in notasActualizadas: "+notasActualizadas.get(i).getId());
+                                }
+                            }else{
+                                notasActualizadas.add(nota);
+                                IdNotas.add(nota.getId());
+                            }
+                            System.out.println("Size Lista notas actualizadas "+ notasActualizadas.size());
+                        }
                     } catch (NumberFormatException e) {
                         e.toString();
                     }
@@ -224,11 +264,9 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
                         //actualizar color del campo nota final dependiente de condiciones
                         Float notaAsign = Float.parseFloat(currAsignatura.getNota_final());
                         Float notaAprobacion = Float.parseFloat(currAsignatura.getConfig().getNotaAprobacion());
-                        if(notaAsign < notaAprobacion){
+                        if((notaAsign < notaAprobacion) || (!listaCond.isEmpty() && listaCheck.contains(false))){
                             notaFinal.setBackground(ctx.getDrawable(R.drawable.roundstyle_error_final));
-                        } else if(!listaCond.isEmpty() && listaCheck.contains(false)){
-                            notaFinal.setBackground(ctx.getDrawable(R.drawable.roundstyle_error_final));
-                        }else{
+                        } else{
                             notaFinal.setBackground(ctx.getDrawable(R.drawable.roundstyle_nota_final));
                         }
 
