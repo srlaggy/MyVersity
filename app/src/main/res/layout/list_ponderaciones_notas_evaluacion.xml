@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_notas_evaluacion"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    >
+
+    <TextView
+        android:id="@+id/texto_ponderacion_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nota: "
+        android:textStyle="italic"
+        android:textSize="14dp"
+        android:textColor="@color/light_gray"
+        android:gravity="left"
+        android:paddingStart="20dp"
+        android:paddingEnd="15dp"
+        android:layout_marginTop="16dp">
+    </TextView>
+
+    <EditText
+        android:id="@+id/input_ponderacion_item"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="4dp"
+        android:hint="Ej: 50" />
+
+</LinearLayout>
