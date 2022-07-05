@@ -24,6 +24,7 @@ import com.example.myversity.entidades.Notas;
 import com.example.myversity.entidades.TiposPenalizacion;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ResumenAdaptador extends BaseAdapter {
 
@@ -156,7 +157,7 @@ public class ResumenAdaptador extends BaseAdapter {
                             arrayListNotasNoNulas.add(nota);
                         }
                         if(nota.getNota_cond() != null && nota.getNota() != null){
-                            if(CompararNotas(Float.parseFloat(nota.getNota()),Float.parseFloat(nota.getNota_cond()),config.getOrientacionAsc())){
+                            if(!CompararNotas(Float.parseFloat(nota.getNota()),Float.parseFloat(nota.getNota_cond()),config.getOrientacionAsc())){
                                 estaReprobado = Boolean.TRUE;
                                 if(textViewDescripcion.getText() == "") textViewDescripcion.setText(contexto.getResources().getString(R.string.resumen_condicion_incumplida) + "\n");
                                 textViewDescripcion.append("-" + contexto.getResources().getString(R.string.resumen_condicion_incumplida_nota) + " " + evaluacion.getTipo() + "\n");
@@ -214,6 +215,25 @@ public class ResumenAdaptador extends BaseAdapter {
                 float mediaFinalOptimista = asignatura.getTp().calcularPromedioAsignaturas(arrayListNotasFinalesOptimistas);
                 float mediaFinalRealista = asignatura.getTp().calcularPromedioAsignaturas(arrayListNotasFinalesRealistas);
                 float mediaFinalActual = asignatura.getTp().calcularPromedioAsignaturas(arrayListNotasFinalesActuales);
+
+                List<CondAsignatura> condAsignaturaList = asignatura.getCa();
+                int auxCount;
+                for (auxCount = 0; auxCount < condAsignaturaList.size(); auxCount++){
+                    CondAsignatura cond = condAsignaturaList.get(auxCount);
+                    switch (cond.getId_tiposPenalizacion()){
+                        case 2:
+                            if(!cond.getChequeado()) mediaFinalActual *= (Float.parseFloat(cond.getValor()) * 0.01f);
+                            break;
+                        case 3:
+                            if(!cond.getChequeado()) mediaFinalActual -= Float.parseFloat(cond.getValor());
+                            break;
+                        case 4:
+                            if(cond.getChequeado()) mediaFinalActual += Float.parseFloat(cond.getValor());
+                            break;
+                        default:
+                            break;
+                    }
+                }
 
                 if(!config.getDecimal()) mediaFinalActual = Math.round(mediaFinalActual);
 
