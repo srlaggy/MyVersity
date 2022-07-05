@@ -10,10 +10,9 @@
         android:id="@+id/btn_guardar_notas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Guardar"
         android:layout_marginEnd="6dp"
         android:layout_marginTop="6dp"
-        android:layout_gravity="top|right"
+        android:layout_gravity="top|end"
         app:fabSize="mini"
         app:tint="@color/white"
         app:srcCompat="@drawable/ic_outline_save_24">
@@ -45,8 +44,7 @@
                 android:id="@+id/asignatura_promedio"
                 android:layout_width="150dp"
                 android:layout_height="40dp"
-                android:background="@drawable/roundstyle"
-                android:backgroundTint="@color/reply_blue_600"
+                android:background="@drawable/roundstyle_nota_final"
                 android:text="0.00"
                 android:textSize="16dp"
                 android:textStyle="bold"
@@ -63,15 +61,25 @@
             android:scrollbars="vertical"
             android:paddingTop="5dp">
         </androidx.recyclerview.widget.RecyclerView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_cond"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:paddingTop="5dp">
+        </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
     <!--Constraint view for the buttons-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="250dp"
         tools:context=".VistaAsignaturaFragment"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/white"
+        android:layout_gravity="bottom|end">
 
         <!--Parent Floating Action Button-->
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -93,7 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            app:fabSize="mini"
+            app:fabSize="normal"
             app:tint="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/botonAgregarVistaAsignatura"
             app:layout_constraintEnd_toEndOf="@+id/botonAgregarVistaAsignatura"
@@ -107,9 +115,13 @@
             android:layout_marginEnd="8dp"
             android:text="Agregar Condición"
             android:backgroundTint="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/botonAgregarCondicion"
-            app:layout_constraintEnd_toStartOf="@+id/botonAgregarCondicion"
-            app:layout_constraintTop_toTopOf="@+id/botonAgregarCondicion" />
+            android:paddingStart="210dp"
+            android:paddingEnd="60dp"
+            android:paddingTop="110dp"
+            android:paddingBottom="110dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/botonAgregarCondicion"
+            app:layout_constraintBottom_toBottomOf="@+id/botonAgregarCondicion"/>
 
         <!--Floating Action Button for Evaluacion-->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -117,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            app:fabSize="mini"
+            app:fabSize="normal"
             app:tint="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/botonAgregarCondicion"
             app:layout_constraintEnd_toEndOf="@+id/botonAgregarCondicion"
@@ -132,8 +144,13 @@
             android:layout_marginEnd="8dp"
             android:text="Agregar Evaluación"
             android:backgroundTint="@color/white"
+            android:backgroundTintMode="src_in"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingStart="210dp"
+            android:paddingEnd="60dp"
             app:layout_constraintBottom_toBottomOf="@+id/botonAgregarEvaluacion"
-            app:layout_constraintEnd_toStartOf="@+id/botonAgregarEvaluacion"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/botonAgregarEvaluacion" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
