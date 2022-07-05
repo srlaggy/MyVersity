@@ -1,11 +1,13 @@
 package com.example.myversity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +28,7 @@ import java.util.List;
 public class AsignaturasFragment extends Fragment {
     EditText input;
     FloatingActionButton fab;
-    static Integer id_Asignatura;
+    static Integer id_Asignatura, id_config_Asignatura;
     static String name_Asignatura;
     static Asignaturas asignatura_seleccionada;
     private FloatingActionButton btnFragment;
@@ -56,13 +58,14 @@ public class AsignaturasFragment extends Fragment {
         DbAsignaturas dbAsignaturas = new DbAsignaturas(getActivity().getApplicationContext());
         List<Asignaturas> listaAsignaturas = dbAsignaturas.buscarAsignaturas();
         dbAsignaturas.close();
-    
+
         // SE VERIFICA SI HAY DATOS O NO
         List<String> nombreAsignaturas = new ArrayList<>();
         if( listaAsignaturas.size() == 0){
             System.out.println("NO HAY ASIGNATURAS");
-            TextView view_null = (TextView) view.findViewById(R.id.view_null_asign);
         }else{
+            TextView view_null = (TextView) view.findViewById(R.id.view_null_asign);
+            view_null.setText("");
             for (Asignaturas a : listaAsignaturas){
                     nombreAsignaturas.add(a.getNombre());
             }
@@ -75,6 +78,7 @@ public class AsignaturasFragment extends Fragment {
             lvAsignaturas.setAdapter(adapterAsignaturas);
 
             // Se transforma la ListView en una Lista clickeable
+            lvAsignaturas.setLongClickable(true);
             lvAsignaturas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id){
@@ -89,6 +93,34 @@ public class AsignaturasFragment extends Fragment {
                         ((MainActivity) activity).setFragmentActual(name_Asignatura);
                         ((MainActivity) activity).setActionBarActivityArrow(true);
                     }
+                }
+            });
+
+            lvAsignaturas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    asignatura_seleccionada = listaAsignaturas.get(position);
+                    name_Asignatura = listaAsignaturas.get(position).getNombre();
+                    id_Asignatura = listaAsignaturas.get(position).getId();
+                    id_config_Asignatura = listaAsignaturas.get(position).getId_configInicial();
+
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(),name_Asignatura, Toast.LENGTH_SHORT);
+                    toast.show();
+
+                    //TextView dialogOpcionesNombre = (TextView) view.findViewById(R.id.asignatura_opciones_nombre);
+                    //dialogOpcionesNombre.setText(name_Asignatura);
+
+                    DialogFragmentOpciones dialogFragmentOpciones = new DialogFragmentOpciones();
+
+                    Bundle args = new Bundle();
+                    args.putString("name", name_Asignatura);
+                    args.putInt("id", id_Asignatura);
+                    args.putInt("idConfig", id_config_Asignatura);
+                    dialogFragmentOpciones.setArguments(args);
+
+                    dialogFragmentOpciones.show(getActivity().getSupportFragmentManager(), "My  Fragment Options");
+
+                    return true;
                 }
             });
         }

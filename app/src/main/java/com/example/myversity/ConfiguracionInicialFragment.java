@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -195,9 +196,11 @@ public class ConfiguracionInicialFragment extends Fragment {
                                 asig_est2.setConfig(configAux);
                             }
                         }
-
-
-
+                        Toast toast = Toast.makeText(getActivity().getApplicationContext(),"Configuración cambiada exitosamente", Toast.LENGTH_SHORT);
+                        toast.show();
+                        if (activity instanceof MainActivity){
+                            ((MainActivity) activity).replaceFragment(new AsignaturasFragment(), ((MainActivity) activity).getSupportFragmentManager(), R.id.framecentral);
+                        }
                     }
                     dbConfigInicial.close();
                 }

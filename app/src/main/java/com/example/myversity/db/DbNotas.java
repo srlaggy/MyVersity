@@ -265,7 +265,7 @@ public class DbNotas extends DbHelper{
 
     public Long borrarNota(Integer id){
         Long estado = 0L;
-        String whereClause = "_id=?";
+        String whereClause = "id=?";
         String[] whereArgs = new String[] {id.toString()};
 
         try {
