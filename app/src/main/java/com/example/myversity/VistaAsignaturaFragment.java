@@ -115,22 +115,25 @@ public class VistaAsignaturaFragment extends Fragment {
                 asignPromedio.setText(df.format(asignatura.getTp().calcularPromedioAsignaturas(listaEvaluaciones)));
             }
 
-            Float notaFinal = Float.parseFloat(asignatura.getNota_final());
-            Float notaAprobacion = Float.parseFloat(asignatura.getConfig().getNotaAprobacion());
-            List<String> listaCond = new ArrayList<>();
-            List<Boolean> listaCheck = new ArrayList<>();
-            for (CondAsignatura c: listaCondiciones){
-                if(c.getCondicion()!=null){
-                    listaCond.add(c.getCondicion());
-                    listaCheck.add(c.getChequeado());
+            if(asignatura.getNota_final() != null){
+                Float notaFinal = Float.parseFloat(asignatura.getNota_final());
+                Float notaAprobacion = Float.parseFloat(asignatura.getConfig().getNotaAprobacion());
+                List<String> listaCond = new ArrayList<>();
+                List<Boolean> listaCheck = new ArrayList<>();
+                for (CondAsignatura c: listaCondiciones){
+                    if(c.getCondicion()!=null){
+                        listaCond.add(c.getCondicion());
+                        listaCheck.add(c.getChequeado());
+                    }
+                }
+
+                if((notaFinal < notaAprobacion) || (!listaCond.isEmpty() && listaCheck.contains(false))){
+                    asignPromedio.setBackground(getContext().getDrawable(R.drawable.roundstyle_error_final));
+                } else {
+                    asignPromedio.setBackground(getContext().getDrawable(R.drawable.roundstyle_nota_final));
                 }
             }
 
-            if((notaFinal < notaAprobacion) || (!listaCond.isEmpty() && listaCheck.contains(false))){
-                asignPromedio.setBackground(getContext().getDrawable(R.drawable.roundstyle_error_final));
-            } else {
-                asignPromedio.setBackground(getContext().getDrawable(R.drawable.roundstyle_nota_final));
-            }
 
         }
         System.out.println("NUMBER CONDICIONES "+listaCondiciones.size());
