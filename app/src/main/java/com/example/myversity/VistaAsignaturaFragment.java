@@ -91,6 +91,8 @@ public class VistaAsignaturaFragment extends Fragment {
         List<Integer> idEvaluaciones = new ArrayList<>();
         List<String> valueNotas = new ArrayList<>();
 
+        asignPromedio = view.findViewById(R.id.asignatura_promedio);
+
         // SE VERIFICA SI HAY DATOS O NO
         if( listaEvaluaciones.size() == 0){
             DbAsignaturas dbAsignaturas = new DbAsignaturas(getActivity().getApplicationContext());
@@ -151,6 +153,103 @@ public class VistaAsignaturaFragment extends Fragment {
             if(evTieneNotaFinal){
 //                notaAuxAsig = asignatura.getTp().calcularPromedioAsignaturas(listaEvaluaciones).toString();
                 notaAuxAsig = df.format(asignatura.getTp().calcularPromedioAsignaturas(listaEvaluaciones));
+
+                for (CondAsignatura c: listaCondiciones){
+                    Boolean cuandoPenaliza = c.getTp().getCuando_penaliza();
+                    if(c.getChequeado() == cuandoPenaliza){
+                        switch (c.getId_tiposPenalizacion()){
+                            // 1: Reprobación                           NO REQUIERE_VALOR
+                            // 2: Descuento porcentaje nota final       SI REQUIERE_VALOR
+                            // 3: Descuento puntaje nota final          SI REQUIERE_VALOR
+                            // 4: Adición puntaje nota final            SI REQUIERE_VALOR
+                            case 1:
+                                // condición en 0 -> reprueba
+                                asignPromedio.setBackground(getContext().getDrawable(R.drawable.roundstyle_error_final));
+                                break;
+                            case 2:
+                                // condición en 0 -> se descuenta porcentaje en la nota final
+                                Integer valorCond_2 = Integer.parseInt(c.getValor());
+                                Float nota_final_actualiza_c2 = Float.parseFloat(notaAuxAsig)*(1- valorCond_2/100);
+                                // ---- actualizamos la nota final en bd ---- //
+                                DbAsignaturas dbAsignaturas_c2 = new DbAsignaturas(getActivity().getApplicationContext());
+                                Long idAux_c2 = dbAsignaturas_c2.actualizarNotaAsignatura(asignatura.getId(), nota_final_actualiza_c2.toString());
+                                // se agrega la evaluación en la asignatura (clase)
+                                AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c2.buscarAsignaturaPorId(asignatura.getId()));
+                                dbAsignaturas_c2.close();
+                                notaAuxAsig = df.format(nota_final_actualiza_c2);
+                                break;
+                            case 3:
+                                // condición en 0 -> se descuenta puntos en la nota final
+                                Integer valorCond_3 = Integer.parseInt(c.getValor());
+                                Float nota_final_actualiza_c3 = Float.parseFloat(notaAuxAsig) - valorCond_3;
+                                // ---- actualizamos la nota final en bd ---- //
+                                DbAsignaturas dbAsignaturas_c3 = new DbAsignaturas(getActivity().getApplicationContext());
+                                Long idAux_c3 = dbAsignaturas_c3.actualizarNotaAsignatura(asignatura.getId(), nota_final_actualiza_c3.toString());
+                                // se agrega la evaluación en la asignatura (clase)
+                                AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c3.buscarAsignaturaPorId(asignatura.getId()));
+                                dbAsignaturas_c3.close();
+                                notaAuxAsig = df.format(nota_final_actualiza_c3);
+                                break;
+                            case 4:
+                                // condición en 1 -> se aumenta puntos en la nota final
+                                Integer valorCond_4 = Integer.parseInt(c.getValor());
+                                Float nota_final_actualiza_c4 = Float.parseFloat(notaAuxAsig) + valorCond_4;
+                                // ---- actualizamos la nota final en bd ---- //
+                                DbAsignaturas dbAsignaturas_c4 = new DbAsignaturas(getActivity().getApplicationContext());
+                                Long idAux_c4 = dbAsignaturas_c4.actualizarNotaAsignatura(asignatura.getId(), nota_final_actualiza_c4.toString());
+                                // se agrega la evaluación en la asignatura (clase)
+                                AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c4.buscarAsignaturaPorId(asignatura.getId()));
+                                dbAsignaturas_c4.close();
+                                notaAuxAsig = df.format(nota_final_actualiza_c4);
+                                break;
+                        }
+                    }
+                    else {
+                        switch (c.getId_tiposPenalizacion()) {
+                            case 1:
+                                // condición en 1 -> reprueba
+                                asignPromedio.setBackground(getContext().getDrawable(R.drawable.roundstyle_nota_final));
+                                break;
+                            case 2:
+                                // condición en 1 -> no se descuenta porcentaje en la nota final
+                                Integer valorCond_2 = Integer.parseInt(c.getValor());
+                                Float nota_final_actualiza_c2 = Float.parseFloat(notaAuxAsig)*(100/(100-valorCond_2));
+                                // ---- actualizamos la nota final en bd ---- //
+                                DbAsignaturas dbAsignaturas_c2 = new DbAsignaturas(getActivity().getApplicationContext());
+                                Long idAux_c2 = dbAsignaturas_c2.actualizarNotaAsignatura(asignatura.getId(), nota_final_actualiza_c2.toString());
+                                // se agrega la evaluación en la asignatura (clase)
+                                AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c2.buscarAsignaturaPorId(asignatura.getId()));
+                                dbAsignaturas_c2.close();
+                                notaAuxAsig = df.format(nota_final_actualiza_c2);
+                                break;
+                            case 3:
+                                // condición en 1 -> no se descuenta puntos en la nota final
+                                Integer valorCond_3 = Integer.parseInt(c.getValor());
+                                Float nota_final_actualiza_c3 = Float.parseFloat(notaAuxAsig) + valorCond_3;
+                                // ---- actualizamos la nota final en bd ---- //
+                                DbAsignaturas dbAsignaturas_c3 = new DbAsignaturas(getActivity().getApplicationContext());
+                                Long idAux_c3 = dbAsignaturas_c3.actualizarNotaAsignatura(asignatura.getId(), nota_final_actualiza_c3.toString());
+                                // se agrega la evaluación en la asignatura (clase)
+                                AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c3.buscarAsignaturaPorId(asignatura.getId()));
+                                dbAsignaturas_c3.close();
+                                notaAuxAsig = df.format(nota_final_actualiza_c3);
+                                break;
+                            case 4:
+                                // condición en 0 -> no se aumenta puntos en la nota final
+                                Integer valorCond_4 = Integer.parseInt(c.getValor());
+                                Float nota_final_actualiza_c4 = Float.parseFloat(notaAuxAsig) - valorCond_4;
+                                Log.d("test_cond", "VAF -> valorCond_4: " + valorCond_4 + "nota_final_actualiza_c4: " + nota_final_actualiza_c4);
+                                // ---- actualizamos la nota final en bd ---- //
+                                DbAsignaturas dbAsignaturas_c4 = new DbAsignaturas(getActivity().getApplicationContext());
+                                Long idAux_c4 = dbAsignaturas_c4.actualizarNotaAsignatura(asignatura.getId(), nota_final_actualiza_c4.toString());
+                                // se agrega la evaluación en la asignatura (clase)
+                                AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c4.buscarAsignaturaPorId(asignatura.getId()));
+                                dbAsignaturas_c4.close();
+                                notaAuxAsig = df.format(nota_final_actualiza_c4);
+                                break;
+                        }
+                    }
+                }
             } else {
                 notaAuxAsig = "0.00";
             }
@@ -166,7 +265,6 @@ public class VistaAsignaturaFragment extends Fragment {
             recyclerEval.setHasFixedSize(true);
             recyclerEval.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
-            asignPromedio = view.findViewById(R.id.asignatura_promedio);
             if(asignatura.getNota_final() != null){
                 Float notaFinal = Float.parseFloat(asignatura.getNota_final());
                 Float notaAprobacion = Float.parseFloat(asignatura.getConfig().getNotaAprobacion());

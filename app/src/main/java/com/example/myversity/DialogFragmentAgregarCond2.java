@@ -86,12 +86,36 @@ public class DialogFragmentAgregarCond2 extends androidx.fragment.app.DialogFrag
                         String condicion = VistaAsignaturaFragment.static_texto_condicion;
                         CondAsignatura condAsignatura = new CondAsignatura(id_asignatura, id_tiposPenalizacion, condicion, false, input_valorCond);
 
+                        // SE ACTUALIZA NOTA FINAL POR DEFECTO CUANDO EL TIPO DE PENALIZACIÓN SEA 1 O 2
+
+                        // ---- se obtiene el valor de Nota Final de la asignatura ---- //
+                        Float nota_final_actual;
+                        if (AsignaturasFragment.getAsignatura_seleccionada().getNota_final() == null){
+                            Integer i = 0;
+                            nota_final_actual = i.floatValue() ;
+                        }
+                        else{
+                            nota_final_actual =  Float.parseFloat(AsignaturasFragment.getAsignatura_seleccionada().getNota_final());
+                        }
+
+                        if(id_tiposPenalizacion == 4){
+                            Log.d("test_cond", "DENTRO");
+                            // condición en 1 -> se aumenta puntos en la nota final solo al ingresar
+                            Integer valorCond_4 = Integer.parseInt(condAsignatura.getValor());
+                            Float nota_final_actualiza_c4 = nota_final_actual + valorCond_4;
+                            Log.d("test_cond", "valorCond_4: " + valorCond_4 + "nota_final_actualiza_c4: " + nota_final_actualiza_c4);
+                            // ---- actualizamos la nota final en bd ---- //
+                            DbAsignaturas dbAsignaturas_c4 = new DbAsignaturas(getActivity().getApplicationContext());
+                            Long idAux_c4 = dbAsignaturas_c4.actualizarNotaAsignatura(id_asignatura, nota_final_actualiza_c4.toString());
+                            dbAsignaturas_c4.close();
+                        }
+
                         // ---- se agrega la condición a la bd ---- //
                         DbCondAsignatura dbCondAsignatura = new DbCondAsignatura(getActivity().getApplicationContext());
                         Long idNuevaCondicion = dbCondAsignatura.insertarCondAsignatura(condAsignatura);
                         dbCondAsignatura.close();
 
-                        // ---- se agrega la evaluación en la asignatura (clase) ---- //
+                        // ---- se agrega la condición en la asignatura (clase) ---- //
                         DbAsignaturas dbAsignaturas = new DbAsignaturas(getActivity().getApplicationContext());
                         AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas.buscarAsignaturaPorId(id_asignatura));
                         dbAsignaturas.close();

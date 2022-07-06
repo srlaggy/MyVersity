@@ -11,8 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myversity.AsignaturasFragment;
+import com.example.myversity.MainActivity;
 import com.example.myversity.R;
+import com.example.myversity.VistaAsignaturaFragment;
+import com.example.myversity.db.DbAsignaturas;
 import com.example.myversity.db.DbCondAsignatura;
+import com.example.myversity.entidades.Asignaturas;
 import com.example.myversity.entidades.CondAsignatura;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
@@ -55,12 +60,124 @@ public class CondAdapter extends RecyclerView.Adapter<CondAdapter.CondViewHolder
                 //guardar estado en db
                 Long state = dbCondAsignatura.actualizarChequeado(condAsignatura.getId(), condAsignatura.getChequeado());
 
-                //actualizar color nota final
-                if(!condAsignatura.getChequeado()){
+                // ---- actualizar color nota final ----- //
+                Integer idAsig = AsignaturasFragment.getAsignatura_seleccionada().getId();
+                Boolean cuandoPenaliza = condAsignatura.getTp().getCuando_penaliza();
+                Integer tipoCond = condAsignatura.getId_tiposPenalizacion();
+                Float nota_final_actual;
+                if (AsignaturasFragment.getAsignatura_seleccionada().getNota_final() == null){
+                    Integer i = 0;
+                    nota_final_actual = i.floatValue() ;
+                }
+                else{
+                    nota_final_actual =  Float.parseFloat(AsignaturasFragment.getAsignatura_seleccionada().getNota_final());
+                }
+
+                // checked == tp.getCuando_penaliza:
+                //     caso asistencia: poner en rojo la nota final
+                //     caso descuento porcentaje: descontar porcentaje a nota final y poner en rojo si esta menor a la aprobacion
+                //     caso descuento nota: lo mismo pero con el puntaje menos
+                //     caso adicion nota: lo mismo pero agregando puntaje y revisando si se pone en rojo
+
+                // ---- 1er caso: ---- //
+                if(condAsignatura.getChequeado() == cuandoPenaliza){
+                    // 1: Reprobación                           NO REQUIERE_VALOR
+                    // 2: Descuento porcentaje nota final       SI REQUIERE_VALOR
+                    // 3: Descuento puntaje nota final          SI REQUIERE_VALOR
+                    // 4: Adición puntaje nota final            SI REQUIERE_VALOR
+                    switch (tipoCond){
+                        case 1:
+                            // condición en 0 -> reprueba
+                            notaFinal.setBackground(ctx.getDrawable(R.drawable.roundstyle_error_final));
+                            break;
+                        case 2:
+                            // condición en 0 -> se descuenta porcentaje en la nota final
+                            Integer valorCond_2 = Integer.parseInt(condAsignatura.getValor());
+                            Float nota_final_actualiza_c2 = nota_final_actual*(1- valorCond_2/100);
+                            // ---- actualizamos la nota final en bd ---- //
+                            DbAsignaturas dbAsignaturas_c2 = new DbAsignaturas(context.getApplicationContext());
+                            Long idAux_c2 = dbAsignaturas_c2.actualizarNotaAsignatura(idAsig, nota_final_actualiza_c2.toString());
+                            // se agrega la evaluación en la asignatura (clase)
+                            AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c2.buscarAsignaturaPorId(idAsig));
+                            dbAsignaturas_c2.close();
+                            notaFinal.setText(nota_final_actualiza_c2.toString());
+                            break;
+                        case 3:
+                            // condición en 0 -> se descuenta puntos en la nota final
+                            Integer valorCond_3 = Integer.parseInt(condAsignatura.getValor());
+                            Float nota_final_actualiza_c3 = nota_final_actual - valorCond_3;
+                            // ---- actualizamos la nota final en bd ---- //
+                            DbAsignaturas dbAsignaturas_c3 = new DbAsignaturas(context.getApplicationContext());
+                            Long idAux_c3 = dbAsignaturas_c3.actualizarNotaAsignatura(idAsig, nota_final_actualiza_c3.toString());
+                            // se agrega la evaluación en la asignatura (clase)
+                            AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c3.buscarAsignaturaPorId(idAsig));
+                            dbAsignaturas_c3.close();
+                            notaFinal.setText(nota_final_actualiza_c3.toString());
+                            break;
+                        case 4:
+                            // condición en 1 -> se aumenta puntos en la nota final
+                            Integer valorCond_4 = Integer.parseInt(condAsignatura.getValor());
+                            Float nota_final_actualiza_c4 = nota_final_actual + valorCond_4;
+                            // ---- actualizamos la nota final en bd ---- //
+                            DbAsignaturas dbAsignaturas_c4 = new DbAsignaturas(context.getApplicationContext());
+                            Long idAux_c4 = dbAsignaturas_c4.actualizarNotaAsignatura(idAsig, nota_final_actualiza_c4.toString());
+                            // se agrega la evaluación en la asignatura (clase)
+                            AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c4.buscarAsignaturaPorId(idAsig));
+                            dbAsignaturas_c4.close();
+                            notaFinal.setText(nota_final_actualiza_c4.toString());
+                            break;
+                    }
+                } // ---- 2do caso: ---- //
+                else{
+                    switch (tipoCond){
+                        case 1:
+                            // condición en 1 -> reprueba
+                            notaFinal.setBackground(ctx.getDrawable(R.drawable.roundstyle_nota_final));
+                            break;
+                        case 2:
+                            // condición en 1 -> no se descuenta porcentaje en la nota final
+                            Integer valorCond_2 = Integer.parseInt(condAsignatura.getValor());
+                            Float nota_final_actualiza_c2 = nota_final_actual*(100/(100-valorCond_2));
+                            // ---- actualizamos la nota final en bd ---- //
+                            DbAsignaturas dbAsignaturas_c2 = new DbAsignaturas(context.getApplicationContext());
+                            Long idAux_c2 = dbAsignaturas_c2.actualizarNotaAsignatura(idAsig, nota_final_actualiza_c2.toString());
+                            // se agrega la evaluación en la asignatura (clase)
+                            AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c2.buscarAsignaturaPorId(idAsig));
+                            dbAsignaturas_c2.close();
+                            notaFinal.setText(nota_final_actualiza_c2.toString());
+                            break;
+                        case 3:
+                            // condición en 1 -> no se descuenta puntos en la nota final
+                            Integer valorCond_3 = Integer.parseInt(condAsignatura.getValor());
+                            Float nota_final_actualiza_c3 = nota_final_actual + valorCond_3;
+                            // ---- actualizamos la nota final en bd ---- //
+                            DbAsignaturas dbAsignaturas_c3 = new DbAsignaturas(context.getApplicationContext());
+                            Long idAux_c3 = dbAsignaturas_c3.actualizarNotaAsignatura(idAsig, nota_final_actualiza_c3.toString());
+                            // se agrega la evaluación en la asignatura (clase)
+                            AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c3.buscarAsignaturaPorId(idAsig));
+                            dbAsignaturas_c3.close();
+                            notaFinal.setText(nota_final_actualiza_c3.toString());
+                            break;
+                        case 4:
+                            // condición en 0 -> no se aumenta puntos en la nota final
+                            Integer valorCond_4 = Integer.parseInt(condAsignatura.getValor());
+                            Float nota_final_actualiza_c4 = nota_final_actual - valorCond_4;
+                            // ---- actualizamos la nota final en bd ---- //
+                            DbAsignaturas dbAsignaturas_c4 = new DbAsignaturas(context.getApplicationContext());
+                            Long idAux_c4 = dbAsignaturas_c4.actualizarNotaAsignatura(idAsig, nota_final_actualiza_c4.toString());
+                            // se agrega la evaluación en la asignatura (clase)
+                            AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c4.buscarAsignaturaPorId(idAsig));
+                            dbAsignaturas_c4.close();
+                            notaFinal.setText(nota_final_actualiza_c4.toString());
+                            break;
+                    }
+                }
+
+                /*if(!condAsignatura.getChequeado()){
                     notaFinal.setBackground(ctx.getDrawable(R.drawable.roundstyle_error_final));
                 }else{
                     notaFinal.setBackground(ctx.getDrawable(R.drawable.roundstyle_nota_final));
-                }
+                }*/
 
                 System.out.println("Successfully updated condición: " + state);
                 System.out.println("ESTADO CONDICIÒN: "+ condAsignatura.getChequeado());
