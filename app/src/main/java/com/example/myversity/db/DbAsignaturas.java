@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -248,7 +249,7 @@ public class DbAsignaturas extends DbHelper{
 
     public Long borrarAsignatura(Integer idAsignatura, Integer idConfigInicial){
         Long estado = 0L;
-        String whereClause = "_id=?";
+        String whereClause = "id=?";
         String[] whereArgs = new String[] {idAsignatura.toString()};
 
         try{
@@ -272,6 +273,7 @@ public class DbAsignaturas extends DbHelper{
             // AHORA SE BORRA LA ASIGNATURA
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
+            Log.e("test", String.valueOf(idConfigInicial));
             db.delete(TABLE_ASIGNATURAS, whereClause, whereArgs);
 
             estado = 1L;

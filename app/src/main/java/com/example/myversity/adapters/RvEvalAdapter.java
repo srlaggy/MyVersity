@@ -2,6 +2,8 @@ package com.example.myversity.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -58,7 +60,6 @@ public class RvEvalAdapter extends RecyclerView.Adapter<RvEvalAdapter.EvalViewHo
     public void onBindViewHolder(@NonNull EvalViewHolder holder, int position) {
         Evaluaciones evaluacion = evalItemList.get(position);
         holder.titleEval.setText(evaluacion.getTipo());
-        System.out.println("CHECK: "+ (evaluacion.getNota_evaluacion() == null));
 
         BtnEditar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +101,10 @@ public class RvEvalAdapter extends RecyclerView.Adapter<RvEvalAdapter.EvalViewHo
             holder.promedioEval.setText(df.format(Float.parseFloat(evaluacion.getNota_evaluacion())));
         }else{
             holder.promedioEval.setText(df.format(evaluacion.getTp().calcularPromedioEvaluaciones(evaluacion,evaluacion.getNotas())));
+        }
+
+        if(!evaluacion.getCond() && evaluacion.getNota_cond() != null){
+            holder.promedioEval.setBackground(context.getDrawable(R.drawable.roundstyle_error));
         }
 
         holder.notaRecyclerView.setHasFixedSize(true);

@@ -92,4 +92,12 @@ public class CondAsignatura {
     public void setTp(TiposPenalizacion tp) {
         this.tp = tp;
     }
+
+    @Override
+    public String toString() {
+        return "CONDICION ID=" + id + "\n" +
+                "-> Nombre: " + condicion + "\n" +
+                "-> Valor: " + valor + "\n" +
+                "-> Chequeado: " + chequeado;
+    }
 }

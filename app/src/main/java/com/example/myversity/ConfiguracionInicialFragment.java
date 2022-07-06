@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,6 +39,8 @@ public class ConfiguracionInicialFragment extends Fragment {
     // 1 -> viene desde las asignaturas
     // 2 -> editar la configuración de una asignatura
     private Integer estado = 0;
+    private Asignaturas asig_est2;
+    private ConfiguracionInicial configPrimera;
 
     public ConfiguracionInicialFragment() {
         // Required empty public constructor
@@ -78,7 +81,12 @@ public class ConfiguracionInicialFragment extends Fragment {
         orientacion = (RadioGroup) view.findViewById(R.id.radio_orientacion_config_inicial);
         tipo = (RadioGroup) view.findViewById(R.id.radio_tiponota_config_inicial);
 
-        ConfiguracionInicial configPrimera = dbConfigInicial.buscarPrimeraConfiguracion();
+        if(estado == 2){
+            asig_est2 = AsignaturasFragment.getAsignatura_seleccionada();
+            configPrimera = dbConfigInicial.buscarRegistro(asig_est2.getId_configInicial());
+        } else {
+            configPrimera = dbConfigInicial.buscarPrimeraConfiguracion();
+        }
         dbConfigInicial.close();
         setDefaultValues(configPrimera);
 
@@ -173,8 +181,6 @@ public class ConfiguracionInicialFragment extends Fragment {
                             ((MainActivity) activity).binding.bottombar.setSelectedItemId(R.id.btn_nav_asignatura);
                         }
                     } else if (estado == 2){
-                        Asignaturas asig_est2 = AsignaturasFragment.getAsignatura_seleccionada();
-
                         // SE AGREGA A LA BD
                         DbAsignaturas dbAsignaturas = new DbAsignaturas(getActivity().getApplicationContext());
                         Long idAux = dbAsignaturas.actualizarConfigInicial(asig_est2.getId(), asig_est2.getId_configInicial(), configAux);
@@ -195,9 +201,11 @@ public class ConfiguracionInicialFragment extends Fragment {
                                 asig_est2.setConfig(configAux);
                             }
                         }
-
-
-
+                        Toast toast = Toast.makeText(getActivity().getApplicationContext(),"Configuración cambiada exitosamente", Toast.LENGTH_SHORT);
+                        toast.show();
+                        if (activity instanceof MainActivity){
+                            ((MainActivity) activity).replaceFragment(new AsignaturasFragment(), ((MainActivity) activity).getSupportFragmentManager(), R.id.framecentral);
+                        }
                     }
                     dbConfigInicial.close();
                 }

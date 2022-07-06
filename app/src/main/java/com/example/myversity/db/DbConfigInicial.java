@@ -220,7 +220,7 @@ public class DbConfigInicial extends DbHelper{
     // METODO PARA BORRAR UN REGISTRO DE SER NECESARIO (EVITAR BORRAR EL ID 1)
     public Long borrarRegistro(Integer id){
         Long estado = 0L;
-        String whereClause = "_id=?";
+        String whereClause = "id=?";
         String[] whereArgs = new String[] {id.toString()};
 
         try {

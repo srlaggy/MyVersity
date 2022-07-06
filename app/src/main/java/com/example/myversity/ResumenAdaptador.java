@@ -24,6 +24,7 @@ import com.example.myversity.entidades.Notas;
 import com.example.myversity.entidades.TiposPenalizacion;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ResumenAdaptador extends BaseAdapter {
 
@@ -156,7 +157,7 @@ public class ResumenAdaptador extends BaseAdapter {
                             arrayListNotasNoNulas.add(nota);
                         }
                         if(nota.getNota_cond() != null && nota.getNota() != null){
-                            if(CompararNotas(Float.parseFloat(nota.getNota()),Float.parseFloat(nota.getNota_cond()),config.getOrientacionAsc())){
+                            if(!CompararNotas(Float.parseFloat(nota.getNota()),Float.parseFloat(nota.getNota_cond()),config.getOrientacionAsc())){
                                 estaReprobado = Boolean.TRUE;
                                 if(textViewDescripcion.getText() == "") textViewDescripcion.setText(contexto.getResources().getString(R.string.resumen_condicion_incumplida) + "\n");
                                 textViewDescripcion.append("-" + contexto.getResources().getString(R.string.resumen_condicion_incumplida_nota) + " " + evaluacion.getTipo() + "\n");
@@ -215,9 +216,32 @@ public class ResumenAdaptador extends BaseAdapter {
                 float mediaFinalRealista = asignatura.getTp().calcularPromedioAsignaturas(arrayListNotasFinalesRealistas);
                 float mediaFinalActual = asignatura.getTp().calcularPromedioAsignaturas(arrayListNotasFinalesActuales);
 
+                List<CondAsignatura> condAsignaturaList = asignatura.getCa();
+                int auxCount;
+                for (auxCount = 0; auxCount < condAsignaturaList.size(); auxCount++){
+                    CondAsignatura cond = condAsignaturaList.get(auxCount);
+                    switch (cond.getId_tiposPenalizacion()){
+                        case 2:
+                            if(!cond.getChequeado()) mediaFinalActual *= (Float.parseFloat(cond.getValor()) * 0.01f);
+                            break;
+                        case 3:
+                            if(!cond.getChequeado()) mediaFinalActual -= Float.parseFloat(cond.getValor());
+                            break;
+                        case 4:
+                            if(cond.getChequeado()) mediaFinalActual += Float.parseFloat(cond.getValor());
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
                 if(!config.getDecimal()) mediaFinalActual = Math.round(mediaFinalActual);
 
-                if(!CompararNotas(mediaFinalOptimista,Float.parseFloat(config.getNotaAprobacion()),config.getOrientacionAsc())){
+                if(estaReprobado){
+                    textViewEstado.setText("Asignatura reprobada");
+                }
+
+                else if(!CompararNotas(mediaFinalOptimista,Float.parseFloat(config.getNotaAprobacion()),config.getOrientacionAsc())){
                     textViewEstado.setText(R.string.resumen_asignatura_imposible_aprobar);
                     estaReprobado = Boolean.TRUE;
                 }
@@ -250,15 +274,16 @@ public class ResumenAdaptador extends BaseAdapter {
                 }
 
                 if(estaReprobado){
-                    linearLayoutRectangulo.setBackgroundResource(R.color.red);
+                    //linearLayoutRectangulo.setBackgroundResource(R.color.red);
+                    linearLayoutRectangulo.setBackground(contexto.getDrawable(R.drawable.roundstyle_error));
                 }
                 else if (hayCondicionesNoCumplidas){
-                    linearLayoutRectangulo.setBackgroundResource(R.color.reply_orange);
+                    linearLayoutRectangulo.setBackground(contexto.getDrawable(R.drawable.roundstyle_risk));
                 }
                 else if (estaAprobado){
-                    linearLayoutRectangulo.setBackgroundResource(R.color.green);
+                    linearLayoutRectangulo.setBackground(contexto.getDrawable(R.drawable.roundstyle_aprobado));
                 }
-                else linearLayoutRectangulo.setBackgroundResource(R.color.reply_orange);
+                else linearLayoutRectangulo.setBackground(contexto.getDrawable(R.drawable.roundstyle_risk));
 
                 textViewPromedioActual.append(String.valueOf(mediaFinalActual));
 

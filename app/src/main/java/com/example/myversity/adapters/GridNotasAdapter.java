@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,9 +22,12 @@ import com.example.myversity.db.DbAsignaturas;
 import com.example.myversity.db.DbEvaluaciones;
 import com.example.myversity.db.DbNotas;
 import com.example.myversity.entidades.Asignaturas;
+import com.example.myversity.entidades.CondAsignatura;
+import com.example.myversity.entidades.ConfiguracionInicial;
 import com.example.myversity.entidades.Evaluaciones;
 import com.example.myversity.entidades.Notas;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +36,7 @@ import java.util.Objects;
 public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.NotaViewHolder> {
     public List<Notas> notaItemList;
     boolean isOnValueChanged = false;
+    public static boolean valido = true;
     Context context, ctx;
     View rootView;
     public static ArrayList<Notas> notasActualizadas = new ArrayList<>();
@@ -41,15 +46,22 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
     TextView notaFinal;
     Evaluaciones currEvaluacion;
     public Asignaturas currAsignatura = AsignaturasFragment.getAsignatura_seleccionada();
+    public List<CondAsignatura> listaCondiciones = AsignaturasFragment.getAsignatura_seleccionada().getCa();
     public List<Evaluaciones> evaluaciones;
+    public List<String> listaCond = new ArrayList<>();
+    public List<Boolean> listaCheck = new ArrayList<>();
     public RvEvalAdapter adapter = VistaAsignaturaFragment.rvEvalAdapter;
+    public ConfiguracionInicial configInicial = AsignaturasFragment.getAsignatura_seleccionada().getConfig();
+    Boolean decimal = configInicial.getDecimal();
 
     public static class NotaViewHolder extends RecyclerView.ViewHolder{
         public EditText NotaText;
+        public TextInputLayout notaField;
 
         public NotaViewHolder(@NonNull View itemView) {
             super(itemView);
             NotaText = itemView.findViewById(R.id.editText_nota);
+            notaField = itemView.findViewById(R.id.nota_field);
         }
     }
     public GridNotasAdapter(Context ct, List<Notas> notaItemlist){
@@ -67,6 +79,13 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
         BtnGuardar = rootView.findViewById(R.id.btn_guardar_notas);
         notaFinal = rootView.findViewById(R.id.asignatura_promedio);
 
+        for (CondAsignatura c: listaCondiciones){
+            if(c.getCondicion()!=null){
+                listaCond.add(c.getCondicion());
+                listaCheck.add(c.getChequeado());
+            }
+        }
+
         return new NotaViewHolder(view);
     }
 
@@ -77,6 +96,17 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
         EditText NotaText = holder.NotaText;
         evaluaciones = VistaAsignaturaFragment.listaEvaluaciones;
 
+        //automatically scroll the text field above the keyboard
+        NotaText.requestFocus();
+
+        // EXPRESION REGULAR PARA CALZAR LOS NUMEROS CON Y SIN DECIMAL
+        Pattern patternNumber = Pattern.compile("^(?:(?:\\d\\.\\d+)|(?:[1-9]\\d+\\.\\d+)|(?:\\d)|(?:[1-9]\\d+))$", Pattern.MULTILINE);
+
+        if(!nota.getCond() && nota.getNota_cond() != null ){
+            holder.notaField.setErrorEnabled(true);
+            holder.notaField.setError("insuficiente");
+        }
+
         NotaText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -85,6 +115,7 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 isOnValueChanged = true;
+                valido = true;
             }
 
             @Override
@@ -93,32 +124,64 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
                     isOnValueChanged = false;
 
                     try {
-                        if(editable.toString().isEmpty()){
-                            nota.setNota("Null");
-                        }else {
-                            nota.setNota(editable.toString());
+                        //Check for correct format of entered number
+                        if(!patternNumber.matcher(editable.toString()).find() && !editable.toString().isEmpty()){
+                            valido = false;
+                            Toast.makeText(ctx.getApplicationContext(), "Formato incorrecto", Toast.LENGTH_LONG).show();
+                            System.out.println("FORMATO INCORRECTO");
+                        } else if(editable.toString().contains(".") != decimal){
+                            valido = false;
+                            Toast.makeText(ctx.getApplicationContext(), "Tipo de nota incorrecta", Toast.LENGTH_LONG).show();
+                            System.out.println("TIPO DE NOTA INCORRECTA");
                         }
-
-                        System.out.println("ID Nota "+nota.getId().toString()+" ID Evaluación "+nota.getId_evaluaciones().toString());
-                        System.out.println("Nota "+nota.getNota());
-
-                        if(notasActualizadas.size() > 0){
-                            for(int i = 0; i < notasActualizadas.size(); i++){
-                                if(IdNotas.contains(nota.getId())){
-                                    notasActualizadas.set(IdNotas.indexOf(nota.getId()), nota);
-                                    System.out.println("Nota with existing ID replaced in: "+i+", IdNotas: " + IdNotas);
-                                }else {
-                                    notasActualizadas.add(nota);
-                                    IdNotas.add(nota.getId());
-                                    System.out.println("New nota added to notasActualizadas in: "+i+", IdNotas: "+IdNotas);
+                        //Check if nota ingresada is in the permitted range (min-max) del config
+                        if(valido){
+                            if(decimal){
+                                Float minNumF = Float.parseFloat(configInicial.getMin());
+                                Float maxNumF = Float.parseFloat(configInicial.getMax());
+                                if((Float.parseFloat(editable.toString()) < minNumF) || (Float.parseFloat(editable.toString()) > maxNumF)){
+                                    valido = false;
+                                    Toast.makeText(ctx.getApplicationContext(), "Valor fuera del rango", Toast.LENGTH_LONG).show();
+                                    System.out.println("VALOR FUERA DEL RANGO");
                                 }
-                                System.out.println("Entry "+i+"in notasActualizadas: "+notasActualizadas.get(i).getId());
+                            }else{
+                                Integer minNum = Integer.parseInt(configInicial.getMin());
+                                Integer maxNum = Integer.parseInt(configInicial.getMax());
+                                if((Integer.parseInt(editable.toString()) < minNum) || (Integer.parseInt(editable.toString()) > maxNum)){
+                                    valido = false;
+                                    Toast.makeText(ctx.getApplicationContext(), "Valor fuera del rango", Toast.LENGTH_LONG).show();
+                                    System.out.println("VALOR FUERA DEL RANGO");
+                                }
                             }
-                        }else{
-                            notasActualizadas.add(nota);
-                            IdNotas.add(nota.getId());
                         }
-                        System.out.println("Size Lista notas actualizadas "+ notasActualizadas.size());
+                        if(valido){
+                            if(editable.toString().isEmpty()){
+                                nota.setNota("Null");
+                            }else {
+                                nota.setNota(editable.toString());
+                            }
+
+                            System.out.println("ID Nota "+nota.getId().toString()+" ID Evaluación "+nota.getId_evaluaciones().toString());
+                            System.out.println("Nota "+nota.getNota());
+
+                            if(notasActualizadas.size() > 0){
+                                for(int i = 0; i < notasActualizadas.size(); i++){
+                                    if(IdNotas.contains(nota.getId())){
+                                        notasActualizadas.set(IdNotas.indexOf(nota.getId()), nota);
+                                        System.out.println("Nota with existing ID replaced in: "+i+", IdNotas: " + IdNotas);
+                                    }else {
+                                        notasActualizadas.add(nota);
+                                        IdNotas.add(nota.getId());
+                                        System.out.println("New nota added to notasActualizadas in: "+i+", IdNotas: "+IdNotas);
+                                    }
+                                    System.out.println("Entry "+i+"in notasActualizadas: "+notasActualizadas.get(i).getId());
+                                }
+                            }else{
+                                notasActualizadas.add(nota);
+                                IdNotas.add(nota.getId());
+                            }
+                            System.out.println("Size Lista notas actualizadas "+ notasActualizadas.size());
+                        }
                     } catch (NumberFormatException e) {
                         e.toString();
                     }
@@ -130,15 +193,36 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
         BtnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("List size on click: " + notasActualizadas.size());
 
                 if(!notasActualizadas.isEmpty()){
                     DbNotas dbNotas = new DbNotas(ctx.getApplicationContext());
                     DbEvaluaciones dbEvaluaciones = new DbEvaluaciones(ctx.getApplicationContext());
                     DbAsignaturas dbAsignaturas = new DbAsignaturas((ctx.getApplicationContext()));
 
+                    //dbNotas.actualizarNotaCond(1,"55");
+                    //dbNotas.actualizarNotaCond(4,"50");
+                    //dbNotas.actualizarNotaCond(6,"75");
+                    //dbNotas.actualizarNotaCond(8,"55");
+                    //dbEvaluaciones.actualizarNotaCond(0,"55");
+                    //dbEvaluaciones.actualizarNotaCond(1,"50");
+                    //dbEvaluaciones.actualizarNotaCond(2,"60");
+                    //dbEvaluaciones.actualizarNotaCond(3,"55");
+
                     for(int j=0; j < notasActualizadas.size(); j++){
                         Long id = dbNotas.actualizarNota(notasActualizadas.get(j).getId(), notasActualizadas.get(j).getNota());
+
+                        //actualizar estado de condición en DB comparando la nota actual con el valor requirido
+                        if(notasActualizadas.get(j).getNota_cond() != null){
+                            Float cond = Float.parseFloat(notasActualizadas.get(j).getNota_cond());
+                            Float notaval = Float.parseFloat(notasActualizadas.get(j).getNota());
+                            Long stateCond;
+                            if(notaval >= cond){
+                                stateCond = dbNotas.actualizarCond(notasActualizadas.get(j).getId(), true);
+                            }else{
+                                stateCond = dbNotas.actualizarCond(notasActualizadas.get(j).getId(), false);
+                            }
+                            System.out.println("CONDICIÒN NOTA actualizada: " + stateCond);
+                        }
 
                         //get Evaluaciones item for the current EvalID
                         currEvaluacion = dbEvaluaciones.buscarEvaluacionPorId(notasActualizadas.get(j).getId_evaluaciones());
@@ -161,17 +245,37 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
                         }
                         System.out.println("SAVED PROMEDIO: "+ currEvaluacion.getNota_evaluacion());
 
+                        //actualizar estado de condición en DB comparando el promedio con el valor requirido
+                        if(currEvaluacion.getNota_cond() != null){
+                            Float condEval = Float.parseFloat(currEvaluacion.getNota_cond());
+                            Float promedioval = Float.parseFloat(currEvaluacion.getNota_evaluacion());
+                            Long stateCondEval;
+                            if(promedioval >= condEval){
+                                stateCondEval = dbEvaluaciones.actualizarCondicion(currEvaluacion.getId(), true);
+                            }else{
+                                stateCondEval = dbEvaluaciones.actualizarCondicion(currEvaluacion.getId(), false);
+                            }
+                            System.out.println("CONDICIÒN PROMEDIO actualizada: " + stateCondEval);
+                        }
+
                         //actualizar nota final para asignatura
                         currAsignatura.setNota_final(currAsignatura.getTp().calcularPromedioAsignaturas(evaluaciones).toString());
                         //actualizar nota final en DB
                         Long stateNotaFinal = dbAsignaturas.actualizarNotaAsignatura(currAsignatura.getId(),currAsignatura.getNota_final());
 
                         notaFinal.setText(currAsignatura.getNota_final());
+                        //actualizar color del campo nota final dependiente de condiciones
+                        Float notaAsign = Float.parseFloat(currAsignatura.getNota_final());
+                        Float notaAprobacion = Float.parseFloat(currAsignatura.getConfig().getNotaAprobacion());
+                        if((notaAsign < notaAprobacion) || (!listaCond.isEmpty() && listaCheck.contains(false))){
+                            notaFinal.setBackground(ctx.getDrawable(R.drawable.roundstyle_error_final));
+                        } else{
+                            notaFinal.setBackground(ctx.getDrawable(R.drawable.roundstyle_nota_final));
+                        }
 
                         IdAux.add(id);
                         IdAux.add(statePromedio);
                         IdAux.add(stateNotaFinal);
-
                         System.out.println("Successfully saved nota: "+id + " y promedio: "+statePromedio + " y nota final: "+stateNotaFinal);
                         System.out.println("ID: "+notasActualizadas.get(j).getId());
                         System.out.println("Nota: "+notasActualizadas.get(j).getNota());

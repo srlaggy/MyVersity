@@ -1,6 +1,7 @@
 package com.example.myversity;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,11 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myversity.adapters.CondAdapter;
 import com.example.myversity.adapters.RvEvalAdapter;
 import com.example.myversity.entidades.Asignaturas;
+import com.example.myversity.entidades.CondAsignatura;
 import com.example.myversity.entidades.Evaluaciones;
 import com.example.myversity.entidades.TipoPromedio;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -29,11 +33,12 @@ public class VistaAsignaturaFragment extends Fragment {
     FloatingActionButton fabAgregarEval, fabAgregarCond;
     TextView agregarEvalText, agregarCondText, asignPromedio;
     Boolean fabsVisible;
-    RecyclerView recyclerEval;
+    RecyclerView recyclerEval, recyclerCond;
     private static final DecimalFormat df = new DecimalFormat("0.00");
     public static RvEvalAdapter rvEvalAdapter;
+    public static CondAdapter condAdapter;
     public static List<Evaluaciones> listaEvaluaciones;
-    FloatingActionButton BtnGuardar;
+    public static List<CondAsignatura> listaCondiciones;
 
     // ---- VARIABLES ESTÁTICAS PARA DIALOG FRAGMENT DE AGREGAR EVALUACIÓN ---- //
     public static String nombre_eval_agregar;
@@ -71,6 +76,7 @@ public class VistaAsignaturaFragment extends Fragment {
         String name_asign = AsignaturasFragment.getName_Asignatura();
         Asignaturas asignatura = AsignaturasFragment.getAsignatura_seleccionada();
         listaEvaluaciones = asignatura.getEv();
+        listaCondiciones = asignatura.getCa();
 
         System.out.println("ID ASIGNATURA: "+id_asign);
         System.out.println("NOMBRE ASIGNATURA: "+name_asign);
@@ -115,6 +121,37 @@ public class VistaAsignaturaFragment extends Fragment {
                 asignPromedio.setText(df.format(asignatura.getTp().calcularPromedioAsignaturas(listaEvaluaciones)));
             }
 
+            if(asignatura.getNota_final() != null){
+                Float notaFinal = Float.parseFloat(asignatura.getNota_final());
+                Float notaAprobacion = Float.parseFloat(asignatura.getConfig().getNotaAprobacion());
+                List<String> listaCond = new ArrayList<>();
+                List<Boolean> listaCheck = new ArrayList<>();
+                for (CondAsignatura c: listaCondiciones){
+                    if(c.getCondicion()!=null){
+                        listaCond.add(c.getCondicion());
+                        listaCheck.add(c.getChequeado());
+                    }
+                }
+
+                if((notaFinal < notaAprobacion) || (!listaCond.isEmpty() && listaCheck.contains(false))){
+                    asignPromedio.setBackground(getContext().getDrawable(R.drawable.roundstyle_error_final));
+                } else {
+                    asignPromedio.setBackground(getContext().getDrawable(R.drawable.roundstyle_nota_final));
+                }
+            }
+
+
+        }
+        System.out.println("NUMBER CONDICIONES "+listaCondiciones.size());
+        if(listaCondiciones.size() > 0){
+            System.out.println("LISTA CONDICIONES:");
+            System.out.println(listaCondiciones);
+
+            recyclerCond = view.findViewById(R.id.recyclerview_cond);
+            condAdapter = new CondAdapter(getActivity().getApplicationContext(), listaCondiciones);
+            recyclerCond.setAdapter(condAdapter);
+            recyclerCond.setHasFixedSize(true);
+            recyclerCond.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         }
 
 
@@ -140,6 +177,10 @@ public class VistaAsignaturaFragment extends Fragment {
                     fabAgregarCond.show();
                     agregarEvalText.setVisibility(View.VISIBLE);
                     agregarCondText.setVisibility(View.VISIBLE);
+                    agregarCondText.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    agregarCondText.getBackground().setAlpha(180);
+                    agregarEvalText.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    agregarEvalText.getBackground().setAlpha(180);
                     efabAgregar.extend();
                     fabsVisible = true;
                 } else {
