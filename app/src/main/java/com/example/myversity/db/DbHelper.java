@@ -207,11 +207,11 @@ public class DbHelper extends SQLiteOpenHelper {
         nota.add(new Notas(0, 1, "80", false, null, "0.2"));
         nota.add(new Notas(1, 1,"75" , false, null, "0.3"));
         nota.add(new Notas(2, 1,"90", false, null, "0.5"));
-        nota.add(new Notas(3, 2,"85", false, null, null));
+        nota.add(new Notas(3, 2,"0", false, null, null));
         nota.add(new Notas(4, 2, "95", false, null, null));
         nota.add(new Notas(5, 2, "55", false, null, null));
-        nota.add(new Notas(6, 3, "65", false, null, null));
-        nota.add(new Notas(7, 3, "70", false, null, null));
+        nota.add(new Notas(6, 3, "0", false, null, null));
+        nota.add(new Notas(7, 3, "0", false, null, null));
         nota.add(new Notas(8, 3, "80", false, null, null));
         nota.add(new Notas(9, 4, "99", false, null, null));
         nota.add(new Notas(10, 4, "60", false, null, null));

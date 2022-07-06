@@ -77,7 +77,7 @@
 
             <EditText
                 android:id="@+id/cant_eval_agregar"
-                android:inputType="text"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
