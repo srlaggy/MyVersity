@@ -17,6 +17,7 @@ import com.example.myversity.R;
 import com.example.myversity.VistaAsignaturaFragment;
 import com.example.myversity.db.DbAsignaturas;
 import com.example.myversity.db.DbCondAsignatura;
+import com.example.myversity.entidades.Asignaturas;
 import com.example.myversity.entidades.CondAsignatura;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
@@ -96,7 +97,10 @@ public class CondAdapter extends RecyclerView.Adapter<CondAdapter.CondViewHolder
                             // ---- actualizamos la nota final en bd ---- //
                             DbAsignaturas dbAsignaturas_c2 = new DbAsignaturas(context.getApplicationContext());
                             Long idAux_c2 = dbAsignaturas_c2.actualizarNotaAsignatura(idAsig, nota_final_actualiza_c2.toString());
+                            // se agrega la evaluación en la asignatura (clase)
+                            AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c2.buscarAsignaturaPorId(idAsig));
                             dbAsignaturas_c2.close();
+                            notaFinal.setText(nota_final_actualiza_c2.toString());
                             break;
                         case 3:
                             // condición en 0 -> se descuenta puntos en la nota final
@@ -105,7 +109,10 @@ public class CondAdapter extends RecyclerView.Adapter<CondAdapter.CondViewHolder
                             // ---- actualizamos la nota final en bd ---- //
                             DbAsignaturas dbAsignaturas_c3 = new DbAsignaturas(context.getApplicationContext());
                             Long idAux_c3 = dbAsignaturas_c3.actualizarNotaAsignatura(idAsig, nota_final_actualiza_c3.toString());
+                            // se agrega la evaluación en la asignatura (clase)
+                            AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c3.buscarAsignaturaPorId(idAsig));
                             dbAsignaturas_c3.close();
+                            notaFinal.setText(nota_final_actualiza_c3.toString());
                             break;
                         case 4:
                             // condición en 1 -> se aumenta puntos en la nota final
@@ -114,7 +121,10 @@ public class CondAdapter extends RecyclerView.Adapter<CondAdapter.CondViewHolder
                             // ---- actualizamos la nota final en bd ---- //
                             DbAsignaturas dbAsignaturas_c4 = new DbAsignaturas(context.getApplicationContext());
                             Long idAux_c4 = dbAsignaturas_c4.actualizarNotaAsignatura(idAsig, nota_final_actualiza_c4.toString());
+                            // se agrega la evaluación en la asignatura (clase)
+                            AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c4.buscarAsignaturaPorId(idAsig));
                             dbAsignaturas_c4.close();
+                            notaFinal.setText(nota_final_actualiza_c4.toString());
                             break;
                     }
                 } // ---- 2do caso: ---- //
@@ -127,11 +137,14 @@ public class CondAdapter extends RecyclerView.Adapter<CondAdapter.CondViewHolder
                         case 2:
                             // condición en 1 -> no se descuenta porcentaje en la nota final
                             Integer valorCond_2 = Integer.parseInt(condAsignatura.getValor());
-                            Float nota_final_actualiza_c2 = nota_final_actual*(100/(100-valorCond_2)); // nota*(100/(100-descuento))
+                            Float nota_final_actualiza_c2 = nota_final_actual*(100/(100-valorCond_2));
                             // ---- actualizamos la nota final en bd ---- //
                             DbAsignaturas dbAsignaturas_c2 = new DbAsignaturas(context.getApplicationContext());
                             Long idAux_c2 = dbAsignaturas_c2.actualizarNotaAsignatura(idAsig, nota_final_actualiza_c2.toString());
+                            // se agrega la evaluación en la asignatura (clase)
+                            AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c2.buscarAsignaturaPorId(idAsig));
                             dbAsignaturas_c2.close();
+                            notaFinal.setText(nota_final_actualiza_c2.toString());
                             break;
                         case 3:
                             // condición en 1 -> no se descuenta puntos en la nota final
@@ -140,7 +153,10 @@ public class CondAdapter extends RecyclerView.Adapter<CondAdapter.CondViewHolder
                             // ---- actualizamos la nota final en bd ---- //
                             DbAsignaturas dbAsignaturas_c3 = new DbAsignaturas(context.getApplicationContext());
                             Long idAux_c3 = dbAsignaturas_c3.actualizarNotaAsignatura(idAsig, nota_final_actualiza_c3.toString());
+                            // se agrega la evaluación en la asignatura (clase)
+                            AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c3.buscarAsignaturaPorId(idAsig));
                             dbAsignaturas_c3.close();
+                            notaFinal.setText(nota_final_actualiza_c3.toString());
                             break;
                         case 4:
                             // condición en 0 -> no se aumenta puntos en la nota final
@@ -149,16 +165,19 @@ public class CondAdapter extends RecyclerView.Adapter<CondAdapter.CondViewHolder
                             // ---- actualizamos la nota final en bd ---- //
                             DbAsignaturas dbAsignaturas_c4 = new DbAsignaturas(context.getApplicationContext());
                             Long idAux_c4 = dbAsignaturas_c4.actualizarNotaAsignatura(idAsig, nota_final_actualiza_c4.toString());
+                            // se agrega la evaluación en la asignatura (clase)
+                            AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c4.buscarAsignaturaPorId(idAsig));
                             dbAsignaturas_c4.close();
+                            notaFinal.setText(nota_final_actualiza_c4.toString());
                             break;
                     }
                 }
 
-                if(!condAsignatura.getChequeado()){
+                /*if(!condAsignatura.getChequeado()){
                     notaFinal.setBackground(ctx.getDrawable(R.drawable.roundstyle_error_final));
                 }else{
                     notaFinal.setBackground(ctx.getDrawable(R.drawable.roundstyle_nota_final));
-                }
+                }*/
 
                 System.out.println("Successfully updated condición: " + state);
                 System.out.println("ESTADO CONDICIÒN: "+ condAsignatura.getChequeado());
