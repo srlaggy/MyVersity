@@ -35,7 +35,7 @@ public class RowNotasEvaluacionAdapter extends ArrayAdapter<RowNotasEvaluacion> 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Integer pos = position;
+//        Integer pos = position;
         View listItem = convertView;
         if(listItem == null){
             listItem = LayoutInflater.from(mContext).inflate(R.layout.list_ponderaciones_notas_evaluacion,parent,false);
@@ -58,6 +58,7 @@ public class RowNotasEvaluacionAdapter extends ArrayAdapter<RowNotasEvaluacion> 
                  @Override
                  public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                      isOnValueChanged = true;
+                     Log.d("ejemplo_ponderacion", "CAMBIO EN INPUT " + position);
                  }
 
                  @Override
@@ -65,7 +66,7 @@ public class RowNotasEvaluacionAdapter extends ArrayAdapter<RowNotasEvaluacion> 
                      if (isOnValueChanged) {
                          isOnValueChanged = false;
 
-                         Log.d("ejemplo_ponderacion", pos.toString());
+                         Log.d("ejemplo_ponderacion", "Hubo cambio en input " + position + " | CAMBIO: '" + editable.toString() + "'");
                          rows.get(position).setValor(editable.toString());
                          rows.get(position).getNota().setPeso(editable.toString());
                      }

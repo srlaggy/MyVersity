@@ -75,12 +75,19 @@ public class DialogFragmentAgregarEval2 extends androidx.fragment.app.DialogFrag
         btn_dialogFragment_agre_eval2_confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // debug
+                StringBuilder debugNoUsar = new StringBuilder("|");
+                for(RowNotasEvaluacion r : rows){
+                    debugNoUsar.append(r.getNota().getPeso()).append("|");
+                }
+                Log.d("ejemplo_ponderacion", debugNoUsar.toString());
                 // estados
                 // 0 -> esta bien
                 // 1 -> campos vacios
                 // 2 -> error de formato
                 // 3 -> no suman 100
                 int estado = revisarRows();
+                Log.d("ejemplo_ponderacion", debugNoUsar.toString());
                 switch (estado){
                     case 0:
                         // hacer el redirect hacia la siguiente pesta;a
@@ -102,12 +109,12 @@ public class DialogFragmentAgregarEval2 extends androidx.fragment.app.DialogFrag
                         dbEvaluaciones.close();
 
                         // ---- se agregan las notas de la evaluación según la cantidad ---- //
+                        DbNotas dbNotas = new DbNotas(getActivity().getApplicationContext());
                         for(RowNotasEvaluacion r : rows){
-                            DbNotas dbNotas = new DbNotas(getActivity().getApplicationContext());
                             Long idAuxNota = dbNotas.insertarNotaFull(idAuxEval.intValue(), false, null, r.getNota().getPeso());
-                            dbNotas.close();
                             Log.d("ejemplo_ponderacion", r.getNota().getPeso());
                         }
+                        dbNotas.close();
 
                         // ---- se agrega la evaluación en la asignatura (clase) ---- //
                         DbAsignaturas dbAsignaturas = new DbAsignaturas(getActivity().getApplicationContext());

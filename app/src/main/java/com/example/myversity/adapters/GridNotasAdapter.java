@@ -133,6 +133,8 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
                             valido = false;
                             Toast.makeText(ctx.getApplicationContext(), "Tipo de nota incorrecta", Toast.LENGTH_LONG).show();
                             System.out.println("TIPO DE NOTA INCORRECTA");
+                        } else if(editable.toString().isEmpty()){
+                            valido = false;
                         }
                         //Check if nota ingresada is in the permitted range (min-max) del config
                         if(valido){
@@ -142,7 +144,6 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
                                 if((Float.parseFloat(editable.toString()) < minNumF) || (Float.parseFloat(editable.toString()) > maxNumF)){
                                     valido = false;
                                     Toast.makeText(ctx.getApplicationContext(), "Valor fuera del rango", Toast.LENGTH_LONG).show();
-                                    System.out.println("VALOR FUERA DEL RANGO");
                                 }
                             }else{
                                 Integer minNum = Integer.parseInt(configInicial.getMin());
@@ -150,10 +151,10 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
                                 if((Integer.parseInt(editable.toString()) < minNum) || (Integer.parseInt(editable.toString()) > maxNum)){
                                     valido = false;
                                     Toast.makeText(ctx.getApplicationContext(), "Valor fuera del rango", Toast.LENGTH_LONG).show();
-                                    System.out.println("VALOR FUERA DEL RANGO");
                                 }
                             }
                         }
+
                         if(valido){
                             if(editable.toString().isEmpty()){
                                 nota.setNota("Null");
@@ -181,6 +182,14 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
                                 IdNotas.add(nota.getId());
                             }
                             System.out.println("Size Lista notas actualizadas "+ notasActualizadas.size());
+                        } else {
+                            // revisar si nota ya estaba guardada antes
+                            // si con el nuevo cambio no es valida, entonces debe sacarse
+                            if(IdNotas.contains(nota.getId())){
+                                int indice = IdNotas.indexOf(nota.getId());
+                                notasActualizadas.remove(indice);
+                                IdNotas.remove(indice);
+                            }
                         }
                     } catch (NumberFormatException e) {
                         e.toString();
@@ -292,6 +301,9 @@ public class GridNotasAdapter extends RecyclerView.Adapter<GridNotasAdapter.Nota
                     dbAsignaturas.close();
                     notasActualizadas.clear();
                     IdNotas.clear();
+                } else {
+                    // notas vacias -> no cambio nada o las notas no cumplen el formato
+                    Toast.makeText(context.getApplicationContext(), "No se detectan cambios o no cumple formato", Toast.LENGTH_LONG).show();
                 }
 
             }
