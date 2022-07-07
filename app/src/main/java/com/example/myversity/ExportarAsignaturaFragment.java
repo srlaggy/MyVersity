@@ -156,7 +156,7 @@ public class ExportarAsignaturaFragment extends Fragment {
                     JSONObject condicion = new JSONObject();
                     condicion.put("id", c.getId());
                     condicion.put("condicion", c.getCondicion());
-                    condicion.put("chequeado", c.getChequeado());
+                    condicion.put("chequeado", false);
                     condicion.put("valor", c.getValor());
 
                     // TIPO PENALIZACION

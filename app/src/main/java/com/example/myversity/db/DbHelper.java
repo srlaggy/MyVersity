@@ -153,7 +153,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         //------------------------------------------------------------------------//
         // DATOS DUMMY PARA TESTEO DE EXPORT E IMPORT
-        /*values = new ContentValues();
+        values = new ContentValues();
         values.put("nota_minima", "0");
         values.put("nota_maxima", "100");
         values.put("nota_aprobacion", "55");
@@ -228,7 +228,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 values.put("peso", n.getPeso());
 //            }
             sqLiteDatabase.insert(TABLE_NOTAS, null, values);
-        }*/
+        }
     }
 
     @Override
