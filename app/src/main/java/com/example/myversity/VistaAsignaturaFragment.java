@@ -156,6 +156,11 @@ public class VistaAsignaturaFragment extends Fragment {
 
                 for (CondAsignatura c: listaCondiciones){
                     Boolean cuandoPenaliza = c.getTp().getCuando_penaliza();
+                    if(c.getId_tiposPenalizacion() == 4){
+                        Integer valorCond_4_1 = Integer.parseInt(c.getValor());
+                        Float nota_final_actualiza_c4_1 = Float.parseFloat(notaAuxAsig) + valorCond_4_1;
+                        notaAuxAsig = df.format(nota_final_actualiza_c4_1);
+                    }
                     if(c.getChequeado() == cuandoPenaliza){
                         switch (c.getId_tiposPenalizacion()){
                             // 1: Reprobación                           NO REQUIERE_VALOR
@@ -190,7 +195,7 @@ public class VistaAsignaturaFragment extends Fragment {
                                 dbAsignaturas_c3.close();
                                 notaAuxAsig = df.format(nota_final_actualiza_c3);
                                 break;
-                            case 4:
+                            /* case 4:
                                 // condición en 1 -> se aumenta puntos en la nota final
                                 Integer valorCond_4 = Integer.parseInt(c.getValor());
                                 Float nota_final_actualiza_c4 = Float.parseFloat(notaAuxAsig) + valorCond_4;
@@ -201,7 +206,7 @@ public class VistaAsignaturaFragment extends Fragment {
                                 AsignaturasFragment.setAsignatura_seleccionada(dbAsignaturas_c4.buscarAsignaturaPorId(asignatura.getId()));
                                 dbAsignaturas_c4.close();
                                 notaAuxAsig = df.format(nota_final_actualiza_c4);
-                                break;
+                                break;*/
                         }
                     }
                     else {
