@@ -2,6 +2,7 @@ package com.example.myversity.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,12 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myversity.AsignaturasFragment;
+import com.example.myversity.DialogFragmentEliminarCond;
+import com.example.myversity.DialogFragmentOpcionesEval;
 import com.example.myversity.MainActivity;
 import com.example.myversity.R;
 import com.example.myversity.VistaAsignaturaFragment;
@@ -19,6 +23,7 @@ import com.example.myversity.db.DbAsignaturas;
 import com.example.myversity.db.DbCondAsignatura;
 import com.example.myversity.entidades.Asignaturas;
 import com.example.myversity.entidades.CondAsignatura;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.List;
@@ -28,6 +33,7 @@ public class CondAdapter extends RecyclerView.Adapter<CondAdapter.CondViewHolder
     Context context, ctx;
     View rootView;
     TextView notaFinal;
+    FloatingActionButton BtnEliminar;
 
     public CondAdapter(Context ct, List<CondAsignatura> condItemList){
         this.context = ct;
@@ -42,6 +48,7 @@ public class CondAdapter extends RecyclerView.Adapter<CondAdapter.CondViewHolder
         ctx = parent.getContext();
         rootView = ((Activity) ctx).getWindow().getDecorView().findViewById(android.R.id.content);
         notaFinal = rootView.findViewById(R.id.asignatura_promedio);
+        BtnEliminar = view.findViewById(R.id.btn_eliminar_condicion);
         return new CondViewHolder(view);
     }
 
@@ -50,6 +57,21 @@ public class CondAdapter extends RecyclerView.Adapter<CondAdapter.CondViewHolder
         CondAsignatura condAsignatura = condItemList.get(position);
         holder.titleCond.setText(condAsignatura.getCondicion());
         holder.condSwitch.setChecked(condAsignatura.getChequeado());
+
+        BtnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                DialogFragmentEliminarCond dialogFragmentEliminarCond = new DialogFragmentEliminarCond();
+
+                Bundle args = new Bundle();
+                args.putString("name", condAsignatura.getCondicion());
+                args.putInt("id", condAsignatura.getId());
+                dialogFragmentEliminarCond.setArguments(args);
+
+                dialogFragmentEliminarCond.show(((AppCompatActivity)ctx).getSupportFragmentManager(), "DialogFragmentEliminarCond");
+            }
+        });
 
         holder.condSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

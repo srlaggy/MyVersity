@@ -222,7 +222,7 @@ public class ResumenAdaptador extends BaseAdapter {
                     CondAsignatura cond = condAsignaturaList.get(auxCount);
                     switch (cond.getId_tiposPenalizacion()){
                         case 2:
-                            if(!cond.getChequeado()) mediaFinalActual *= (Float.parseFloat(cond.getValor()) * 0.01f);
+                            if(!cond.getChequeado()) mediaFinalActual *= (1f - (Float.parseFloat(cond.getValor()) * 0.01f));
                             break;
                         case 3:
                             if(!cond.getChequeado()) mediaFinalActual -= Float.parseFloat(cond.getValor());
